@@ -1,28 +1,28 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import HomeGrid from './HomeGrid';
+import React from "react";
+import { connect } from "react-redux";
+import FileUpload from "./FileUpload";
 
 /**
  * COMPONENT
  */
 export const Home = (props) => {
-  const { username } = props;
+	const { username } = props;
 
-  return (
-    <div className="Home">
-      <h3>Welcome, {username}</h3>
-      <HomeGrid />
-    </div>
-  );
+	return (
+		<div>
+			<h3>Welcome, {username}</h3>
+			<FileUpload />
+		</div>
+	);
 };
 
 /**
  * CONTAINER
  */
 const mapState = (state) => {
-  return {
-    username: state.auth.username,
-  };
+	return {
+		username: state.auth.username,
+	};
 };
 
 export default connect(mapState)(Home);
