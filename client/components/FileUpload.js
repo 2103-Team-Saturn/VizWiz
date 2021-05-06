@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import Icon from '@material-ui/core/Icon';
 
 import { CSVReader } from 'react-papaparse';
 import { connect } from 'react-redux';
 import { addData } from '../store/data';
+import { Button } from '@material-ui/core';
 
 class FileUpload extends Component {
   constructor(props) {
@@ -52,7 +54,14 @@ class FileUpload extends Component {
           {' '}
           <span>Click to upload.</span>
         </CSVReader>
-        <button onClick={() => addData(userId, values)}>Submit</button>
+        {/* <button onClick={() => addData(userId, values)}>Submit</button> */}
+        <Button
+          color="primary"
+          aria-label="add to database"
+          onClick={() => addData(userId, values)}
+        >
+          Submit
+        </Button>
       </React.Fragment>
     );
   }
