@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Paper, Grid } from '@material-ui/core';
-import FileUpload from './FileUpload';
 import ModalButton from './ModalButton';
 
 const useStyles = makeStyles((theme) => ({

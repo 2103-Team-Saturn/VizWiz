@@ -38,22 +38,22 @@ class FileUpload extends Component {
     const userId = this.props.userId;
     const values = this.state.data;
     const { addData } = this.props;
-    console.log(this.props);
+
     return (
-      <div>
+      <React.Fragment>
         <CSVReader
           onDrop={this.handleOnDrop}
           onError={this.handleOnError}
           config={{ header: true }}
+          noDrag
           addRemoveButton
           onRemoveFile={this.handleOnRemoveFile}
-          style={{ width: 20 }}
         >
           {' '}
-          <span>Drop CSV file here or click to upload.</span>
+          <span>Click to upload.</span>
         </CSVReader>
         <button onClick={() => addData(userId, values)}>Submit</button>
-      </div>
+      </React.Fragment>
     );
   }
 }
