@@ -23,10 +23,9 @@ export const fetchData = (userId) => {
 export const addData = (userId, values) => {
 	try {
 		return async (dispatch) => {
-			const sendValues = { values: [values] };
 			const { data: created } = await axios.post(`/api/users/${userId}/data`, {
-				values: sendValues,
-				userId: userId,
+				values,
+				userId,
 			});
 			dispatch(_addData(created));
 		};

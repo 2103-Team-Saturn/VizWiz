@@ -18,16 +18,16 @@ router.get("/", async (req, res, next) => {
 	}
 });
 
-router.get("/:id/data/", async (req, res, next) => {
+router.get("/:id/data", async (req, res, next) => {
 	try {
 		const data = await Data.findAll({ where: { userId: req.params.id } });
-		const parsedData = data.res.json(data);
+		res.send(data);
 	} catch (error) {
 		next(error);
 	}
 });
 
-router.post("/:id/data/", async (req, res, next) => {
+router.post("/:id/data", async (req, res, next) => {
 	try {
 		const data = await Data.create(req.body);
 		res.json(data);
