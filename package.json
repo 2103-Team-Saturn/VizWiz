@@ -25,15 +25,18 @@
 		"axios": "^0.21.1",
 		"bcrypt": "^5.0.0",
 		"compression": "^1.7.3",
+		"d3": "^6.7.0",
 		"express": "^4.16.4",
 		"history": "^4.10.1",
 		"jsonwebtoken": "^8.5.1",
+		"lodash": "^4.17.21",
 		"morgan": "^1.9.1",
 		"papaparse": "^5.3.0",
 		"pg": "^8.5.1",
 		"react-papaparse": "^3.14.0",
 		"sequelize": "^6.3.5",
-		"stream": "0.0.2"
+		"stream": "0.0.2",
+		"victory": "^35.6.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.10",

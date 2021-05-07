@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/home/home';
+import { me } from './store';
+import ViewData from './components/home/home';
+import SingleData from './components/SingleData';
 import ChartHistory from './components/historyScreen/ChartHistory';
 import ChartData from './components/dataScreen/ChartData';
-import { me } from './store';
 
 /**
  * COMPONENT
@@ -22,7 +24,13 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route path="/home" component={Home} />
+            <Route exact path="/home" component={Home} />
+            <Route exact path="/users/:id/data" component={ViewData} />
+            <Route
+              exact
+              path="/users/:id/data/:dataId"
+              component={SingleData}
+            />
             <Route path="/ChartHistory" component={ChartHistory} />
             <Route path="/ChartData" component={ChartData} />
             <Redirect to="/home" />
