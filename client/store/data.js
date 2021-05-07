@@ -20,12 +20,13 @@ export const fetchData = (userId) => {
 	};
 };
 
-export const addData = (userId, values) => {
+export const addData = (userId, values, name) => {
 	try {
 		return async (dispatch) => {
 			const { data: created } = await axios.post(`/api/users/${userId}/data`, {
 				values,
 				userId,
+				name,
 			});
 			dispatch(_addData(created));
 		};
