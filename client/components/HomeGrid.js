@@ -1,26 +1,67 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Paper, Grid } from '@material-ui/core';
 import ModalButton from './ModalButton';
+import ChartHistory from './ChartHistory';
+
+import ButtonBase from '@material-ui/core/ButtonBase';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Grid, Card } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+
+// images for card
+const uploadDataImg =
+  'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1355&q=80';
+
+const images = [
+  {
+    url: '/static/images/grid-list/camera.jpg',
+    title: 'Camera',
+    width: '30%',
+  },
+];
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(1100 + theme.spacing(6))]: {
+      width: 1100,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
+  cardContent: {
     flexGrow: 1,
   },
-  paper: {
-    padding: theme.spacing(2),
-    margin: 'auto',
-    maxWidth: 200,
+  contentIcon: {
+    marginRight: 20,
   },
-  image: {
-    width: 128,
-    height: 200,
-  },
-  img: {
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
+  focusVisible: {},
+  imageBackdrop: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: theme.palette.common.black,
+    opacity: 0.4,
+    transition: theme.transitions.create('opacity'),
   },
 }));
 
@@ -28,14 +69,50 @@ export default function HomeGrid() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <Grid item>
-          <Typography variant="body2" style={{ cursor: 'pointer' }}>
-            <ModalButton />
-          </Typography>
+    <React.Fragment>
+      <CssBaseline />
+      <div className={classes.layout}>
+        <Grid container>
+          {/* Card #1 */}
+          <Grid item sm={6} md={4} lg={3}>
+            <Card className={classes.card}>
+              <Tooltip title={`click 'IMPORT HERE' below`} placement="bottom">
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={uploadDataImg}
+                />
+              </Tooltip>
+              <CardContent className={classes.cardContent}>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  <ModalButton />
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          {/* Card #2 */}
+          <Grid item sm={6} md={4} lg={3}>
+            <Card className={classes.card}>
+              <ButtonBase
+                focusRipple
+                className={classes.image}
+                focusVisibleClassName={classes.focusVisible}
+                style={{
+                  width: 100,
+                }}
+              >
+                <span className={classes.imageBackdrop} />
+                <span className={classes.imageButton}>
+                  <Typography variant="subtitle1" color="inherit">
+                    History
+                    <Link to={<ChartHistory />}> History </Link>
+                  </Typography>
+                </span>
+              </ButtonBase>
+            </Card>
+          </Grid>
+          {/* Card #3 */}
         </Grid>
-      </Paper>
-    </div>
+      </div>
+    </React.Fragment>
   );
 }

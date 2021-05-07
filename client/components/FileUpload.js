@@ -54,7 +54,6 @@ class FileUpload extends Component {
           {' '}
           <span>Click to upload.</span>
         </CSVReader>
-        {/* <button onClick={() => addData(userId, values)}>Submit</button> */}
         <Button
           color="primary"
           aria-label="add to database"
