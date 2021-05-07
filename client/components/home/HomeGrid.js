@@ -1,6 +1,6 @@
 import React from 'react';
-import ModalButton from './ModalButton';
-import ChartHistory from './ChartHistory';
+import ModalButton from '../modal/ModalButton';
+import ChartHistory from '../historyScreen/ChartHistory';
 
 import ButtonBase from '@material-ui/core/ButtonBase';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,20 +12,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Grid, Card } from '@material-ui/core';
+import { Typography, Grid, Card, Box } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 // images for card
 const uploadDataImg =
   'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1355&q=80';
-
-const images = [
-  {
-    url: '/static/images/grid-list/camera.jpg',
-    title: 'Camera',
-    width: '30%',
-  },
-];
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -69,10 +61,10 @@ export default function HomeGrid() {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <Box>
       <CssBaseline />
       <div className={classes.layout}>
-        <Grid container>
+        <Grid container spacing={10}>
           {/* Card #1 */}
           <Grid item sm={6} md={4} lg={3}>
             <Card className={classes.card}>
@@ -92,27 +84,17 @@ export default function HomeGrid() {
           {/* Card #2 */}
           <Grid item sm={6} md={4} lg={3}>
             <Card className={classes.card}>
-              <ButtonBase
-                focusRipple
-                className={classes.image}
-                focusVisibleClassName={classes.focusVisible}
-                style={{
-                  width: 100,
-                }}
-              >
-                <span className={classes.imageBackdrop} />
-                <span className={classes.imageButton}>
-                  <Typography variant="subtitle1" color="inherit">
-                    History
-                    <Link to={<ChartHistory />}> History </Link>
-                  </Typography>
-                </span>
-              </ButtonBase>
+              <Link to="/ChartHistory">History</Link>
             </Card>
           </Grid>
           {/* Card #3 */}
+          <Grid item sm={6} md={4} lg={3}>
+            <Card className={classes.card}>
+              <Link to="/ChartData">Data</Link>
+            </Card>
+          </Grid>
         </Grid>
       </div>
-    </React.Fragment>
+    </Box>
   );
 }

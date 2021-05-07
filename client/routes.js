@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
-import Home from './components/Home';
+import Home from './components/home/home';
+import ChartHistory from './components/historyScreen/ChartHistory';
+import ChartData from './components/dataScreen/ChartData';
 import { me } from './store';
-// import ChartHistory from '../client/components/ChartHistory';
 
 /**
  * COMPONENT
@@ -22,6 +23,8 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
+            <Route path="/ChartHistory" component={ChartHistory} />
+            <Route path="/ChartData" component={ChartData} />
             <Redirect to="/home" />
           </Switch>
         ) : (
@@ -29,7 +32,6 @@ class Routes extends Component {
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            {/* <Route exact path="/history" component={ChartHistory} /> */}
           </Switch>
         )}
       </div>

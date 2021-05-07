@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 export default class ChartHistory extends Component {
   render() {
-    return <div>Chart History</div>;
+    return (
+      <div>
+        <p>Hello World this is History Screen</p>
+      </div>
+    );
   }
 }
