@@ -56,6 +56,7 @@ class FileUpload extends Component {
 					onError={this.handleOnError}
 					config={{
 						header: true,
+						skipEmptyLines: "greedy",
 						transform: (value) => {
 							return value.replace(/\$|,/g, "");
 						},
