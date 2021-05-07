@@ -61,7 +61,7 @@ export default function HomeGrid() {
   const classes = useStyles();
 
   return (
-    <Box>
+    <React.Fragment>
       <CssBaseline />
       <div className={classes.layout}>
         <Grid container spacing={10}>
@@ -95,6 +95,6 @@ export default function HomeGrid() {
           </Grid>
         </Grid>
       </div>
-    </Box>
+    </React.Fragment>
   );
 }

@@ -80,6 +80,7 @@ class FileUpload extends Component {
 
         <Button
           color="primary"
+          variant="outlined"
           aria-label="add to database"
           onClick={() => addData(userId, values, this.state.name)}
         >
