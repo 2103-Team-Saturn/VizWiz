@@ -2,8 +2,8 @@
 
 const db = require("./db");
 
-const User = require("./models/User");
-const Graph = require("./models/Graph");
+const User = require("./models/user");
+const Graph = require("./models/graph");
 const Data = require("./models/data");
 
 //associations could go here!
