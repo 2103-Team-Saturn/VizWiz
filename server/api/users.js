@@ -27,6 +27,15 @@ router.get("/:id/data", async (req, res, next) => {
 	}
 });
 
+router.get("/:id/data/:dataId", async (req, res, next) => {
+	try {
+		const data = await Data.findByPk(req.params.dataId);
+		res.send(data);
+	} catch (error) {
+		next(error);
+	}
+});
+
 router.post("/:id/data", async (req, res, next) => {
 	try {
 		const data = await Data.create(req.body);
