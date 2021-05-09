@@ -5,6 +5,7 @@ import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/home";
 import { me } from "./store";
 import ViewData from "./components/ViewData";
+import DataDash from "./components/DataDash";
 import SingleData from "./components/SingleData";
 
 /**
@@ -23,7 +24,7 @@ class Routes extends Component {
 				{isLoggedIn ? (
 					<Switch>
 						<Route exact path='/home' component={Home} />
-						<Route exact path='/users/:id/data' component={ViewData} />
+						<Route exact path='/users/:id/data' component={DataDash} />
 						<Route
 							exact
 							path='/users/:id/data/:dataId'
