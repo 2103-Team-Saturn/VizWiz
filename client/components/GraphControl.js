@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchSingleData, formatData } from "../store/singleData";
+import BarGraph from './BarGraph';
 
 import {
     Grid,
@@ -45,6 +46,7 @@ class GraphControl extends Component {
   render() {
     const data = this.props.unformattedData.values || [];
     console.log('**DATA>>>', data);
+    console.log('**GC props>>>', this.props);
 
     const firstLine = data[0] || {};
 
@@ -78,10 +80,11 @@ class GraphControl extends Component {
 
     const { handleChange } = this;
     const graphSelected = this.state.graph;
+    const dataset = this.props.unformattedData.name;
 
     return (
       <div>
-          <h1>{this.props.unformattedData.name}</h1>
+          <h1>{dataset}</h1>
         <div>
           <select name="graph" onChange={handleChange} value={this.state.graph}>
             <option value="" disabled selected>
@@ -118,13 +121,13 @@ class GraphControl extends Component {
         </div>
         <div id="graph-container" >
         {graphSelected === "bar" ? (
-            <BarGraph data={data} />
+            <BarGraph data={data} dataset={dataset} />
           ) : graphSelected === "line" ? (
-            <LineGraph data={data} />
+            <LineGraph data={data} dataset={dataset} />
           ) : graphSelected === "scatter" ? (
-            <ScatterGraph data={data} />
+            <ScatterGraph data={data} dataset={dataset} />
           ) : graphSelected === "pie" ? (
-            <PieGraph data={data} />
+            <PieGraph data={data} dataset={dataset} />
           ) : (
             ''
           )}
@@ -143,6 +146,7 @@ const mapState = (state) => {
     formattedData: state.singleData.formatted,
     unformattedData: state.singleData.unformatted,
     userId: state.auth.id,
+    userData: state.data,
   };
 };
 
