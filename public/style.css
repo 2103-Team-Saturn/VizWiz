@@ -21,6 +21,7 @@ form div {
 }
 
 #graph-container {
-  background-color: red,
+  width: 500px;
+  height: 350px;
   
 }

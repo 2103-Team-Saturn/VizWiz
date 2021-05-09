@@ -11,6 +11,7 @@ import {
   Container,
   Card,
   Link,
+  Button,
 } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
@@ -35,41 +36,49 @@ const useStyles = makeStyles(() => ({
 }));
 
 const DataDash = (props) => {
-  
-  useEffect( () => {
-      props.getUserData(props.userId)
-  }, [] );
+  useEffect(() => {
+    props.getUserData(props.userId);
+  }, []);
 
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const { userId, data } = props;
+  const { userId, data } = props;
 
-    console.log('*DD props>>>', props.data);
+  console.log("*DD props>>>", props.data);
 
-    return (
-        <Container>
-          <Box className={classes.header}>
-            <Typography variant="h3">Your Data Sets:</Typography>
-          </Box>
-          <Box mt={3}>
-            <Grid container spacing={2}>
-              {data.map((dataset) => (
-                <Grid item key={dataset.id} xs={12} md={6} lg={4}>
-                  <Card className={classes.cardRoot}>
-                    <Link
-                      to={`/users/${userId}/data/${dataset.id}`}
-                      component={RouterLink}
-                    >
-                      <Typography variant="h5">{dataset.name}</Typography>
-                    </Link>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </Container>
-    );
-}
+  return (
+    <Container>
+      <Box className={classes.header}>
+        <Typography variant="h3">Your Data Sets:</Typography>
+      </Box>
+      {data.length > 0 ? (
+        <Box mt={3}>
+          <Grid container spacing={2}>
+            {data.map((dataset) => (
+              <Grid item key={dataset.id} xs={12} md={6} lg={4}>
+                <Card className={classes.cardRoot}>
+                  <Link
+                    to={`/users/${userId}/data/${dataset.id}`}
+                    component={RouterLink}
+                  >
+                    <Typography variant="h5">{dataset.name}</Typography>
+                  </Link>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      ) : (
+        <div>
+          <h4>Looks like you still need to upload some data sets.</h4>
+          <Button to={`/users/${userId}/data`} component={RouterLink} variant="contained" >
+            Go to Upload
+          </Button>
+        </div>
+      )}
+    </Container>
+  );
+};
 
 const mapState = (state) => ({
   data: state.data,

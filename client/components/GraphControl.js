@@ -80,11 +80,13 @@ class GraphControl extends Component {
 
     const { handleChange } = this;
     const graphSelected = this.state.graph;
+    const x = this.state.x;
+    const y= this.state.y;
     const dataset = this.props.unformattedData.name;
 
     return (
       <div>
-          <h1>{dataset}</h1>
+          <h2>{dataset}</h2>
         <div>
           <select name="graph" onChange={handleChange} value={this.state.graph}>
             <option value="" disabled selected>
@@ -121,20 +123,20 @@ class GraphControl extends Component {
         </div>
         <div id="graph-container" >
         {graphSelected === "bar" ? (
-            <BarGraph data={data} dataset={dataset} />
+            <BarGraph data={data} dataset={dataset} x={x} y={y} />
           ) : graphSelected === "line" ? (
-            <LineGraph data={data} dataset={dataset} />
+            <LineGraph data={data} dataset={dataset} x={x} y={y} />
           ) : graphSelected === "scatter" ? (
-            <ScatterGraph data={data} dataset={dataset} />
+            <ScatterGraph data={data} dataset={dataset} x={x} y={y} />
           ) : graphSelected === "pie" ? (
-            <PieGraph data={data} dataset={dataset} />
+            <PieGraph data={data} dataset={dataset} x={x} y={y} />
           ) : (
             ''
           )}
         </div>
         </div>
         <div>
-        <button onClick={() => this.props.formatData(obj)}>Format Data</button>
+        <Button onClick={() => this.props.formatData(obj)}>Format Data</Button>
         </div>
       </div>
     );
