@@ -4,9 +4,10 @@ import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/home";
 import { me } from "./store";
-import ViewData from "./components/ViewData";
+// import ViewData from "./components/ViewData";
 import DataDash from "./components/DataDash";
-import SingleData from "./components/SingleData";
+import GraphControl from "./components/GraphControl";
+// import SingleData from "./components/SingleData";
 
 /**
  * COMPONENT
@@ -28,7 +29,7 @@ class Routes extends Component {
 						<Route
 							exact
 							path='/users/:id/data/:dataId'
-							component={SingleData}
+							component={GraphControl}
 						/>
 					</Switch>
 				) : (
