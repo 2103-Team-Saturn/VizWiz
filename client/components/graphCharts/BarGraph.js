@@ -69,13 +69,59 @@ export default class BarGraph extends Component {
               axis: { stroke: '#756f6a' },
               axisLabel: { fontSize: 16, padding: 80 },
             }}
-            tickFormat={y}
           />
           <VictoryStack>
             <VictoryBar
-              data={data}
+              data={data.map((datum) => {
+                let label = `${datum[y]}`;
+                datum.label = label;
+                return datum;
+              })}
+              // labels={}
+              labelComponent={
+                <VictoryTooltip
+                  flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
+                  // cornerRadius={+this.props.tooltip}
+                  cornerRadius={20}
+                />
+              }
+              // events prop should be given as an array of event objects
+              events={[
+                {
+                  target: 'data',
+                  eventHandlers: {
+                    onMouseOver: () => {
+                      return [
+                        {
+                          target: 'data',
+                          mutation: () => ({
+                            style: { fill: 'seagreen' }, // can make all these fills dynamic
+                          }),
+                        },
+                        {
+                          target: 'labels',
+                          mutation: () => ({ active: true }),
+                        },
+                      ];
+                    },
+                    onMouseOut: () => {
+                      return [
+                        {
+                          target: 'data',
+                          mutation: () => {},
+                        },
+                        {
+                          target: 'labels',
+                          mutation: () => ({ active: false }),
+                        },
+                      ];
+                    },
+                  },
+                },
+              ]}
               x={x}
               y={y}
+              // domain={ {x: [0, x.length + 1], y: [0, (Math.max(...y) + 20) ] } }
               barRatio={0.2}
               style={{
                 data: {
