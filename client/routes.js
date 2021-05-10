@@ -4,10 +4,12 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/home/home';
 import { me } from './store';
-import ViewData from './components/home/home';
-import SingleData from './components/SingleData';
+
 import ChartHistory from './components/historyScreen/ChartHistory';
 import ChartData from './components/dataScreen/ChartData';
+
+import DataDash from './components/DataDash';
+import GraphControl from './components/GraphControl';
 
 /**
  * COMPONENT
@@ -25,11 +27,11 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route exact path="/home" component={Home} />
-            <Route exact path="/users/:id/data" component={ViewData} />
+            <Route exact path="/users/:id/data" component={DataDash} />
             <Route
               exact
               path="/users/:id/data/:dataId"
-              component={SingleData}
+              component={GraphControl}
             />
             <Route path="/ChartHistory" component={ChartHistory} />
             <Route path="/ChartData" component={ChartData} />

@@ -56,6 +56,7 @@ class FileUpload extends Component {
           onError={this.handleOnError}
           config={{
             header: true,
+            skipEmptyLines: 'greedy',
             transform: (value) => {
               return value.replace(/\$|,/g, '');
             },
@@ -80,7 +81,6 @@ class FileUpload extends Component {
 
         <Button
           color="primary"
-          variant="outlined"
           aria-label="add to database"
           onClick={() => addData(userId, values, this.state.name)}
         >
