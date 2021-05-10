@@ -8,6 +8,7 @@ import {
 	VictoryTheme,
 	VictoryTooltip,
 	VictoryLabel,
+	VictoryVoronoiContainer,
 } from "victory";
 
 export default class ScatterChart extends Component {
@@ -24,7 +25,14 @@ export default class ScatterChart extends Component {
 					domainPadding={45}
 					width={500}
 					height={350}
-					padding={{ left: 100, right: 25, top: 35, bottom: 75 }}>
+					padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
+					containerComponent={
+						<VictoryVoronoiContainer
+							labels={(data) =>
+								`${x}: ${data.datum[x]}, ${y}: ${data.datum[y]}`
+							}
+						/>
+					}>
 					<VictoryLabel
 						text={dataset}
 						style={{
@@ -62,6 +70,34 @@ export default class ScatterChart extends Component {
 						})}
 						x={x}
 						y={y}
+						events={[
+							{
+								target: "data",
+								eventHandlers: {
+									onMouseOver: () => {
+										return [
+											{
+												target: "data",
+												mutation: () => ({
+													style: {
+														fill: "red",
+														strokeWidth: "10px",
+													},
+												}),
+											},
+										];
+									},
+									onMouseOut: () => {
+										return [
+											{
+												target: "data",
+												mutation: () => {},
+											},
+										];
+									},
+								},
+							},
+						]}
 					/>
 				</VictoryChart>
 			</div>

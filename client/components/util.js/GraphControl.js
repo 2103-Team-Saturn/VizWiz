@@ -70,12 +70,14 @@ class GraphControl extends Component {
 		};
 
 		let xPossibilities = [];
-		if (this.state.graph === "bar" || this.state.graph === "pie") {
+		if (
+			this.state.graph === "bar" ||
+			this.state.graph === "pie" ||
+			this.state.graph === "line"
+		) {
 			xPossibilities = dynamicVals(data, "string");
 		} else if (this.state.graph === "scatter") {
 			xPossibilities = dynamicVals(data, "number");
-		} else {
-			xPossibilities = keys;
 		}
 
 		const yPossibilities = dynamicVals(data, "number");
@@ -142,11 +144,6 @@ class GraphControl extends Component {
 						)}
 					</div>
 				</div>
-				<div>
-					<Button onClick={() => this.props.formatData(obj)}>
-						Format Data
-					</Button>
-				</div>
 			</div>
 		);
 	}
@@ -165,7 +162,6 @@ const mapDispatch = (dispatch) => {
 	return {
 		fetchSingleData: (userId, dataId) =>
 			dispatch(fetchSingleData(userId, dataId)),
-		formatData: (data) => dispatch(formatData(data)),
 	};
 };
 
