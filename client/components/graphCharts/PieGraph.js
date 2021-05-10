@@ -9,10 +9,10 @@ import {
   VictoryLegend,
   VictoryChart,
   VictoryAxis,
+  VictoryStack,
 } from 'victory';
 
 export default class PieGraph extends Component {
-
   render() {
     console.log('**PG props', this.props);
 
@@ -27,7 +27,7 @@ export default class PieGraph extends Component {
           text={dataset}
           animate={{
             duration: 2000,
-            easing: 'exp'
+            easing: 'exp',
           }}
           style={{
             fontSize: 20,
@@ -37,30 +37,33 @@ export default class PieGraph extends Component {
             fontFamily: 'inherit',
           }}
         />
-        <VictoryPie
-          style={{
-            parent: {
-              maxWidth: '100%',
-            },
-            labels: {
-              fontSize: 16,
-              fill: 'black',
-            },
-          }}
-          domainPadding={45}
-          width={500}
-          height={350}
-          data={data}
-          x={x}
-          y={y}
-          colorScale={"cool"}
-          innerRadius={85}
-          padAngle={5}
-          // startAngle={-90}
-          // endAngle={90}
-        />
+        <VictoryStack>
+          <VictoryPie
+            style={{
+              parent: {
+                maxWidth: '100%',
+              },
+              labels: {
+                fontSize: 16,
+                fill: 'black',
+              },
+            }}
+            domainPadding={45}
+            width={500}
+            height={350}
+            data={data}
+            x={x}
+            y={y}
+            colorScale={'cool'}
+            innerRadius={85}
+            padAngle={5}
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 1000 },
+            }}
+          />
+        </VictoryStack>
       </div>
     );
   }
 }
-
