@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchSingleData, formatData } from "../store/singleData";
 import BarGraph from './BarGraph';
+import PieGraph from './PieGraph';
 
 import {
     Grid,
@@ -45,8 +46,8 @@ class GraphControl extends Component {
 
   render() {
     const data = this.props.unformattedData.values || [];
-    console.log('**DATA>>>', data);
-    console.log('**GC props>>>', this.props);
+    // console.log('**DATA>>>', data);
+    // console.log('**GC props>>>', this.props);
 
     const firstLine = data[0] || {};
 
@@ -75,8 +76,8 @@ class GraphControl extends Component {
 
     const yPossibilities = dynamicVals(data, "number");
 
-    console.log("X>>>", xPossibilities);
-    console.log("Y>>>", yPossibilities);
+    // console.log("X>>>", xPossibilities);
+    // console.log("Y>>>", yPossibilities);
 
     const { handleChange } = this;
     const graphSelected = this.state.graph;
