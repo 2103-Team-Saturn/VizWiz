@@ -11,10 +11,7 @@ import {
   VictoryAxis,
 } from 'victory';
 
-export class PieGraph extends Component {
-  componentDidMount() {
-    this.props.formatForPie(this.props.data);
-  }
+export default class PieGraph extends Component {
 
   render() {
     console.log('**PG props', this.props);
@@ -24,31 +21,14 @@ export class PieGraph extends Component {
     console.log('x>>>', x);
     console.log('y>>>', y);
 
-    // let xForPie, yForPie;
-    // if(x) {
-    //   xForPie = data.map( (d) => d[x]);
-    // }
-    // if(y) {
-    //   yForPie = data.map( (d) => d[y]);
-    // }
-    // console.log('forPie>>>', xForPie, yForPie);
-
-    // const reformatForPie = (x, y) => {
-    //   let result = [];
-    //   for(let i=0; i<x.length; i++) {
-    //     result.push( { x: x, y: y} );
-    //   }
-    //   return result;
-    // }
-    // let dataForPie = [];
-    // if(x) {
-    // dataForPie = reformatForPie(xForPie, yForPie);
-    // }
-
     return (
       <div id="graph">
         <VictoryLabel
           text={dataset}
+          animate={{
+            duration: 2000,
+            easing: 'exp'
+          }}
           style={{
             fontSize: 20,
             textAnchor: 'start',
@@ -64,14 +44,16 @@ export class PieGraph extends Component {
             },
             labels: {
               fontSize: 16,
-              fill: 'white',
+              fill: 'black',
             },
           }}
           domainPadding={45}
           width={500}
           height={350}
           data={data}
-          colorScale={['#E60000', '72A0C1', '3B7A57', 'FFFF66', 'FF8095']}
+          x={x}
+          y={y}
+          colorScale={"cool"}
           innerRadius={85}
           padAngle={5}
           // startAngle={-90}
@@ -82,14 +64,3 @@ export class PieGraph extends Component {
   }
 }
 
-const mapState = (state) => ({
-  formatted: state.singleData.formatted,
-});
-
-const mapDispatch = (dispatch) => {
-  return {
-    formatForPie: (data) => dispatch(formatData(data)),
-  };
-};
-
-export default connect(null, mapDispatch)(PieGraph);
