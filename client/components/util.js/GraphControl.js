@@ -1,32 +1,32 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchSingleData, formatData } from "../store/singleData";
-import BarGraph from './BarGraph';
-import PieGraph from './PieGraph';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchSingleData, formatData } from '../../store/singleData';
+import BarGraph from '../graphCharts/BarGraph';
+import PieGraph from '../graphCharts/PieGraph';
 
 import {
-    Grid,
-    Typography,
-    Button,
-    Box,
-    makeStyles,
-    Container,
-    FormControlLabel,
-    Checkbox,
-    Card,
-    CardMedia,
-    CardContent,
-    FormControl,
-    Link,
-  } from '@material-ui/core';
+  Grid,
+  Typography,
+  Button,
+  Box,
+  makeStyles,
+  Container,
+  FormControlLabel,
+  Checkbox,
+  Card,
+  CardMedia,
+  CardContent,
+  FormControl,
+  Link,
+} from '@material-ui/core';
 
 class GraphControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      graph: "",
-      x: "",
-      y: "",
+      graph: '',
+      x: '',
+      y: '',
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -68,13 +68,13 @@ class GraphControl extends Component {
     };
 
     let xPossibilities = [];
-    if (this.state.graph === "bar" || this.state.graph === "pie") {
-      xPossibilities = dynamicVals(data, "string");
+    if (this.state.graph === 'bar' || this.state.graph === 'pie') {
+      xPossibilities = dynamicVals(data, 'string');
     } else {
-      xPossibilities = dynamicVals(data, "number" || "string");
+      xPossibilities = dynamicVals(data, 'number' || 'string');
     }
 
-    const yPossibilities = dynamicVals(data, "number");
+    const yPossibilities = dynamicVals(data, 'number');
 
     // console.log("X>>>", xPossibilities);
     // console.log("Y>>>", yPossibilities);
@@ -82,12 +82,12 @@ class GraphControl extends Component {
     const { handleChange } = this;
     const graphSelected = this.state.graph;
     const x = this.state.x;
-    const y= this.state.y;
+    const y = this.state.y;
     const dataset = this.props.unformattedData.name;
 
     return (
       <div>
-          <h2>{dataset}</h2>
+        <h2>{dataset}</h2>
         <div>
           <select name="graph" onChange={handleChange} value={this.state.graph}>
             <option value="" disabled selected>
@@ -111,33 +111,35 @@ class GraphControl extends Component {
             ))}
           </select>
           <div>
-          <select name="y" onChange={handleChange} value={this.state.y}>
-            <option value="" disabled selected>
-              Y axis
-            </option>
-            {yPossibilities.map((key, idx) => (
-              <option key={idx} value={key}>
-                {key}
+            <select name="y" onChange={handleChange} value={this.state.y}>
+              <option value="" disabled selected>
+                Y axis
               </option>
-            ))}
-          </select>
-        </div>
-        <div id="graph-container" >
-        {graphSelected === "bar" ? (
-            <BarGraph data={data} dataset={dataset} x={x} y={y} />
-          ) : graphSelected === "line" ? (
-            <LineGraph data={data} dataset={dataset} x={x} y={y} />
-          ) : graphSelected === "scatter" ? (
-            <ScatterGraph data={data} dataset={dataset} x={x} y={y} />
-          ) : graphSelected === "pie" ? (
-            <PieGraph data={data} dataset={dataset} x={x} y={y} />
-          ) : (
-            ''
-          )}
-        </div>
+              {yPossibilities.map((key, idx) => (
+                <option key={idx} value={key}>
+                  {key}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div id="graph-container">
+            {graphSelected === 'bar' ? (
+              <BarGraph data={data} dataset={dataset} x={x} y={y} />
+            ) : graphSelected === 'line' ? (
+              <LineGraph data={data} dataset={dataset} x={x} y={y} />
+            ) : graphSelected === 'scatter' ? (
+              <ScatterGraph data={data} dataset={dataset} x={x} y={y} />
+            ) : graphSelected === 'pie' ? (
+              <PieGraph data={data} dataset={dataset} x={x} y={y} />
+            ) : (
+              ''
+            )}
+          </div>
         </div>
         <div>
-        <Button onClick={() => this.props.formatData(obj)}>Format Data</Button>
+          <Button onClick={() => this.props.formatData(obj)}>
+            Format Data
+          </Button>
         </div>
       </div>
     );

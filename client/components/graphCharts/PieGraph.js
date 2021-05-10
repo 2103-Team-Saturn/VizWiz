@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { formatData } from "../store/singleData";
+import React, { Component } from 'react';
+import { formatData } from '../../store/singleData';
 import { connect } from 'react-redux';
 import {
   VictoryPie,
@@ -9,16 +9,15 @@ import {
   VictoryLegend,
   VictoryChart,
   VictoryAxis,
-} from "victory";
+} from 'victory';
 
 export class PieGraph extends Component {
-
-componentDidMount () {
-  this.props.formatForPie(this.props.data);
-}
+  componentDidMount() {
+    this.props.formatForPie(this.props.data);
+  }
 
   render() {
-    console.log("**PG props", this.props);
+    console.log('**PG props', this.props);
 
     const { data, dataset, x, y } = this.props;
     console.log('PG data>>>', data);
@@ -52,27 +51,27 @@ componentDidMount () {
           text={dataset}
           style={{
             fontSize: 20,
-            textAnchor: "start",
-            verticalAnchor: "end",
-            fill: "#455A64",
-            fontFamily: "inherit",
+            textAnchor: 'start',
+            verticalAnchor: 'end',
+            fill: '#455A64',
+            fontFamily: 'inherit',
           }}
         />
         <VictoryPie
           style={{
             parent: {
-              maxWidth: "100%",
+              maxWidth: '100%',
             },
             labels: {
               fontSize: 16,
-              fill: "white",
+              fill: 'white',
             },
           }}
           domainPadding={45}
           width={500}
           height={350}
           data={data}
-          colorScale={["#E60000", "72A0C1", "3B7A57", "FFFF66", "FF8095"]}
+          colorScale={['#E60000', '72A0C1', '3B7A57', 'FFFF66', 'FF8095']}
           innerRadius={85}
           padAngle={5}
           // startAngle={-90}
@@ -85,12 +84,12 @@ componentDidMount () {
 
 const mapState = (state) => ({
   formatted: state.singleData.formatted,
-})
+});
 
 const mapDispatch = (dispatch) => {
   return {
     formatForPie: (data) => dispatch(formatData(data)),
-  }
-}
+  };
+};
 
 export default connect(null, mapDispatch)(PieGraph);

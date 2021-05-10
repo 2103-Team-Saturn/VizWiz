@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { fetchData } from "../store/data";
-import { Link as RouterLink } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchData } from '../../store/data';
+import { Link as RouterLink } from 'react-router-dom';
 
 import {
   Grid,
@@ -12,26 +12,26 @@ import {
   Card,
   Link,
   Button,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   header: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "2rem 0",
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: '2rem 0',
   },
   cardRoot: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     padding: 10,
     width: 150,
   },
   details: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
   },
   content: {
-    flex: "1 0 auto",
+    flex: '1 0 auto',
   },
 }));
 
@@ -44,7 +44,7 @@ const DataDash = (props) => {
 
   const { userId, data } = props;
 
-  console.log("*DD props>>>", props.data);
+  console.log('*DD props>>>', props.data);
 
   return (
     <Container>
@@ -71,7 +71,11 @@ const DataDash = (props) => {
       ) : (
         <div>
           <h4>Looks like you still need to upload some data sets.</h4>
-          <Button to={`/users/${userId}/data`} component={RouterLink} variant="contained" >
+          <Button
+            to={`/users/${userId}/data`}
+            component={RouterLink}
+            variant="contained"
+          >
             Go to Upload
           </Button>
         </div>
