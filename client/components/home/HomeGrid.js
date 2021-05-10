@@ -210,7 +210,7 @@ export default function HomeGrid() {
                 className={classes.image}
                 focusVisibleClassName={classes.focusVisible}
                 component={Link}
-                to="/ChartData"
+                to="/users/:id/data"
               >
                 <span
                   className={classes.imageSrc}

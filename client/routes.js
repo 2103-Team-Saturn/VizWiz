@@ -6,10 +6,9 @@ import Home from './components/home/home';
 import { me } from './store';
 
 import ChartHistory from './components/historyScreen/ChartHistory';
-import ChartData from './components/dataScreen/ChartData';
 
-import DataDash from './components/DataDash';
-import GraphControl from './components/GraphControl';
+import DataDash from './components/dataScreen/DataDash';
+import GraphControl from './components/util.js/GraphControl';
 
 /**
  * COMPONENT
@@ -34,7 +33,6 @@ class Routes extends Component {
               component={GraphControl}
             />
             <Route path="/ChartHistory" component={ChartHistory} />
-            <Route path="/ChartData" component={ChartData} />
             <Redirect to="/home" />
           </Switch>
         ) : (
