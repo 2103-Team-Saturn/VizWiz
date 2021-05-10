@@ -1,22 +1,20 @@
 import React, { Component } from "react";
 
 import {
-	VictoryLine,
+	VictoryScatter,
 	VictoryChart,
 	VictoryAxis,
 	VictoryStack,
 	VictoryTheme,
 	VictoryTooltip,
 	VictoryLabel,
-	VictoryVoronoi,
-	VictoryVoronoiContainer,
 } from "victory";
 
-export default class LineGraph extends Component {
+export default class ScatterChart extends Component {
 	render() {
 		console.log("**BG props", this.props);
 		const { data, dataset, x, y } = this.props;
-		console.log("DATA", data);
+		console.log("DATA", x);
 
 		return (
 			<div id='graph'>
@@ -24,14 +22,9 @@ export default class LineGraph extends Component {
 					theme={VictoryTheme.material}
 					style={{ parent: { maxWidth: "100%" } }}
 					domainPadding={45}
-					width={700}
-					height={500}
-					padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
-					containerComponent={
-						<VictoryVoronoiContainer
-							labels={(data) => `${data.datum[x]}:${data.datum[y]}`}
-						/>
-					}>
+					width={500}
+					height={350}
+					padding={{ left: 100, right: 25, top: 35, bottom: 75 }}>
 					<VictoryLabel
 						text={dataset}
 						style={{
@@ -46,12 +39,12 @@ export default class LineGraph extends Component {
 					/>
 					<VictoryAxis
 						label={x}
-						fixLabelOverlap={true}
 						style={{
 							axis: { stroke: "#756f6a" },
 							axisLabel: { fontSize: 16, padding: 60 },
 							tickLabels: { angle: 20 },
 						}}
+						fixLabelOverlap={true}
 					/>
 					<VictoryAxis
 						dependentAxis
@@ -62,9 +55,9 @@ export default class LineGraph extends Component {
 						}}
 						fixLabelOverlap={true}
 					/>
-					<VictoryLine
+					<VictoryScatter
 						data={data.map((d) => {
-							console.log("*d*>>>", d[y]);
+							console.log("*d*>>>", d);
 							return d;
 						})}
 						x={x}
