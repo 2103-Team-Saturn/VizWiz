@@ -1,3 +1,4 @@
+import { GolfCourseRounded } from "@material-ui/icons";
 import React, { Component } from "react";
 
 import {
@@ -22,14 +23,16 @@ export default class LineGraph extends Component {
 			<div id='graph'>
 				<VictoryChart
 					theme={VictoryTheme.material}
-					style={{ parent: { maxWidth: "100%" } }}
+					style={{
+						parent: { maxWidth: "100%" },
+					}}
 					domainPadding={45}
-					width={700}
-					height={500}
+					width={500}
+					height={350}
 					padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
 					containerComponent={
 						<VictoryVoronoiContainer
-							labels={(data) => `${data.datum[x]}:${data.datum[y]}`}
+							labels={(data) => `${data.datum[x]}: ${data.datum[y]}`}
 						/>
 					}>
 					<VictoryLabel
@@ -69,6 +72,32 @@ export default class LineGraph extends Component {
 						})}
 						x={x}
 						y={y}
+						style={{ data: { stroke: "black" } }}
+						events={[
+							{
+								target: "data",
+								eventHandlers: {
+									onMouseOver: () => {
+										return [
+											{
+												target: "data",
+												mutation: () => ({
+													style: { stroke: "red", strokeWidth: "3px" },
+												}),
+											},
+										];
+									},
+									onMouseOut: () => {
+										return [
+											{
+												target: "data",
+												mutation: () => {},
+											},
+										];
+									},
+								},
+							},
+						]}
 					/>
 				</VictoryChart>
 			</div>
