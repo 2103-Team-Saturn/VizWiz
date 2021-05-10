@@ -12,12 +12,25 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Grid, Card, Box } from '@material-ui/core';
+import {
+  Typography,
+  Grid,
+  Card,
+  Box,
+  Button,
+  CardActions,
+} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 // images for card
 const uploadDataImg =
   'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1355&q=80';
+
+const dataDashImg =
+  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80';
+
+const historyImg =
+  'https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -56,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('opacity'),
   },
   // Styling for single card
-  root: {
+  singleCardRoot: {
     display: 'flex',
     flexWrap: 'wrap',
     minWidth: 300,
@@ -66,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     height: 200,
     [theme.breakpoints.down('xs')]: {
-      width: '100% !important', // Overrides inline-style
+      width: '100% !important',
       height: 100,
     },
     '&:hover, &$focusVisible': {
@@ -145,11 +158,13 @@ export default function HomeGrid() {
                 <CardMedia
                   className={classes.cardMedia}
                   image={uploadDataImg}
+                  // style={}
                 />
               </Tooltip>
               <CardContent className={classes.cardContent}>
                 <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                  <ModalButton />
+                  <ModalButton className={classes.contentIcon} />
+                  Import Data Here
                 </Typography>
               </CardContent>
             </Card>
@@ -157,13 +172,65 @@ export default function HomeGrid() {
           {/* Card #2 */}
           <Grid item sm={6} md={4} lg={3}>
             <Card className={classes.card}>
-              <Link to="/ChartHistory">History</Link>
+              {/* <Link to="/ChartData">Data</Link> */}
+              <ButtonBase
+                focusRipple
+                className={classes.image}
+                focusVisibleClassName={classes.focusVisible}
+                component={Link}
+                to="/ChartHistory"
+              >
+                <span
+                  className={classes.imageSrc}
+                  style={{
+                    backgroundImage: `url(${historyImg})`,
+                  }}
+                />
+                <span className={classes.imageBackdrop} />
+                <span className={classes.imageButton}>
+                  <Typography
+                    component="span"
+                    variant="subtitle1"
+                    color="inherit"
+                    className={classes.imageTitle}
+                  >
+                    History
+                    <span className={classes.imageMarked} />
+                  </Typography>
+                </span>
+              </ButtonBase>
             </Card>
           </Grid>
           {/* Card #3 */}
           <Grid item sm={6} md={4} lg={3}>
             <Card className={classes.card}>
-              <Link to="/ChartData">Data</Link>
+              {/* <Link to="/ChartData">Data</Link> */}
+              <ButtonBase
+                focusRipple
+                className={classes.image}
+                focusVisibleClassName={classes.focusVisible}
+                component={Link}
+                to="/ChartData"
+              >
+                <span
+                  className={classes.imageSrc}
+                  style={{
+                    backgroundImage: `url(${dataDashImg})`,
+                  }}
+                />
+                <span className={classes.imageBackdrop} />
+                <span className={classes.imageButton}>
+                  <Typography
+                    component="span"
+                    variant="subtitle1"
+                    color="inherit"
+                    className={classes.imageTitle}
+                  >
+                    Data
+                    <span className={classes.imageMarked} />
+                  </Typography>
+                </span>
+              </ButtonBase>
             </Card>
           </Grid>
         </Grid>

@@ -10,6 +10,7 @@ const App = () => {
   return (
     <div>
       <Navbar />
+      {/* <EditChart /> */}
       <Routes />
     </div>
   );
