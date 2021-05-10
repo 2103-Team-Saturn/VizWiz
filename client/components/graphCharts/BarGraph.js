@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 
 import {
-  VictoryBar,
-  VictoryChart,
-  VictoryAxis,
-  VictoryStack,
-  VictoryTheme,
-  VictoryTooltip,
-  VictoryLabel,
+	VictoryBar,
+	VictoryChart,
+	VictoryAxis,
+	VictoryStack,
+	VictoryTheme,
+	VictoryTooltip,
+	VictoryLabel,
 } from "victory";
 
 export default class BarGraph extends Component {
+
   render() {
     console.log('**BG props', this.props);
     const { data, dataset, x, y } = this.props;
@@ -92,4 +93,5 @@ export default class BarGraph extends Component {
       </div>
     );
   }
+
 }
