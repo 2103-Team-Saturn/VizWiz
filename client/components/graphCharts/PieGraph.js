@@ -47,6 +47,41 @@ export default class PieGraph extends Component {
               fill: 'black',
             },
           }}
+          labelComponent={<VictoryTooltip 
+            flyoutStyle={{ fill: "white", stroke: "lightgrey" }} />}
+          events={[
+            {
+              target: 'data',
+              eventHandlers: {
+                onMouseOver: () => {
+                  return [
+                    {
+                      target: 'data',
+                      mutation: () => ({
+                        style: { fill: 'lightgrey' }
+                      })
+                    },
+                    {
+                      target: 'labels',
+                      mutation: () => ({ active: true })
+                    }
+                  ]
+                },
+                onMouseOut: () => {
+                  return [
+                    {
+                      target: 'data',
+                      mutation: () => { }
+                    },
+                    {
+                      target: 'labels',
+                      mutation: () => ({ active: false })
+                    }
+                  ]
+                }
+              }
+            }
+          ]}
           domainPadding={45}
           width={500}
           height={350}
