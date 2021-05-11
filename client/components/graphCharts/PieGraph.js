@@ -37,32 +37,64 @@ export default class PieGraph extends Component {
             fontFamily: 'inherit',
           }}
         />
-        <VictoryStack>
-          <VictoryPie
-            style={{
-              parent: {
-                maxWidth: '100%',
-              },
-              labels: {
-                fontSize: 16,
-                fill: 'black',
-              },
-            }}
-            domainPadding={45}
-            width={500}
-            height={350}
-            data={data}
-            x={x}
-            y={y}
-            colorScale={'cool'}
-            innerRadius={85}
-            padAngle={5}
-            animate={{
-              duration: 2000,
-              onLoad: { duration: 1000 },
-            }}
-          />
-        </VictoryStack>
+
+        <VictoryPie
+          style={{
+            parent: {
+              maxWidth: '100%',
+            },
+            labels: {
+              fontSize: 16,
+              fill: 'black',
+            },
+          }}
+          labelComponent={<VictoryTooltip 
+            flyoutStyle={{ fill: "white", stroke: "lightgrey" }} />}
+          events={[
+            {
+              target: 'data',
+              eventHandlers: {
+                onMouseOver: () => {
+                  return [
+                    {
+                      target: 'data',
+                      mutation: () => ({
+                        style: { fill: 'lightgrey' }
+                      })
+                    },
+                    {
+                      target: 'labels',
+                      mutation: () => ({ active: true })
+                    }
+                  ]
+                },
+                onMouseOut: () => {
+                  return [
+                    {
+                      target: 'data',
+                      mutation: () => { }
+                    },
+                    {
+                      target: 'labels',
+                      mutation: () => ({ active: false })
+                    }
+                  ]
+                }
+              }
+            }
+          ]}
+          domainPadding={45}
+          width={500}
+          height={350}
+          data={data}
+          x={x}
+          y={y}
+          colorScale={"cool"}
+          innerRadius={85}
+          padAngle={5}
+          // startAngle={-90}
+          // endAngle={90}
+        />
       </div>
     );
   }
