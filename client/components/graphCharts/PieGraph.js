@@ -98,6 +98,10 @@ export default class PieGraph extends Component {
             padAngle={5}
             // startAngle={-90}
             // endAngle={90}
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 1000 },
+            }}
           />
         </VictoryStack>
       </div>

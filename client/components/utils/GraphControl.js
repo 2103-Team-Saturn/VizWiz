@@ -95,7 +95,6 @@ class GraphControl extends Component {
 
     const { handleChange } = this;
     const graphSelected = this.state.graph;
-    //>>> graph map
     const x = this.state.x;
     const y = this.state.y;
     const dataset = this.props.unformattedData.name;
@@ -138,7 +137,6 @@ class GraphControl extends Component {
             </select>
           </div>
           <div id="graph-container">
-            {/* >>> use map here or in util.js */}
             {graphSelected === 'bar' ? (
               <BarGraph data={data} dataset={dataset} x={x} y={y} />
             ) : graphSelected === 'line' ? (
