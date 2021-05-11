@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSingleData, formatData } from '../../store/singleData';
-import BarGraph from '../graphCharts/BarGraph';
-import PieGraph from '../graphCharts/PieGraph';
-import LineGraph from '../graphCharts/LineGraph';
-import ScatterChart from '../graphCharts/ScatterChart';
+// import BarGraph from '../graphCharts/BarGraph';
+// import PieGraph from '../graphCharts/PieGraph';
+// import LineGraph from '../graphCharts/LineGraph';
+// import ScatterChart from '../graphCharts/ScatterChart';
+import {
+  LineGraph,
+  BarGraph,
+  PieGraph,
+  ScatterChart,
+} from '../graphCharts/index';
 
 import {
   Grid,
@@ -89,6 +95,7 @@ class GraphControl extends Component {
 
     const { handleChange } = this;
     const graphSelected = this.state.graph;
+    //>>> graph map
     const x = this.state.x;
     const y = this.state.y;
     const dataset = this.props.unformattedData.name;
@@ -131,6 +138,7 @@ class GraphControl extends Component {
             </select>
           </div>
           <div id="graph-container">
+            {/* >>> use map here or in util.js */}
             {graphSelected === 'bar' ? (
               <BarGraph data={data} dataset={dataset} x={x} y={y} />
             ) : graphSelected === 'line' ? (
