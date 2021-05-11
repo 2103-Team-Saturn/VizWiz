@@ -93,6 +93,13 @@ class GraphControl extends Component {
     const y = this.state.y;
     const dataset = this.props.unformattedData.name;
 
+	const graphs = {
+		bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
+		line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
+		scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
+		pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
+	  };
+
     return (
       <div>
         <h2>{dataset}</h2>
@@ -131,17 +138,7 @@ class GraphControl extends Component {
             </select>
           </div>
           <div id="graph-container">
-            {graphSelected === 'bar' ? (
-              <BarGraph data={data} dataset={dataset} x={x} y={y} />
-            ) : graphSelected === 'line' ? (
-              <LineGraph data={data} dataset={dataset} x={x} y={y} />
-            ) : graphSelected === 'scatter' ? (
-              <ScatterChart data={data} dataset={dataset} x={x} y={y} />
-            ) : graphSelected === 'pie' ? (
-              <PieGraph data={data} dataset={dataset} x={x} y={y} />
-            ) : (
-              ''
-            )}
+            {graphs[graphSelected]}
           </div>
         </div>
       </div>
