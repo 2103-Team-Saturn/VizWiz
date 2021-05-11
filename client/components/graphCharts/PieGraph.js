@@ -9,10 +9,10 @@ import {
   VictoryLegend,
   VictoryChart,
   VictoryAxis,
+  VictoryStack,
 } from 'victory';
 
 export default class PieGraph extends Component {
-
   render() {
     console.log('**PG props', this.props);
 
@@ -27,7 +27,7 @@ export default class PieGraph extends Component {
           text={dataset}
           animate={{
             duration: 2000,
-            easing: 'exp'
+            easing: 'exp',
           }}
           style={{
             fontSize: 20,
@@ -37,6 +37,7 @@ export default class PieGraph extends Component {
             fontFamily: 'inherit',
           }}
         />
+
         <VictoryPie
           style={{
             parent: {
@@ -98,4 +99,3 @@ export default class PieGraph extends Component {
     );
   }
 }
-
