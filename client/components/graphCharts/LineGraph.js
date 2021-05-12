@@ -6,6 +6,7 @@ import {
   VictoryChart,
   VictoryAxis,
   VictoryStack,
+  VictoryGroup,
   VictoryTheme,
   VictoryTooltip,
   VictoryLabel,
@@ -66,7 +67,7 @@ export default class LineGraph extends Component {
             }}
             fixLabelOverlap={true}
           />
-          <VictoryStack>
+          <VictoryGroup>
             <VictoryLine
               data={data.map((d) => {
                 console.log('*d*>>>', d[y]);
@@ -105,7 +106,7 @@ export default class LineGraph extends Component {
                 onLoad: { duration: 1000 },
               }}
             />
-          </VictoryStack>
+          </VictoryGroup>
         </VictoryChart>
       </div>
     );

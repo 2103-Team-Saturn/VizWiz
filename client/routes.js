@@ -8,7 +8,7 @@ import { me } from './store';
 import ChartHistory from './components/historyScreen/ChartHistory';
 
 import DataDash from './components/dataScreen/DataDash';
-import GraphControl from './components/util.js/GraphControl';
+import GraphControl from './components/utils/GraphControl';
 
 /**
  * COMPONENT

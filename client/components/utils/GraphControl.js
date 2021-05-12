@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSingleData, formatData } from '../../store/singleData';
-import BarGraph from '../graphCharts/BarGraph';
-import PieGraph from '../graphCharts/PieGraph';
-import LineGraph from '../graphCharts/LineGraph';
-import ScatterChart from '../graphCharts/ScatterChart';
+import {
+  LineGraph,
+  BarGraph,
+  PieGraph,
+  ScatterChart,
+} from '../graphCharts/index';
 
 import {
   Grid,
@@ -93,12 +95,12 @@ class GraphControl extends Component {
     const y = this.state.y;
     const dataset = this.props.unformattedData.name;
 
-	const graphs = {
-		bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
-		line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
-		scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
-		pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
-	  };
+    const graphs = {
+      bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
+      line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
+      scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
+      pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
+    };
 
     return (
       <div>
@@ -137,9 +139,7 @@ class GraphControl extends Component {
               ))}
             </select>
           </div>
-          <div id="graph-container">
-            {graphs[graphSelected]}
-          </div>
+          <div id="graph-container">{graphs[graphSelected]}</div>
         </div>
       </div>
     );

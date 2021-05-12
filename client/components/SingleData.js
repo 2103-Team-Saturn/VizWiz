@@ -1,52 +1,53 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchSingleData, formatData } from "../store/singleData";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchSingleData, formatData } from '../store/singleData';
 
 class SingleData extends Component {
-	componentDidMount() {
-		this.props.fetchSingleData(
-			this.props.userId,
-			this.props.match.params.dataId
-		);
-	}
+  componentDidMount() {
+    this.props.fetchSingleData(
+      this.props.userId,
+      this.props.match.params.dataId
+    );
+  }
 
-	render() {
-		const data = this.props.unformattedData.values || [];
+  render() {
+    // put into prototype or util.js file
+    const data = this.props.unformattedData.values || [];
 
-		const firstLine = data[0] || {};
+    const firstLine = data[0] || {};
 
-		const keys = Object.keys(firstLine);
+    const keys = Object.keys(firstLine);
 
-		let obj = {};
+    let obj = {};
 
-		for (let i = 0; i < keys.length; i++) {
-			let currentKey = keys[i];
-			obj[currentKey] = [];
-			data.map((item) => obj[currentKey].push(item[currentKey]));
-		}
-		return (
-			<div>
-				<h1>{this.props.unformattedData.name}</h1>
-				<button onClick={() => this.props.formatData(obj)}>Format Data</button>
-			</div>
-		);
-	}
+    for (let i = 0; i < keys.length; i++) {
+      let currentKey = keys[i];
+      obj[currentKey] = [];
+      data.map((item) => obj[currentKey].push(item[currentKey]));
+    }
+    return (
+      <div>
+        <h1>{this.props.unformattedData.name}</h1>
+        <button onClick={() => this.props.formatData(obj)}>Format Data</button>
+      </div>
+    );
+  }
 }
 
 const mapState = (state) => {
-	return {
-		formattedData: state.singleData.formatted,
-		unformattedData: state.singleData.unformatted,
-		userId: state.auth.id,
-	};
+  return {
+    formattedData: state.singleData.formatted,
+    unformattedData: state.singleData.unformatted,
+    userId: state.auth.id,
+  };
 };
 
 const mapDispatch = (dispatch) => {
-	return {
-		fetchSingleData: (userId, dataId) =>
-			dispatch(fetchSingleData(userId, dataId)),
-		formatData: (data) => dispatch(formatData(data)),
-	};
+  return {
+    fetchSingleData: (userId, dataId) =>
+      dispatch(fetchSingleData(userId, dataId)),
+    formatData: (data) => dispatch(formatData(data)),
+  };
 };
 
 export default connect(mapState, mapDispatch)(SingleData);
