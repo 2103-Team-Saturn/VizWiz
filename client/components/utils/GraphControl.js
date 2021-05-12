@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSingleData, formatData } from '../../store/singleData';
-// import BarGraph from '../graphCharts/BarGraph';
-// import PieGraph from '../graphCharts/PieGraph';
-// import LineGraph from '../graphCharts/LineGraph';
-// import ScatterChart from '../graphCharts/ScatterChart';
 import {
   LineGraph,
   BarGraph,
