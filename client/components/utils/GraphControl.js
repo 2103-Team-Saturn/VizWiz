@@ -99,12 +99,12 @@ class GraphControl extends Component {
     const y = this.state.y;
     const dataset = this.props.unformattedData.name;
 
-	const graphs = {
-		bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
-		line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
-		scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
-		pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
-	  };
+    const graphs = {
+      bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
+      line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
+      scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
+      pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
+    };
 
     return (
       <div>
@@ -143,9 +143,7 @@ class GraphControl extends Component {
               ))}
             </select>
           </div>
-          <div id="graph-container">
-            {graphs[graphSelected]}
-          </div>
+          <div id="graph-container">{graphs[graphSelected]}</div>
         </div>
       </div>
     );

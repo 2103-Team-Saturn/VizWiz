@@ -11,7 +11,6 @@ router.get('/', async (req, res, next) => {
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
       attributes: ['id', 'username'],
-      // include: [{ model: Data }],
     });
     res.json(users);
   } catch (err) {
@@ -46,5 +45,3 @@ router.post('/:id/data', async (req, res, next) => {
     next(error);
   }
 });
-
-//app.use
