@@ -16,9 +16,9 @@ import {
 
 export default class LineGraph extends Component {
   render() {
-    console.log('**BG props', this.props);
+    // console.log('**BG props', this.props);
     const { data, dataset, x, y } = this.props;
-    console.log('DATA', data);
+    // console.log('DATA', data);
 
     return (
       <div id="graph">
@@ -70,7 +70,7 @@ export default class LineGraph extends Component {
           <VictoryGroup>
             <VictoryLine
               data={data.map((d) => {
-                console.log('*d*>>>', d[y]);
+                // console.log('*d*>>>', d[y]);
                 return d;
               })}
               x={x}

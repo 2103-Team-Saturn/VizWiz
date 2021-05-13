@@ -12,11 +12,11 @@ import {
 
 export default class BarGraph extends Component {
   render() {
-    console.log('**BG props', this.props);
+    // console.log('**BG props', this.props);
     const { data, dataset, x, y } = this.props;
-    console.log('data>>>', data);
-    console.log('x: ', x);
-    console.log('y: ', y);
+    // console.log('data>>>', data);
+    // console.log('x: ', x);
+    // console.log('y: ', y);
 
     return (
       <div id="graph">

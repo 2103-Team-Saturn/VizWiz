@@ -8,6 +8,10 @@ import {
   ScatterChart,
 } from '../graphCharts/index';
 
+import { Link } from 'react-router-dom';
+
+import StylizeGraph from './StylizeGraph';
+
 import {
   Grid,
   Typography,
@@ -21,7 +25,6 @@ import {
   CardMedia,
   CardContent,
   FormControl,
-  Link,
 } from '@material-ui/core';
 
 import { graphSuggestor } from './graphSuggestor';
@@ -49,6 +52,12 @@ class GraphControl extends Component {
       [evt.target.name]: evt.target.value,
     });
   }
+
+  // nextOnClick() {
+  //   async () => {
+  //     await this.props.formatData(obj);
+  //   }}
+  // }
 
   render() {
     const data = this.props.unformattedData.values || [];
@@ -221,6 +230,27 @@ class GraphControl extends Component {
           </div>
 
           <div id="graph-container">{graphs[graphSelected]}</div>
+          <div className="nextBtn">
+            <Button>
+              <Link
+                // onClick={async () => {
+                //   await this.props.formatData(obj);
+                // }}
+                to={{
+                  pathname: `/users/${this.props.userId}/data/${this.props.match.params.dataId}/style`,
+                  state: {
+                    graph: this.state.graph,
+                    x: this.state.x,
+                    y: this.state.y,
+                    xValues: xValues,
+                    yValues: yValues,
+                  },
+                }}
+              >
+                Next
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     );
