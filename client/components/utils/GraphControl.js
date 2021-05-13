@@ -66,7 +66,7 @@ class GraphControl extends Component {
       obj[currentKey] = [];
       data.map((item) => obj[currentKey].push(item[currentKey]));
     }
-
+    console.log('graph control obj >>>', obj);
     // x axis tends to be strings, in line/scatter, but x can also be numbers,
     // y axis needs to be numbers, **pie charts don't operate on axis
     const dynamicVals = (data, type) => {
@@ -112,6 +112,8 @@ class GraphControl extends Component {
           return dataObj[this.state.y];
         } else return null;
       });
+      //   this.props.formatData(obj)
+      // }
       console.log('graph control x >>>', xValues);
       console.log('graph control y >>>', yValues);
       suggestions = graphSuggestor(xValues, yValues, this.state.x);
@@ -180,6 +182,42 @@ class GraphControl extends Component {
               <option value="scatter">Scatter</option>
             </select>
             */}
+            {/* // for rendering graph suggestions notification */}
+            <div id="suggestions-container">
+              {this.state.x ? (
+                <div id="suggestions">
+                  <h3>
+                    Suggested graph types based on your dataset and axis
+                    selections:
+                  </h3>
+                  <ul>
+                    {suggestions.map((suggestion, idx) => {
+                      return (
+                        <li key={idx} style={{ textDecoration: 'none' }}>
+                          {suggestion.toUpperCase()}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : (
+                <h3>Select data for your axis.</h3>
+              )}
+            </div>
+            {/* // end rendering suggestions notification */}
+            <div>
+              {suggestions.map((suggestion, idx) => {
+                <div key={idx}>
+                  <button
+                    name="graph"
+                    onClick={handleChange}
+                    value={this.state.graph}
+                  >
+                    {suggestion}
+                  </button>
+                </div>;
+              })}
+            </div>
           </div>
 
           <div id="graph-container">{graphs[graphSelected]}</div>
@@ -202,6 +240,7 @@ const mapDispatch = (dispatch) => {
   return {
     fetchSingleData: (userId, dataId) =>
       dispatch(fetchSingleData(userId, dataId)),
+    formatData: (data) => dispatch(formatData(data)),
   };
 };
 

@@ -11,8 +11,7 @@ export function graphSuggestor(xValues, yValues, x) {
     //mostly hitting this first if statement, because we don't have number xValue type inside x axis selector
   }
   if (typeof xValues[0] === 'number') {
-    if (xValues.length >= 10) suggestions = ['scatter'];
-    else suggestions = ['bar'];
+    if (xValues.length >= 10) suggestions = ['scatter', 'line'];
   }
 
   return suggestions;
