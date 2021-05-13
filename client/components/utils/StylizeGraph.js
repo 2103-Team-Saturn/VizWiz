@@ -45,8 +45,7 @@ class StylizeGraph extends Component {
     });
   }
   render() {
-    const { graph, x, y, formatted } = this.props;
-    // const { graph, x, y } = this.props.location.state;
+    const { graph, x, y, xValues, yValues } = this.props.location.state;
     /* 1.  ^ coming from 'next' button inside graphControl with :
             <Link to={{
                 pathname: '/users/:id/data/:dataId/edit',
@@ -60,9 +59,6 @@ class StylizeGraph extends Component {
     */
     // move following function to a separate utils folder??
     // go through the data arrays to clean up null/undefined data points for Victory
-
-    const xVals = this.props.location.state.xValues;
-    const yVals = this.props.location.state.yValues;
 
     const formatForVictory = (xVals, yVals) => {
       const result = [];
@@ -80,7 +76,7 @@ class StylizeGraph extends Component {
       return result;
     };
     // data will be cleaned up on following line:
-    const data = formatForVictory(xVals, yVals);
+    const data = formatForVictory(xValues, yValues);
     console.log('style graph data >>>', data);
 
     // create a props object for each graph type to take that will have all logistics and style
