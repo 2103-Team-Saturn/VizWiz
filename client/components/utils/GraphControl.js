@@ -24,6 +24,8 @@ import {
   Link,
 } from '@material-ui/core';
 
+import { graphSuggestor } from './graphSuggestor';
+
 class GraphControl extends Component {
   constructor(props) {
     super(props);
@@ -71,22 +73,54 @@ class GraphControl extends Component {
       return keys.filter((key) => typeof data[0][key] === type);
     };
 
-    let xPossibilities = [];
-    if (
-      this.state.graph === 'bar' ||
-      this.state.graph === 'pie' ||
-      this.state.graph === 'line'
-    ) {
-      xPossibilities = dynamicVals(data, 'string');
-    } else if (this.state.graph === 'scatter') {
-      xPossibilities = dynamicVals(data, 'number');
-    }
+    // let xPossibilities = [];
+    // if (
+    //   this.state.graph === 'bar' ||
+    //   this.state.graph === 'pie' ||
+    //   this.state.graph === 'line'
+    // ) {
+    //   xPossibilities = dynamicVals(data, 'string');
+    // } else if (this.state.graph === 'scatter') {
+    //   xPossibilities = dynamicVals(data, 'number');
+    // }
 
+    const xPossibilities1 = dynamicVals(data, 'string');
+    const xPossibilities2 = dynamicVals(data, 'number');
+    const xPossibilities = [...xPossibilities1, ...xPossibilities2];
+    //^ this is currently only allowing the type to be the first type it hit, which is string
     const yPossibilities = dynamicVals(data, 'number');
 
     // console.log(dynamicVals(data, "number" || "string"));
 
-    console.log('X>>>', xPossibilities);
+    //-------------------------------------------
+    // run logics to suggest graph types for users
+
+    let xValues;
+    let yValues;
+
+    let suggestions = [];
+
+    // clean data that are null and undefined
+    if (this.state.x && this.state.y) {
+      xValues = data.map((dataObj) => {
+        if (dataObj[this.state.x]) {
+          return dataObj[this.state.x];
+        } else return null;
+      });
+      yValues = data.map((dataObj) => {
+        if (dataObj[this.state.y]) {
+          return dataObj[this.state.y];
+        } else return null;
+      });
+      console.log('graph control x >>>', xValues);
+      console.log('graph control y >>>', yValues);
+      suggestions = graphSuggestor(xValues, yValues, this.state.x);
+    } else if (this.state.x) suggestions.push('pie');
+
+    //-------------------------------------------
+
+    console.log('suggestions >>>', suggestions);
+    // console.log('X>>>', xPossibilities);
     // console.log("Y>>>", yPossibilities);
 
     const { handleChange } = this;
@@ -105,17 +139,6 @@ class GraphControl extends Component {
     return (
       <div>
         <h2>{dataset}</h2>
-        <div>
-          <select name="graph" onChange={handleChange} value={this.state.graph}>
-            <option value="" disabled selected>
-              Graph Type
-            </option>
-            <option value="bar">Bar</option>
-            <option value="pie">Pie</option>
-            <option value="line">Line</option>
-            <option value="scatter">Scatter</option>
-          </select>
-        </div>
         <div>
           <select name="x" onChange={handleChange} value={this.state.x}>
             <option value="" disabled selected>
@@ -139,6 +162,26 @@ class GraphControl extends Component {
               ))}
             </select>
           </div>
+
+          <div>
+            {/* {categories.map()} */}
+            {/*
+            <select
+              name="graph"
+              onChange={handleChange}
+              value={this.state.graph}
+            >
+              <option value="" disabled selected>
+                Graph Type
+              </option>
+              <option value="bar">Bar</option>
+              <option value="pie">Pie</option>
+              <option value="line">Line</option>
+              <option value="scatter">Scatter</option>
+            </select>
+            */}
+          </div>
+
           <div id="graph-container">{graphs[graphSelected]}</div>
         </div>
       </div>
