@@ -182,7 +182,6 @@ class GraphControl extends Component {
               <option value="scatter">Scatter</option>
             </select>
             */}
-            {/* // for rendering graph suggestions notification */}
             <div id="suggestions-container">
               {this.state.x ? (
                 <div id="suggestions">
@@ -204,18 +203,19 @@ class GraphControl extends Component {
                 <h3>Select data for your axis.</h3>
               )}
             </div>
-            {/* // end rendering suggestions notification */}
             <div>
               {suggestions.map((suggestion, idx) => {
-                <div key={idx}>
-                  <button
-                    name="graph"
-                    onClick={handleChange}
-                    value={this.state.graph}
-                  >
-                    {suggestion}
-                  </button>
-                </div>;
+                return (
+                  <div key={idx}>
+                    <button
+                      name="graph"
+                      onClick={handleChange}
+                      value={suggestion}
+                    >
+                      {suggestion}
+                    </button>
+                  </div>
+                );
               })}
             </div>
           </div>
