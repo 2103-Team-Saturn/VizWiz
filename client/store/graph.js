@@ -32,7 +32,7 @@ export const postGraph = (graphData, userId, dataId) => async dispatch => {
 
 export const gotGraphs = (userId) => async dispatch => {
   try {
-    const { data } = await axios.get(`/api/ChartHistory`)
+    const { data } = await axios.get(`/api/users/${userId}/history`)
     dispatch(getGraphs(data))
   } catch (err) {
     console.error(err)
@@ -51,7 +51,7 @@ export const deletingGraph = id => {
   }
 }
 
-export default function(state = initialState, action) {
+export default function graphReducer (state = initialState, action) {
   switch (action.type) {
     case GET_GRAPHS:
       return [...action.graphs]

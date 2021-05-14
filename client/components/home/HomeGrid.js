@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from "react-redux";
 import ModalButton from '../modal/ModalButton';
 import ChartHistory from '../historyScreen/ChartHistory';
 
@@ -143,7 +144,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HomeGrid() {
+function HomeGrid({ userId }) {
   const classes = useStyles();
 
   return (
@@ -178,7 +179,7 @@ export default function HomeGrid() {
                 className={classes.image}
                 focusVisibleClassName={classes.focusVisible}
                 component={Link}
-                to="/users/history"
+                to={`/users/${userId}/history`}
               >
                 <span
                   className={classes.imageSrc}
@@ -239,3 +240,10 @@ export default function HomeGrid() {
   );
 }
 
+const mapState = (state) => {
+  return {
+    userId: state.auth.id,
+  };
+};
+
+export default connect(mapState, null)(HomeGrid);

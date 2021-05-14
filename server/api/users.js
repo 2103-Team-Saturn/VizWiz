@@ -55,24 +55,15 @@ router.post('/:id/data/:dataId', async (req, res, next) => {
   }
 })
 
-router.get('/ChartHistory', async (req, res, next) => {
+router.get('/:id/history', async (req, res, next) => {
   try {
-		console.log("userId", req.body.userId)
-    if (req.body.userId) {
+		console.log("userId", req.params)
       const graphs = await Graph.findAll({
         where: {
-          userId: req.params.userId
+          userId: req.params.id
         },
-        include: [
-          {
-            model: Data
-          }
-        ]
       })
       res.send(graphs)
-    } else {
-      res.sendStatus(404)
-    }
   } catch (err) {
     next(err)
   }
