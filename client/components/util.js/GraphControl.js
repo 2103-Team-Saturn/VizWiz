@@ -24,6 +24,7 @@ import {
 	CardContent,
 	FormControl,
 } from "@material-ui/core";
+import ChatRoom from "../rooms/ChatRoom";
 
 const sampleData = [
 	{ quarter: "1", earnings: 13, items: 40, state: "NY" },
@@ -266,6 +267,9 @@ class GraphControl extends Component {
 						</select>
 					</div>
 					<div id='graph-container'>{graphs[graphSelected]}</div>
+				</div>
+				<div>
+					<ChatRoom />
 				</div>
 			</div>
 		);
