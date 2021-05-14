@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 import {
   VictoryBar,
@@ -8,79 +8,112 @@ import {
   VictoryTheme,
   VictoryTooltip,
   VictoryLabel,
-} from 'victory';
+} from "victory";
 
 export default class BarGraph extends Component {
   render() {
-    // console.log('**BG props', this.props);
-    const { data, dataset, x, y } = this.props;
-    // console.log('data>>>', data);
-    // console.log('x: ', x);
-    // console.log('y: ', y);
+    console.log("**BG props", this.props);
+    // const { x, y } = this.props;
+    const title = this.props.title || this.props.selectedDataset;
+    const xTitle = this.props.xTitle || this.props.x;
+    const yTitle = this.props.yTitle || this.props.y;
+    const color = this.props.color || "#000000";
+    const highlight = this.props.highlight || "#A9A9A9";
+    const { formattedData } = this.props;
+    console.log('formattedData inside BG>>>', formattedData);
 
     return (
-      <div id="graph">
+      // <svg 
+      // style={ { fill: "black" } } 
+      // id="graph-container" 
+      // viewBox="0 0 500 350">
+        //{" "}
+        <div>
         <VictoryChart
           theme={VictoryTheme.material}
-          style={{ parent: { maxWidth: '100%' } }}
+          style={{ parent: { maxWidth: "100%" } }}
           domainPadding={45}
           width={500}
           height={350}
           padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
         >
           <VictoryLabel
-            text={dataset}
+            text={title}
             style={{
               fontSize: 20,
-              textAnchor: 'start',
-              verticalAnchor: 'end',
-              fill: '#455A64',
-              fontFamily: 'inherit',
+              textAnchor: "start",
+              verticalAnchor: "end",
+              fill: "#455A64",
+              fontFamily: "inherit",
             }}
-            x={100}
-            y={24}
+            x={250}
+            y={25}
+          />
+          <VictoryLabel
+            text={xTitle}
+            style={{
+              fontSize: 16,
+              textAnchor: "start",
+              verticalAnchor: "end",
+              fill: "#455A64",
+              fontFamily: "inherit",
+            }}
+            x={250}
+            y={325}
+          />
+          <VictoryLabel
+            text={yTitle}
+            style={{
+              fontSize: 16,
+              textAnchor: "start",
+              verticalAnchor: "end",
+              fill: "#455A64",
+              fontFamily: "inherit",
+            }}
+            x={25}
+            y={175}
           />
           <VictoryAxis
-            label={x}
+            // label={xTitle}
             fixLabelOverlap={true}
             style={{
-              axis: { stroke: '#756f6a' },
-              axisLabel: { fontSize: 16, padding: 60 },
+              axis: { stroke: color },
+            // axisLabel: { fontSize: 16, padding: 60 },
               tickLabels: { angle: 20 },
             }}
-            tickValues={data.map((d) => d[x])}
-            tickFormat={data.map((d) => {
-              if (typeof d[x] === 'string') {
-                if (x === 'Month' || x === 'Day') {
-                  return d[x].slice(0, 3);
-                } else {
-                  return d[x];
-                }
-              } else {
-                return d[x];
-              }
-            })}
+            tickValues={formattedData.map((d) => d['x'])}
+            // tickFormat={formattedData.map((d) => {
+            //   if (typeof d['x'] === "string") {
+            //     if (x === "Month" || x === "Day") {
+            //       return d[x].slice(0, 3);
+            //     } else {
+            //       return d[x];
+            //     }
+            //   } else {
+            //     return d[x];
+            //   }
+            // })}
           />
           <VictoryAxis
             dependentAxis
             fixLabelOverlap={true}
-            label={y}
+            // label={y}
             style={{
-              axis: { stroke: '#756f6a' },
+              axis: { stroke: "#756f6a" },
               axisLabel: { fontSize: 16, padding: 80 },
             }}
           />
           <VictoryStack>
             <VictoryBar
-              data={data.map((datum) => {
-                let label = `${datum[y]}`;
-                datum.label = label;
-                return datum;
-              })}
-              // labels={}
+            data={formattedData}
+              // data={data.map((datum) => {
+              //   let label = `${datum[y]}`;
+              //   datum.label = label;
+              //   return datum;
+              // })}
               labelComponent={
                 <VictoryTooltip
-                  flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
+                  flyoutStyle={ { fill: "white", stroke: "lightgrey" } }
                   // cornerRadius={+this.props.tooltip}
                   cornerRadius={20}
                 />
@@ -88,18 +121,18 @@ export default class BarGraph extends Component {
               // events prop should be given as an array of event objects
               events={[
                 {
-                  target: 'data',
+                  target: "data",
                   eventHandlers: {
                     onMouseOver: () => {
                       return [
                         {
-                          target: 'data',
+                          target: "data",
                           mutation: () => ({
-                            style: { fill: 'seagreen' }, // can make all these fills dynamic
+                            style: { fill: highlight, width: 24 }, // can make all these fills dynamic
                           }),
                         },
                         {
-                          target: 'labels',
+                          target: "labels",
                           mutation: () => ({ active: true }),
                         },
                       ];
@@ -107,11 +140,11 @@ export default class BarGraph extends Component {
                     onMouseOut: () => {
                       return [
                         {
-                          target: 'data',
+                          target: "data",
                           mutation: () => {},
                         },
                         {
-                          target: 'labels',
+                          target: "labels",
                           mutation: () => ({ active: false }),
                         },
                       ];
@@ -119,13 +152,13 @@ export default class BarGraph extends Component {
                   },
                 },
               ]}
-              x={x}
-              y={y}
+              // x={x}
+              // y={y}
               // domain={ {x: [0, x.length + 1], y: [0, (Math.max(...y) + 20) ] } }
               barRatio={0.2}
               style={{
                 data: {
-                  fill: '#c43a31',
+                  fill: color,
                   width: 24,
                 },
               }}
@@ -136,7 +169,8 @@ export default class BarGraph extends Component {
             />
           </VictoryStack>
         </VictoryChart>
-      </div>
+        </div>
+      // </svg>
     );
   }
 }
