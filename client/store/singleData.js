@@ -2,6 +2,7 @@ const axios = require("axios");
 
 const SET_SINGLE_DATA = "SET_SINGLE_DATA";
 const FORMAT_DATA = "FORMAT_DATA";
+const SAVE_DATA_ID = "SAVE_DATA_ID";
 
 const _fetchSingleData = (data) => {
 	return {
@@ -17,6 +18,13 @@ export const formatData = (data) => {
 	};
 };
 
+export const saveDataId = (id) => {
+	return {
+		type: SAVE_DATA_ID,
+		id,
+	};
+};
+
 export const fetchSingleData = (userId, dataId) => {
 	return async (dispatch) => {
 		console.log(userId, dataId);
@@ -28,6 +36,7 @@ export const fetchSingleData = (userId, dataId) => {
 const initialState = {
 	unformatted: {},
 	formatted: {},
+	dataId: 0,
 };
 
 export default function singleDataReducer(state = initialState, action) {
@@ -36,6 +45,8 @@ export default function singleDataReducer(state = initialState, action) {
 			return { ...state, unformatted: action.data };
 		case FORMAT_DATA:
 			return { ...state, formatted: action.data };
+		case SAVE_DATA_ID:
+			return { ...state, dataId: action.id };
 		default:
 			return state;
 	}

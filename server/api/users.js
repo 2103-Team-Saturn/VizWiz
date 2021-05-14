@@ -4,7 +4,7 @@ const {
 } = require("../db");
 module.exports = router;
 
-router.use('/:id/data', require('./data'));
+router.use("/:id/data", require("./data"));
 
 router.get("/", async (req, res, next) => {
 	try {
@@ -12,8 +12,8 @@ router.get("/", async (req, res, next) => {
 			// explicitly select only the id and username fields - even though
 			// users' passwords are encrypted, it won't help if we just
 			// send everything to anyone who asks!
-			attributes: ["id", "username"],
-			include: [ { model: Data } ]
+			attributes: ["id", "username", "roomKey"],
+			include: [{ model: Data }],
 		});
 		res.json(users);
 	} catch (err) {

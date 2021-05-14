@@ -3,6 +3,7 @@ const db = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
+const faker = require("faker");
 
 const SALT_ROUNDS = 5;
 
@@ -14,6 +15,9 @@ const User = db.define("user", {
 	},
 	password: {
 		type: Sequelize.STRING,
+	},
+	roomKey: {
+		type: Sequelize.TEXT,
 	},
 });
 
@@ -69,8 +73,13 @@ const hashPassword = async (user) => {
 	}
 };
 
+const assignRoomKey = (user) => {
+	user.roomKey = faker.random.alphaNumeric(10);
+};
+
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
+User.beforeCreate(assignRoomKey);
 User.beforeBulkCreate((users) => {
 	users.forEach(hashPassword);
 });
