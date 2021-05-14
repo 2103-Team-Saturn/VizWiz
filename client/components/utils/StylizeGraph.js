@@ -31,8 +31,8 @@ class StylizeGraph extends Component {
     );
     this.state = {
       title: this.props.unformatted.name,
-      xTitle:  || '',
-      yTitle:  || '',
+      xTitle:  '',
+      yTitle:  '',
       xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
       yAxis: this.props.location.state.yValues,
       color: '',
