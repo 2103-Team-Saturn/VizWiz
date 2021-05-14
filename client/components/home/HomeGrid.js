@@ -178,7 +178,7 @@ export default function HomeGrid() {
                 className={classes.image}
                 focusVisibleClassName={classes.focusVisible}
                 component={Link}
-                to="/ChartHistory"
+                to="/users/history"
               >
                 <span
                   className={classes.imageSrc}
@@ -210,7 +210,7 @@ export default function HomeGrid() {
                 className={classes.image}
                 focusVisibleClassName={classes.focusVisible}
                 component={Link}
-                to="/users/:id/data"
+                to="/users/data"
               >
                 <span
                   className={classes.imageSrc}
@@ -238,3 +238,4 @@ export default function HomeGrid() {
     </React.Fragment>
   );
 }
+

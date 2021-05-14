@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchSingleData, formatData } from "../../store/singleData";
+import { postGraph } from "../../store/graph";
 import {
   LineGraph,
   BarGraph,
@@ -43,6 +44,7 @@ class GraphControl extends Component {
       highlight: "",
     };
     this.handleChange = this.handleChange.bind(this);
+    this.saveGraph = this.saveGraph.bind(this);
   }
 
   componentDidMount() {
@@ -57,6 +59,10 @@ class GraphControl extends Component {
     this.setState({
       [evt.target.name]: evt.target.value,
     });
+  }
+
+  saveGraph() {
+    this.props.postGraph(this.state, this.props.userId, this.props.match.params.dataId)
   }
 
   render() {
@@ -282,29 +288,10 @@ class GraphControl extends Component {
               </div>
             </div>
           </div>
-
           <div id="graph-container">{graphDictionary[graphSelected]}</div>
-          {/* <div className="nextBtn">
-            <Button>
-              <Link
-                // onClick={async () => {
-                //   await this.props.formatData(obj);
-                // }}
-                to={{
-                  pathname: `/users/${this.props.userId}/data/${this.props.match.params.dataId}/style`,
-                  state: {
-                    graph: this.state.graph,
-                    x: this.state.x,
-                    y: this.state.y,
-                    xValues: xValues,
-                    yValues: yValues,
-                  },
-                }}
-              >
-                Next
-              </Link>
-            </Button>
-          </div> */}
+          <div>
+            <button onClick={() => this.saveGraph()}>Save</button>
+          </div>
         </div>
       </div>
     );
@@ -325,6 +312,8 @@ const mapDispatch = (dispatch) => {
     fetchSingleData: (userId, dataId) =>
       dispatch(fetchSingleData(userId, dataId)),
     // formatData: (data) => dispatch(formatData(data)),
+    postGraph: (graphData, userId, dataId) =>
+      dispatch(postGraph(graphData, userId, dataId)),
   };
 };
 
