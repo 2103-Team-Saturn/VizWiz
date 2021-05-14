@@ -35,7 +35,7 @@ class GraphControl extends Component {
       graph: "",
       x: "",
       y: "",
-      title: this.props.unformatted.name,
+      title: "",
       xTitle: "",
       yTitle: "",
       // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
