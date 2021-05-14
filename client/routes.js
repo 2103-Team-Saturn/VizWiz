@@ -27,17 +27,13 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route exact path="/home" component={Home} />
-            <Route exact path="/users/:id/data" component={DataDash} />
+            <Route exact path="/users/data" component={DataDash} />
             <Route
               exact
               path="/users/:id/data/:dataId"
               component={GraphControl}
             />
-            <Route path="/ChartHistory" component={ChartHistory} />
-            <Route
-              path="/users/:id/data/:dataId/style"
-              component={StylizeGraph}
-            />
+            <Route path="/users/history" component={ChartHistory} />
             <Redirect to="/home" />
           </Switch>
         ) : (
