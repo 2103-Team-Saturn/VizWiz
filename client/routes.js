@@ -9,6 +9,7 @@ import ChartHistory from './components/historyScreen/ChartHistory';
 
 import DataDash from './components/dataScreen/DataDash';
 import GraphControl from './components/utils/GraphControl';
+import StylizeGraph from './components/utils/StylizeGraph';
 
 /**
  * COMPONENT
@@ -33,6 +34,10 @@ class Routes extends Component {
               component={GraphControl}
             />
             <Route path="/ChartHistory" component={ChartHistory} />
+            <Route
+              path="/users/:id/data/:dataId/style"
+              component={StylizeGraph}
+            />
             <Redirect to="/home" />
           </Switch>
         ) : (

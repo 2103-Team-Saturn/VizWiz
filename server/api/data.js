@@ -4,17 +4,6 @@ const {
 } = require('../db');
 module.exports = router;
 
-// GET users/:id/data
-// router.get("/", async (req, res, next) => {
-// 	try {
-// 		console.log('reqparams>>>', req.params);
-// 		const data = await Data.findAll({ where: { userId: req.params.id } });
-// 		res.send(data);
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// });
-
 // GET users/:id/data/:dataId
 router.get('/:dataId', async (req, res, next) => {
   try {
