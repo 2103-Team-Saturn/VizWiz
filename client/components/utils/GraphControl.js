@@ -1,16 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchSingleData, formatData } from '../../store/singleData';
-import {
-  LineGraph,
-  BarGraph,
-  PieGraph,
-  ScatterChart,
-} from '../graphCharts/index';
-
-import { Link } from 'react-router-dom';
-
-import StylizeGraph from './StylizeGraph';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchSingleData, formatData } from "../../store/singleData";
+import BarGraph from "../graphCharts/BarGraph";
+import PieGraph from "../graphCharts/PieGraph";
+import LineGraph from "../graphCharts/LineGraph";
+import ScatterChart from "../graphCharts/ScatterChart";
+import { postGraph } from "../../store/graph";
 
 import {
   Grid,
@@ -25,19 +20,19 @@ import {
   CardMedia,
   CardContent,
   FormControl,
-} from '@material-ui/core';
-
-import { graphSuggestor } from './graphSuggestor';
+  Link,
+} from "@material-ui/core";
 
 class GraphControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      graph: '',
-      x: '',
-      y: '',
+      graph: "",
+      x: "",
+      y: "",
     };
     this.handleChange = this.handleChange.bind(this);
+    this.saveGraph = this.saveGraph.bind(this);
   }
 
   componentDidMount() {
@@ -53,11 +48,9 @@ class GraphControl extends Component {
     });
   }
 
-  // nextOnClick() {
-  //   async () => {
-  //     await this.props.formatData(obj);
-  //   }}
-  // }
+  saveGraph() {
+    this.props.postGraph(this.state, this.props.userId, this.props.match.params.dataId)
+  }
 
   render() {
     const data = this.props.unformattedData.values || [];
@@ -75,63 +68,29 @@ class GraphControl extends Component {
       obj[currentKey] = [];
       data.map((item) => obj[currentKey].push(item[currentKey]));
     }
-    console.log('graph control obj >>>', obj);
+
     // x axis tends to be strings, in line/scatter, but x can also be numbers,
     // y axis needs to be numbers, **pie charts don't operate on axis
     const dynamicVals = (data, type) => {
       return keys.filter((key) => typeof data[0][key] === type);
     };
 
-    // let xPossibilities = [];
-    // if (
-    //   this.state.graph === 'bar' ||
-    //   this.state.graph === 'pie' ||
-    //   this.state.graph === 'line'
-    // ) {
-    //   xPossibilities = dynamicVals(data, 'string');
-    // } else if (this.state.graph === 'scatter') {
-    //   xPossibilities = dynamicVals(data, 'number');
-    // }
+    let xPossibilities = [];
+    if (
+      this.state.graph === "bar" ||
+      this.state.graph === "pie" ||
+      this.state.graph === "line"
+    ) {
+      xPossibilities = dynamicVals(data, "string");
+    } else if (this.state.graph === "scatter") {
+      xPossibilities = dynamicVals(data, "number");
+    }
 
-    const xPossibilities1 = dynamicVals(data, 'string');
-    const xPossibilities2 = dynamicVals(data, 'number');
-    const xPossibilities = [...xPossibilities1, ...xPossibilities2];
-    //^ this is currently only allowing the type to be the first type it hit, which is string
-    const yPossibilities = dynamicVals(data, 'number');
+    const yPossibilities = dynamicVals(data, "number");
 
     // console.log(dynamicVals(data, "number" || "string"));
 
-    //-------------------------------------------
-    // run logics to suggest graph types for users
-
-    let xValues;
-    let yValues;
-
-    let suggestions = [];
-
-    // clean data that are null and undefined
-    if (this.state.x && this.state.y) {
-      xValues = data.map((dataObj) => {
-        if (dataObj[this.state.x]) {
-          return dataObj[this.state.x];
-        } else return null;
-      });
-      yValues = data.map((dataObj) => {
-        if (dataObj[this.state.y]) {
-          return dataObj[this.state.y];
-        } else return null;
-      });
-      //   this.props.formatData(obj)
-      // }
-      console.log('graph control x >>>', xValues);
-      console.log('graph control y >>>', yValues);
-      suggestions = graphSuggestor(xValues, yValues, this.state.x);
-    } else if (this.state.x) suggestions.push('pie');
-
-    //-------------------------------------------
-
-    console.log('suggestions >>>', suggestions);
-    // console.log('X>>>', xPossibilities);
+    console.log("X>>>", xPossibilities);
     // console.log("Y>>>", yPossibilities);
 
     const { handleChange } = this;
@@ -150,6 +109,17 @@ class GraphControl extends Component {
     return (
       <div>
         <h2>{dataset}</h2>
+        <div>
+          <select name="graph" onChange={handleChange} value={this.state.graph}>
+            <option value="" disabled selected>
+              Graph Type
+            </option>
+            <option value="bar">Bar</option>
+            <option value="pie">Pie</option>
+            <option value="line">Line</option>
+            <option value="scatter">Scatter</option>
+          </select>
+        </div>
         <div>
           <select name="x" onChange={handleChange} value={this.state.x}>
             <option value="" disabled selected>
@@ -173,84 +143,10 @@ class GraphControl extends Component {
               ))}
             </select>
           </div>
-
-          <div>
-            {/* {categories.map()} */}
-            {/*
-            <select
-              name="graph"
-              onChange={handleChange}
-              value={this.state.graph}
-            >
-              <option value="" disabled selected>
-                Graph Type
-              </option>
-              <option value="bar">Bar</option>
-              <option value="pie">Pie</option>
-              <option value="line">Line</option>
-              <option value="scatter">Scatter</option>
-            </select>
-            */}
-            <div id="suggestions-container">
-              {this.state.x ? (
-                <div id="suggestions">
-                  <h3>
-                    Suggested graph types based on your dataset and axis
-                    selections:
-                  </h3>
-                  <ul>
-                    {suggestions.map((suggestion, idx) => {
-                      return (
-                        <li key={idx} style={{ textDecoration: 'none' }}>
-                          {suggestion.toUpperCase()}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              ) : (
-                <h3>Select data for your axis.</h3>
-              )}
-            </div>
-            <div>
-              {suggestions.map((suggestion, idx) => {
-                return (
-                  <div key={idx}>
-                    <button
-                      name="graph"
-                      onClick={handleChange}
-                      value={suggestion}
-                    >
-                      {suggestion}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
           <div id="graph-container">{graphs[graphSelected]}</div>
-          <div className="nextBtn">
-            <Button>
-              <Link
-                // onClick={async () => {
-                //   await this.props.formatData(obj);
-                // }}
-                to={{
-                  pathname: `/users/${this.props.userId}/data/${this.props.match.params.dataId}/style`,
-                  state: {
-                    graph: this.state.graph,
-                    x: this.state.x,
-                    y: this.state.y,
-                    xValues: xValues,
-                    yValues: yValues,
-                  },
-                }}
-              >
-                Next
-              </Link>
-            </Button>
-          </div>
+        </div>
+        <div>
+          <button onClick={() => this.saveGraph()}>Save</button>
         </div>
       </div>
     );
@@ -270,7 +166,8 @@ const mapDispatch = (dispatch) => {
   return {
     fetchSingleData: (userId, dataId) =>
       dispatch(fetchSingleData(userId, dataId)),
-    formatData: (data) => dispatch(formatData(data)),
+    postGraph: (graphData, userId, dataId) =>
+      dispatch(postGraph(graphData, userId, dataId)),
   };
 };
 
