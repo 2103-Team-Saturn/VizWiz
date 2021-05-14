@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchSingleData, formatData } from '../../store/singleData';
-import BarGraph from '../graphCharts/BarGraph';
-import PieGraph from '../graphCharts/PieGraph';
-import LineGraph from '../graphCharts/LineGraph';
-import ScatterChart from '../graphCharts/ScatterChart';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchSingleData, formatData } from "../../store/singleData";
+import BarGraph from "../graphCharts/BarGraph";
+import PieGraph from "../graphCharts/PieGraph";
+import LineGraph from "../graphCharts/LineGraph";
+import ScatterChart from "../graphCharts/ScatterChart";
+import { postGraph } from "../../store/graph";
 
 import {
   Grid,
@@ -20,17 +21,18 @@ import {
   CardContent,
   FormControl,
   Link,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 class GraphControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      graph: '',
-      x: '',
-      y: '',
+      graph: "",
+      x: "",
+      y: "",
     };
     this.handleChange = this.handleChange.bind(this);
+    this.saveGraph = this.saveGraph.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +46,10 @@ class GraphControl extends Component {
     this.setState({
       [evt.target.name]: evt.target.value,
     });
+  }
+
+  saveGraph() {
+    this.props.postGraph(this.state, this.props.userId, this.props.match.params.dataId)
   }
 
   render() {
@@ -71,20 +77,20 @@ class GraphControl extends Component {
 
     let xPossibilities = [];
     if (
-      this.state.graph === 'bar' ||
-      this.state.graph === 'pie' ||
-      this.state.graph === 'line'
+      this.state.graph === "bar" ||
+      this.state.graph === "pie" ||
+      this.state.graph === "line"
     ) {
-      xPossibilities = dynamicVals(data, 'string');
-    } else if (this.state.graph === 'scatter') {
-      xPossibilities = dynamicVals(data, 'number');
+      xPossibilities = dynamicVals(data, "string");
+    } else if (this.state.graph === "scatter") {
+      xPossibilities = dynamicVals(data, "number");
     }
 
-    const yPossibilities = dynamicVals(data, 'number');
+    const yPossibilities = dynamicVals(data, "number");
 
     // console.log(dynamicVals(data, "number" || "string"));
 
-    console.log('X>>>', xPossibilities);
+    console.log("X>>>", xPossibilities);
     // console.log("Y>>>", yPossibilities);
 
     const { handleChange } = this;
@@ -93,12 +99,12 @@ class GraphControl extends Component {
     const y = this.state.y;
     const dataset = this.props.unformattedData.name;
 
-	const graphs = {
-		bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
-		line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
-		scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
-		pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
-	  };
+    const graphs = {
+      bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
+      line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
+      scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
+      pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
+    };
 
     return (
       <div>
@@ -137,9 +143,10 @@ class GraphControl extends Component {
               ))}
             </select>
           </div>
-          <div id="graph-container">
-            {graphs[graphSelected]}
-          </div>
+          <div id="graph-container">{graphs[graphSelected]}</div>
+        </div>
+        <div>
+          <button onClick={() => this.saveGraph()}>Save</button>
         </div>
       </div>
     );
@@ -159,6 +166,8 @@ const mapDispatch = (dispatch) => {
   return {
     fetchSingleData: (userId, dataId) =>
       dispatch(fetchSingleData(userId, dataId)),
+    postGraph: (graphData, userId, dataId) =>
+      dispatch(postGraph(graphData, userId, dataId)),
   };
 };
 
