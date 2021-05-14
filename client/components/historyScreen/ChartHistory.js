@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { fetchSingleData, formatData } from "../../store/singleData";
 import { gotGraphs } from "../../store/graph";
 
 class ChartHistory extends Component {
@@ -17,7 +16,11 @@ class ChartHistory extends Component {
     return (
       <div>
         <h1>Charts</h1>
-        <div></div>
+        {this.props.userGraph.map(graph =>
+          <div key={graph.id}>
+            <h1>{graph.properties.title}</h1>
+          </div>
+        )}
       </div>
     );
   }
@@ -26,12 +29,13 @@ class ChartHistory extends Component {
 const mapState = (state) => {
   return {
     userId: state.auth.id,
+    userGraph: state.graphs
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    gotGraphs: () => dispatch(gotGraphs())
+    gotGraphs: (id) => dispatch(gotGraphs(id))
   };
 };
 

@@ -33,7 +33,7 @@ class Routes extends Component {
               path="/users/:id/data/:dataId"
               component={GraphControl}
             />
-            <Route path="/users/history" component={ChartHistory} />
+            <Route path="/users/:id/history" component={ChartHistory} />
             <Redirect to="/home" />
           </Switch>
         ) : (
