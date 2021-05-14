@@ -1,10 +1,10 @@
-const Sequelize = require("sequelize");
-const db = require("../db");
+const Sequelize = require('sequelize');
+const db = require('../db');
 
-const Graph = db.define("graph", {
-	properties: {
-		type: Sequelize.JSON,
-	},
+const Graph = db.define('graph', {
+  properties: {
+    type: Sequelize.JSON,
+  },
 });
 
 // const Graph = db.define("graph", {
@@ -47,7 +47,7 @@ const Graph = db.define("graph", {
 // 	datumId: {
 // 		type: Sequelize.INTEGER,
 // 		allowNull: false,
-// 	}
+// 	},
 // });
 
 // -> data= [ { x: xVals[i], y: yVals[i] } ...loops through full lists ]

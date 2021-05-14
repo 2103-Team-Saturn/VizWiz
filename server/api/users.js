@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const router = require('express').Router();
 const {
 	models: { User, Data, Graph },
 } = require("../db");
@@ -22,13 +22,13 @@ router.get("/", async (req, res, next) => {
 	}
 });
 
-router.get("/:id/data", async (req, res, next) => {
-	try {
-		const data = await Data.findAll({ where: { userId: req.params.id } });
-		res.send(data);
-	} catch (error) {
-		next(error);
-	}
+router.get('/:id/data', async (req, res, next) => {
+  try {
+    const data = await Data.findAll({ where: { userId: req.params.id } });
+    res.send(data);
+  } catch (error) {
+    next(error);
+  }
 });
 
 
@@ -57,10 +57,11 @@ router.post('/:id/data/:dataId', async (req, res, next) => {
 
 router.get('/ChartHistory', async (req, res, next) => {
   try {
-    if (req.user.id) {
+		console.log("userId", req.body.userId)
+    if (req.body.userId) {
       const graphs = await Graph.findAll({
         where: {
-          userId: req.user.id
+          userId: req.params.userId
         },
         include: [
           {

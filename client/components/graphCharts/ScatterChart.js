@@ -5,6 +5,7 @@ import {
   VictoryChart,
   VictoryAxis,
   VictoryStack,
+  VictoryGroup,
   VictoryTheme,
   VictoryTooltip,
   VictoryLabel,
@@ -64,7 +65,7 @@ export default class ScatterChart extends Component {
             }}
             fixLabelOverlap={true}
           />
-          <VictoryStack>
+          <VictoryGroup>
             <VictoryScatter
               data={data.map((d) => {
                 console.log('*d*>>>', d);
@@ -105,7 +106,7 @@ export default class ScatterChart extends Component {
                 onLoad: { duration: 1000 },
               }}
             />
-          </VictoryStack>
+          </VictoryGroup>
         </VictoryChart>
       </div>
     );
