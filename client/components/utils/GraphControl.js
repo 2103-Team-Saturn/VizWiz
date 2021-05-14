@@ -1,16 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchSingleData, formatData } from '../../store/singleData';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchSingleData, formatData } from "../../store/singleData";
 import {
   LineGraph,
   BarGraph,
   PieGraph,
   ScatterChart,
-} from '../graphCharts/index';
-
-import { Link } from 'react-router-dom';
-
-import StylizeGraph from './StylizeGraph';
+} from "../graphCharts/index";
 
 import {
   Grid,
@@ -25,17 +21,26 @@ import {
   CardMedia,
   CardContent,
   FormControl,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { graphSuggestor } from './graphSuggestor';
+import { graphSuggestor } from "./graphSuggestor";
+import { formatForVictory } from "./formatForVictory";
 
 class GraphControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      graph: '',
-      x: '',
-      y: '',
+      selectedDataset: "", // Isabelle's dataset selection logic??
+      graph: "",
+      x: "",
+      y: "",
+      title: this.props.unformatted.name,
+      xTitle: "",
+      yTitle: "",
+      // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
+      // yAxis: this.props.location.state.yValues,
+      color: "",
+      highlight: "",
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -48,21 +53,14 @@ class GraphControl extends Component {
   }
 
   handleChange(evt) {
+    evt.preventDefault();
     this.setState({
       [evt.target.name]: evt.target.value,
     });
   }
 
-  // nextOnClick() {
-  //   async () => {
-  //     await this.props.formatData(obj);
-  //   }}
-  // }
-
   render() {
-    const data = this.props.unformattedData.values || [];
-    // console.log('**DATA>>>', data);
-    // console.log('**GC props>>>', this.props);
+    const data = this.props.unformatted.values || [];
 
     const firstLine = data[0] || {};
 
@@ -75,41 +73,25 @@ class GraphControl extends Component {
       obj[currentKey] = [];
       data.map((item) => obj[currentKey].push(item[currentKey]));
     }
-    console.log('graph control obj >>>', obj);
-    // x axis tends to be strings, in line/scatter, but x can also be numbers,
-    // y axis needs to be numbers, **pie charts don't operate on axis
+    console.log("graph control obj >>>", obj);
+
     const dynamicVals = (data, type) => {
       return keys.filter((key) => typeof data[0][key] === type);
     };
 
-    // let xPossibilities = [];
-    // if (
-    //   this.state.graph === 'bar' ||
-    //   this.state.graph === 'pie' ||
-    //   this.state.graph === 'line'
-    // ) {
-    //   xPossibilities = dynamicVals(data, 'string');
-    // } else if (this.state.graph === 'scatter') {
-    //   xPossibilities = dynamicVals(data, 'number');
-    // }
-
-    const xPossibilities1 = dynamicVals(data, 'string');
-    const xPossibilities2 = dynamicVals(data, 'number');
+    // populating what can go in x/y axis select dropdowns
+    const xPossibilities1 = dynamicVals(data, "string");
+    const xPossibilities2 = dynamicVals(data, "number");
     const xPossibilities = [...xPossibilities1, ...xPossibilities2];
-    //^ this is currently only allowing the type to be the first type it hit, which is string
-    const yPossibilities = dynamicVals(data, 'number');
-
-    // console.log(dynamicVals(data, "number" || "string"));
-
+    const yPossibilities = dynamicVals(data, "number");
     //-------------------------------------------
     // run logics to suggest graph types for users
-
     let xValues;
     let yValues;
-
     let suggestions = [];
+    let formattedData = [];
 
-    // clean data that are null and undefined
+    // making the suggestions array, and mapping through axis selections
     if (this.state.x && this.state.y) {
       xValues = data.map((dataObj) => {
         if (dataObj[this.state.x]) {
@@ -121,116 +103,188 @@ class GraphControl extends Component {
           return dataObj[this.state.y];
         } else return null;
       });
-      //   this.props.formatData(obj)
-      // }
-      console.log('graph control x >>>', xValues);
-      console.log('graph control y >>>', yValues);
+      console.log("graph control x >>>", xValues);
+      console.log("graph control y >>>", yValues);
       suggestions = graphSuggestor(xValues, yValues, this.state.x);
-    } else if (this.state.x) suggestions.push('pie');
+      // data will be cleaned up on following line:
+      formattedData = formatForVictory(xValues, yValues);
+    } else if (this.state.x) {
+      suggestions.push("pie");
+      // formattedData = ??
+    }
 
     //-------------------------------------------
-
-    console.log('suggestions >>>', suggestions);
-    // console.log('X>>>', xPossibilities);
-    // console.log("Y>>>", yPossibilities);
+    console.log("suggestions >>>", suggestions);
+    console.log("formatted data>>>", formattedData);
 
     const { handleChange } = this;
     const graphSelected = this.state.graph;
-    const x = this.state.x;
-    const y = this.state.y;
-    const dataset = this.props.unformattedData.name;
+    // const x = this.state.x;
+    // const y = this.state.y;
+    const dataset = this.props.unformatted.name;
 
-    const graphs = {
-      bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
-      line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
-      scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
-      pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
+    // // data will be cleaned up on following line:
+    // const formattedData = formatForVictory(xValues, yValues);
+
+    let graphProperties = {
+      ...this.state,
+      formattedData: formattedData,
+      // methods needed for components can go in here as needed??
     };
 
+    console.log('graphProperties>>>', graphProperties);
+
+    const graphDictionary = {
+      bar: <BarGraph {...graphProperties} />,
+      line: <LineGraph {...graphProperties} />,
+      scatter: <ScatterChart {...graphProperties} />,
+      pie: <PieGraph {...graphProperties} />,
+    };
+
+    // original graphs dictionary
+    // const graphs = {
+    //   bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
+    //   line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
+    //   scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
+    //   pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
+    // };
+
     return (
-      <div>
-        <h2>{dataset}</h2>
-        <div>
-          <select name="x" onChange={handleChange} value={this.state.x}>
-            <option value="" disabled selected>
-              X axis
-            </option>
-            {xPossibilities.map((key, idx) => (
-              <option key={idx} value={key}>
-                {key}
-              </option>
-            ))}
-          </select>
+      <div className="selector-box">
+        <div className="setting-selectors">
+          <h2>{dataset}</h2>
+          {/* build out dataset select dropdown for Isabelle here? */}
           <div>
-            <select name="y" onChange={handleChange} value={this.state.y}>
+            <select name="x" onChange={handleChange} value={this.state.x}>
               <option value="" disabled selected>
-                Y axis
+                X axis
               </option>
-              {yPossibilities.map((key, idx) => (
+              {xPossibilities.map((key, idx) => (
                 <option key={idx} value={key}>
                   {key}
                 </option>
               ))}
             </select>
-          </div>
-
-          <div>
-            {/* {categories.map()} */}
-            {/*
-            <select
-              name="graph"
-              onChange={handleChange}
-              value={this.state.graph}
-            >
-              <option value="" disabled selected>
-                Graph Type
-              </option>
-              <option value="bar">Bar</option>
-              <option value="pie">Pie</option>
-              <option value="line">Line</option>
-              <option value="scatter">Scatter</option>
-            </select>
-            */}
-            <div id="suggestions-container">
-              {this.state.x ? (
-                <div id="suggestions">
-                  <h3>
-                    Suggested graph types based on your dataset and axis
-                    selections:
-                  </h3>
-                  <ul>
-                    {suggestions.map((suggestion, idx) => {
-                      return (
-                        <li key={idx} style={{ textDecoration: 'none' }}>
-                          {suggestion.toUpperCase()}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              ) : (
-                <h3>Select data for your axis.</h3>
-              )}
+            <div>
+              <select name="y" onChange={handleChange} value={this.state.y}>
+                <option value="" disabled selected>
+                  Y axis
+                </option>
+                {yPossibilities.map((key, idx) => (
+                  <option key={idx} value={key}>
+                    {key}
+                  </option>
+                ))}
+              </select>
             </div>
             <div>
-              {suggestions.map((suggestion, idx) => {
-                return (
-                  <div key={idx}>
-                    <button
-                      name="graph"
-                      onClick={handleChange}
-                      value={suggestion}
-                    >
-                      {suggestion}
-                    </button>
+              <select
+                name="graph"
+                onChange={handleChange}
+                value={this.state.graph}
+              >
+                <option value="" disabled selected>
+                  Graph Type
+                </option>
+                {suggestions.map((suggestion, idx) => (
+                  <option key={idx} value={suggestion}>
+                    {suggestion}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <div id="suggestions-container">
+                {this.state.x ? (
+                  <div id="suggestions">
+                    <h3>
+                      Suggested graph types based on your dataset and axis
+                      selections:
+                    </h3>
+                    <ul>
+                      {suggestions.map((suggestion, idx) => {
+                        return (
+                          <li key={idx} style={{ textDecoration: "none" }}>
+                            {suggestion.toUpperCase()}
+                          </li>
+                        );
+                      })}
+                    </ul>
                   </div>
-                );
-              })}
+                ) : (
+                  <h3>Select data for your axis.</h3>
+                )}
+              </div>
+            </div>
+            <div className="style-selectors">
+              <div>
+                <label for="title">Title: 
+                <input
+                  type="text"
+                  placeholder={this.state.title}
+                  name="title"
+                  onChange={handleChange}
+                  value={this.state.title}
+                />
+                </label>
+              </div>
+              <div>
+                <label for="xTitle">X Axis: 
+                <input
+                  type="text"
+                  placeholder={this.state.x}
+                  name="xTitle"
+                  onChange={handleChange}
+                  value={this.state.xTitle}
+                />
+                </label>
+              </div>
+              <div>
+                <label for="yTitle" >Y Axis:
+                <input
+                type="text"
+                placeholder={this.state.y}
+                  name="yTitle"
+                  onChange={handleChange}
+                  value={this.state.yTitle}
+                />
+                </label>
+              </div>
+              <div>
+                <select
+                  name="color"
+                  onChange={handleChange}
+                  value={this.state.color}
+                >
+                  <option value="" disabled selected>
+                    Color
+                  </option>
+                  <option value="#428A51">Forrest Green</option>
+                  <option value="#4680C3">Sky Blue</option>
+                  <option value="#B80040">Rasberry Hue</option>
+                  <option value="#D3B673">Basic Beige</option>
+                </select>
+              </div>
+              <div>
+                <select
+                  name="highlight"
+                  onChange={handleChange}
+                  value={this.state.highlight}
+                >
+                  <option value="" disabled selected>
+                    Higlight
+                  </option>
+                  <option value="#73070B">Crimson Red</option>
+                  <option value="#FFCB47">Sunflower Yellow</option>
+                  <option value="#A2AEBB">Sherbert Orange</option>
+                  <option value="#A2AEBB">Cadet Blue</option>
+                </select>
+              </div>
             </div>
           </div>
 
-          <div id="graph-container">{graphs[graphSelected]}</div>
-          <div className="nextBtn">
+          <div id="graph-container">{graphDictionary[graphSelected]}</div>
+          {/* <div className="nextBtn">
             <Button>
               <Link
                 // onClick={async () => {
@@ -250,7 +304,7 @@ class GraphControl extends Component {
                 Next
               </Link>
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -259,8 +313,8 @@ class GraphControl extends Component {
 
 const mapState = (state) => {
   return {
-    formattedData: state.singleData.formatted,
-    unformattedData: state.singleData.unformatted,
+    // formattedData: state.singleData.formatted,
+    unformatted: state.singleData.unformatted,
     userId: state.auth.id,
     userData: state.data,
   };
@@ -270,7 +324,7 @@ const mapDispatch = (dispatch) => {
   return {
     fetchSingleData: (userId, dataId) =>
       dispatch(fetchSingleData(userId, dataId)),
-    formatData: (data) => dispatch(formatData(data)),
+    // formatData: (data) => dispatch(formatData(data)),
   };
 };
 
