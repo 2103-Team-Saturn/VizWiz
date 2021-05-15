@@ -9,7 +9,6 @@ import ChartHistory from './components/historyScreen/ChartHistory';
 
 import DataDash from './components/dataScreen/DataDash';
 import GraphControl from './components/utils/GraphControl';
-import StylizeGraph from './components/utils/StylizeGraph';
 
 /**
  * COMPONENT
@@ -27,7 +26,7 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route exact path="/home" component={Home} />
-            <Route exact path="/users/data" component={DataDash} />
+            <Route exact path="/users/:id/data" component={DataDash} />
             <Route
               exact
               path="/users/:id/data/:dataId"

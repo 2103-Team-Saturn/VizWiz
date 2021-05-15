@@ -14,9 +14,16 @@ import {
 
 export default class ScatterChart extends Component {
   render() {
-    console.log('**BG props', this.props);
-    const { data, dataset, x, y } = this.props;
-    console.log('DATA', x);
+    console.log('**SG props', this.props);
+    // const { data, dataset, x, y } = this.props;
+    // console.log('DATA', x);
+    const title = this.props.title || this.props.selectedDataset;
+    const xTitle = this.props.xTitle || this.props.x;
+    const yTitle = this.props.yTitle || this.props.y;
+    const color = this.props.color || '#000000';
+    const highlight = this.props.highlight || '#A9A9A9';
+    const { formattedData } = this.props;
+    console.log('formattedData inside BG>>>', formattedData);
 
     return (
       <div id="graph">
@@ -27,16 +34,16 @@ export default class ScatterChart extends Component {
           width={500}
           height={350}
           padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
-          containerComponent={
-            <VictoryVoronoiContainer
-              labels={(data) =>
-                `${x}: ${data.datum[x]}, ${y}: ${data.datum[y]}`
-              }
-            />
-          }
+          // containerComponent={
+          //   <VictoryVoronoiContainer
+          //     labels={(data) =>
+          //       `${x}: ${data.datum[x]}, ${y}: ${data.datum[y]}`
+          //     }
+          //   />
+          // }
         >
           <VictoryLabel
-            text={dataset}
+            text={title}
             style={{
               fontSize: 20,
               textAnchor: 'start',
@@ -44,11 +51,11 @@ export default class ScatterChart extends Component {
               fill: '#455A64',
               fontFamily: 'inherit',
             }}
-            x={100}
-            y={24}
+            x={250}
+            y={25}
           />
           <VictoryAxis
-            label={x}
+            label={xTitle}
             style={{
               axis: { stroke: '#756f6a' },
               axisLabel: { fontSize: 16, padding: 60 },
@@ -58,7 +65,7 @@ export default class ScatterChart extends Component {
           />
           <VictoryAxis
             dependentAxis
-            label={y}
+            label={yTitle}
             style={{
               axis: { stroke: '#756f6a' },
               axisLabel: { fontSize: 16, padding: 80 },
@@ -67,12 +74,14 @@ export default class ScatterChart extends Component {
           />
           <VictoryGroup>
             <VictoryScatter
-              data={data.map((d) => {
-                console.log('*d*>>>', d);
-                return d;
-              })}
-              x={x}
-              y={y}
+              data={formattedData}
+              // data={data.map((d) => {
+              //   console.log('*d*>>>', d);
+              //   return d;
+              // })}
+              // x={x}
+              // y={y}
+              style={{ data: { fill: color } }}
               events={[
                 {
                   target: 'data',
@@ -83,7 +92,7 @@ export default class ScatterChart extends Component {
                           target: 'data',
                           mutation: () => ({
                             style: {
-                              fill: 'red',
+                              fill: highlight,
                               strokeWidth: '10px',
                             },
                           }),

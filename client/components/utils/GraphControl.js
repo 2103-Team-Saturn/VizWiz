@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchSingleData, formatData } from "../../store/singleData";
-import { postGraph } from "../../store/graph";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchSingleData, formatData } from '../../store/singleData';
+import { postGraph } from '../../store/graph';
 import {
   LineGraph,
   BarGraph,
   PieGraph,
   ScatterChart,
-} from "../graphCharts/index";
+} from '../graphCharts/index';
 
 import {
   Grid,
@@ -22,26 +22,26 @@ import {
   CardMedia,
   CardContent,
   FormControl,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import { graphSuggestor } from "./graphSuggestor";
-import { formatForVictory } from "./formatForVictory";
+import { graphSuggestor } from './graphSuggestor';
+import { formatForVictory } from './formatForVictory';
 
 class GraphControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDataset: "", // Isabelle's dataset selection logic??
-      graph: "",
-      x: "",
-      y: "",
-      title: "",
-      xTitle: "",
-      yTitle: "",
+      selectedDataset: '', // Isabelle's dataset selection logic??
+      graph: '',
+      x: '',
+      y: '',
+      title: '',
+      xTitle: '',
+      yTitle: '',
       // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
       // yAxis: this.props.location.state.yValues,
-      color: "",
-      highlight: "",
+      color: '',
+      highlight: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.saveGraph = this.saveGraph.bind(this);
@@ -62,7 +62,11 @@ class GraphControl extends Component {
   }
 
   saveGraph() {
-    this.props.postGraph(this.state, this.props.userId, this.props.match.params.dataId)
+    this.props.postGraph(
+      this.state,
+      this.props.userId,
+      this.props.match.params.dataId
+    );
   }
 
   render() {
@@ -79,17 +83,17 @@ class GraphControl extends Component {
       obj[currentKey] = [];
       data.map((item) => obj[currentKey].push(item[currentKey]));
     }
-    console.log("graph control obj >>>", obj);
+    console.log('graph control obj >>>', obj);
 
     const dynamicVals = (data, type) => {
       return keys.filter((key) => typeof data[0][key] === type);
     };
 
     // populating what can go in x/y axis select dropdowns
-    const xPossibilities1 = dynamicVals(data, "string");
-    const xPossibilities2 = dynamicVals(data, "number");
+    const xPossibilities1 = dynamicVals(data, 'string');
+    const xPossibilities2 = dynamicVals(data, 'number');
     const xPossibilities = [...xPossibilities1, ...xPossibilities2];
-    const yPossibilities = dynamicVals(data, "number");
+    const yPossibilities = dynamicVals(data, 'number');
     //-------------------------------------------
     // run logics to suggest graph types for users
     let xValues;
@@ -109,19 +113,19 @@ class GraphControl extends Component {
           return dataObj[this.state.y];
         } else return null;
       });
-      console.log("graph control x >>>", xValues);
-      console.log("graph control y >>>", yValues);
+      console.log('graph control x >>>', xValues);
+      console.log('graph control y >>>', yValues);
       suggestions = graphSuggestor(xValues, yValues, this.state.x);
       // data will be cleaned up on following line:
       formattedData = formatForVictory(xValues, yValues);
     } else if (this.state.x) {
-      suggestions.push("pie");
+      suggestions.push('pie');
       // formattedData = ??
     }
 
     //-------------------------------------------
-    console.log("suggestions >>>", suggestions);
-    console.log("formatted data>>>", formattedData);
+    console.log('suggestions >>>', suggestions);
+    console.log('formatted data>>>', formattedData);
 
     const { handleChange } = this;
     const graphSelected = this.state.graph;
@@ -210,7 +214,7 @@ class GraphControl extends Component {
                     <ul>
                       {suggestions.map((suggestion, idx) => {
                         return (
-                          <li key={idx} style={{ textDecoration: "none" }}>
+                          <li key={idx} style={{ textDecoration: 'none' }}>
                             {suggestion.toUpperCase()}
                           </li>
                         );
@@ -224,36 +228,39 @@ class GraphControl extends Component {
             </div>
             <div className="style-selectors">
               <div>
-                <label for="title">Title: 
-                <input
-                  type="text"
-                  placeholder={this.state.title}
-                  name="title"
-                  onChange={handleChange}
-                  value={this.state.title}
-                />
+                <label for="title">
+                  Title:
+                  <input
+                    type="text"
+                    placeholder={this.state.title}
+                    name="title"
+                    onChange={handleChange}
+                    value={this.state.title}
+                  />
                 </label>
               </div>
               <div>
-                <label for="xTitle">X Axis: 
-                <input
-                  type="text"
-                  placeholder={this.state.x}
-                  name="xTitle"
-                  onChange={handleChange}
-                  value={this.state.xTitle}
-                />
+                <label for="xTitle">
+                  X Axis:
+                  <input
+                    type="text"
+                    placeholder={this.state.x}
+                    name="xTitle"
+                    onChange={handleChange}
+                    value={this.state.xTitle}
+                  />
                 </label>
               </div>
               <div>
-                <label for="yTitle" >Y Axis:
-                <input
-                type="text"
-                placeholder={this.state.y}
-                  name="yTitle"
-                  onChange={handleChange}
-                  value={this.state.yTitle}
-                />
+                <label for="yTitle">
+                  Y Axis:
+                  <input
+                    type="text"
+                    placeholder={this.state.y}
+                    name="yTitle"
+                    onChange={handleChange}
+                    value={this.state.yTitle}
+                  />
                 </label>
               </div>
               <div>

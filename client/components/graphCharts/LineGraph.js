@@ -16,9 +16,16 @@ import {
 
 export default class LineGraph extends Component {
   render() {
-    // console.log('**BG props', this.props);
-    const { data, dataset, x, y } = this.props;
+    console.log('**BG props', this.props);
+    // const { data, dataset, x, y } = this.props;
     // console.log('DATA', data);
+    const title = this.props.title || this.props.selectedDataset;
+    const xTitle = this.props.xTitle || this.props.x;
+    const yTitle = this.props.yTitle || this.props.y;
+    const color = this.props.color || '#000000';
+    const highlight = this.props.highlight || '#A9A9A9';
+    const { formattedData } = this.props;
+    console.log('formattedData inside LG>>>', formattedData);
 
     return (
       <div id="graph">
@@ -31,14 +38,14 @@ export default class LineGraph extends Component {
           width={500}
           height={350}
           padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
-          containerComponent={
-            <VictoryVoronoiContainer
-              labels={(data) => `${data.datum[x]}: ${data.datum[y]}`}
-            />
-          }
+          // containerComponent={
+          //   <VictoryVoronoiContainer
+          //     labels={(data) => `${data.datum[x]}: ${data.datum[y]}`}
+          //   />
+          // }
         >
           <VictoryLabel
-            text={dataset}
+            text={title}
             style={{
               fontSize: 20,
               textAnchor: 'start',
@@ -46,11 +53,11 @@ export default class LineGraph extends Component {
               fill: '#455A64',
               fontFamily: 'inherit',
             }}
-            x={100}
-            y={24}
+            x={250}
+            y={25}
           />
           <VictoryAxis
-            label={x}
+            label={xTitle}
             fixLabelOverlap={true}
             style={{
               axis: { stroke: '#756f6a' },
@@ -60,7 +67,7 @@ export default class LineGraph extends Component {
           />
           <VictoryAxis
             dependentAxis
-            label={y}
+            label={yTitle}
             style={{
               axis: { stroke: '#756f6a' },
               axisLabel: { fontSize: 16, padding: 80 },
@@ -69,13 +76,14 @@ export default class LineGraph extends Component {
           />
           <VictoryGroup>
             <VictoryLine
-              data={data.map((d) => {
-                // console.log('*d*>>>', d[y]);
-                return d;
-              })}
-              x={x}
-              y={y}
-              style={{ data: { stroke: 'black' } }}
+              data={formattedData}
+              // data={data.map((d) => {
+              //   // console.log('*d*>>>', d[y]);
+              //   return d;
+              // })}
+              // x={x}
+              // y={y}
+              style={{ data: { stroke: color } }}
               events={[
                 {
                   target: 'data',
@@ -85,7 +93,7 @@ export default class LineGraph extends Component {
                         {
                           target: 'data',
                           mutation: () => ({
-                            style: { stroke: 'red', strokeWidth: '3px' },
+                            style: { stroke: highlight, strokeWidth: '3px' },
                           }),
                         },
                       ];
