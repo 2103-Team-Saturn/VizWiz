@@ -34,6 +34,8 @@
 		"pg": "^8.5.1",
 		"react-papaparse": "^3.14.0",
 		"sequelize": "^6.3.5",
+		"socket.io": "^4.1.1",
+		"socket.io-client": "^4.1.1",
 		"stream": "0.0.2"
 	},
 	"devDependencies": {
