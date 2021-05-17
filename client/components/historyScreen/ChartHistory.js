@@ -29,7 +29,7 @@ class ChartHistory extends Component {
           <Grid key={graph.id} item xs={12} s={6} md={4} lg={3}>
             <Link
               to={{
-                pathname: `/users/${graph.userId}/data/${graph.datumId}`,
+                pathname: `/users/${graph.userId}/data/${graph.datumId}/${graph.id}`,
                 state: {
                   graph,
                 },
