@@ -53,28 +53,56 @@ router.post("/:id/data/:dataId", async (req, res, next) => {
 	}
 });
 
-router.get("/ChartHistory", async (req, res, next) => {
-	try {
-		console.log("userId", req.body.userId);
-		if (req.body.userId) {
-			const graphs = await Graph.findAll({
-				where: {
-					userId: req.params.userId,
-				},
-				include: [
-					{
-						model: Data,
-					},
-				],
-			});
-			res.send(graphs);
-		} else {
-			res.sendStatus(404);
-		}
-	} catch (err) {
-		next(err);
-	}
-});
+
+router.post('/:id/data/:dataId', async (req, res, next) => {
+  try {
+    const graph = await Graph.create({
+      userId: req.params.id,
+      properties: req.body,
+      datumId: req.params.dataId
+    })
+    const allData = await Graph.findAll({
+      where: {
+        id: graph.id
+      },
+      include: [
+        {
+          model: Data
+        }
+      ]
+    })
+    res.send(allData[0])
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:id/history', async (req, res, next) => {
+  try {
+		console.log("userId", req.params)
+      const graphs = await Graph.findAll({
+        where: {
+          userId: req.params.id
+        },
+      })
+      res.send(graphs)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/ChartHistory/:graphId', async (req, res, next) => {
+  try {
+    const graph = await Graph.destroy({
+      where: {
+        id: req.params.graphId
+      }
+    })
+    res.sendStatus(202)
+  } catch (error) {
+    next(error)
+  }
+})
 
 router.delete("/ChartHistory/:graphId", async (req, res, next) => {
 	try {

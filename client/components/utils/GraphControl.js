@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchSingleData, formatData } from "../../store/singleData";
-import { postGraph } from "../../store/graph";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchSingleData, formatData } from '../../store/singleData';
+import { postGraph } from '../../store/graph';
 import {
 	LineGraph,
 	BarGraph,

@@ -102,5 +102,6 @@ export default class LineGraph extends Component {
 				</VictoryChart>
 			</div>
 		);
-	}
+}
+  
 }

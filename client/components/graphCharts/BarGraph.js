@@ -23,15 +23,10 @@ export default class BarGraph extends Component {
     console.log('formattedData inside BG>>>', formattedData);
 
     return (
-      // <svg 
-      // style={ { fill: "black" } } 
-      // id="graph-container" 
-      // viewBox="0 0 500 350">
-        //{" "}
-        <div>
+        <div id="bar-graph-container">
         <VictoryChart
           theme={VictoryTheme.material}
-          style={{ parent: { maxWidth: "100%" } }}
+          style={ { parent: { maxWidth: "100%" } } }
           domainPadding={45}
           width={500}
           height={350}
@@ -46,7 +41,7 @@ export default class BarGraph extends Component {
               fill: "#455A64",
               fontFamily: "inherit",
             }}
-            x={250}
+            x={235}
             y={25}
           />
           <VictoryLabel
@@ -71,33 +66,28 @@ export default class BarGraph extends Component {
               fontFamily: "inherit",
             }}
             x={25}
-            y={175}
+            y={150}
           />
           <VictoryAxis
-            // label={xTitle}
             fixLabelOverlap={true}
             style={{
               axis: { stroke: color },
-            // axisLabel: { fontSize: 16, padding: 60 },
-              tickLabels: { angle: 20 },
+              axisLabel: { fontSize: 12, padding: 60 },
+              tickLabels: { angle: 30 },
             }}
             tickValues={formattedData.map((d) => d['x'])}
-            // tickFormat={formattedData.map((d) => {
-            //   if (typeof d['x'] === "string") {
-            //     if (x === "Month" || x === "Day") {
-            //       return d[x].slice(0, 3);
-            //     } else {
-            //       return d[x];
-            //     }
-            //   } else {
-            //     return d[x];
-            //   }
-            // })}
+            tickFormat ={formattedData.map((d) => {
+              if(this.props.x.toLowerCase().includes("month") || 
+              this.props.x.toLowerCase().includes("day")) {
+                return d.x.slice(0, 3);
+              } else {
+                return d.x;
+              }
+            })}
           />
           <VictoryAxis
             dependentAxis
             fixLabelOverlap={true}
-            // label={y}
             style={{
               axis: { stroke: "#756f6a" },
               axisLabel: { fontSize: 16, padding: 80 },
@@ -105,19 +95,18 @@ export default class BarGraph extends Component {
           />
           <VictoryStack>
             <VictoryBar
-            data={formattedData}
-              // data={data.map((datum) => {
-              //   let label = `${datum[y]}`;
-              //   datum.label = label;
-              //   return datum;
-              // })}
+              data={formattedData.map( (datum) => {
+                let flyLabel = `${datum.y}`;
+                datum.label = flyLabel;
+                return datum;
+              })}
               labelComponent={
                 <VictoryTooltip
-                  flyoutStyle={ { fill: "white", stroke: "lightgrey" } }
-                  // cornerRadius={+this.props.tooltip}
-                  cornerRadius={20}
+                  flyoutStyle={ { fill: "white", stroke: "grey" } }
+                  cornerRadius={5}
                 />
               }
+              alignment="middle"
               // events prop should be given as an array of event objects
               events={[
                 {
@@ -128,7 +117,7 @@ export default class BarGraph extends Component {
                         {
                           target: "data",
                           mutation: () => ({
-                            style: { fill: highlight, width: 24 }, // can make all these fills dynamic
+                            style: { fill: highlight, width: 24 }, 
                           }),
                         },
                         {
@@ -152,9 +141,6 @@ export default class BarGraph extends Component {
                   },
                 },
               ]}
-              // x={x}
-              // y={y}
-              // domain={ {x: [0, x.length + 1], y: [0, (Math.max(...y) + 20) ] } }
               barRatio={0.2}
               style={{
                 data: {
@@ -170,7 +156,6 @@ export default class BarGraph extends Component {
           </VictoryStack>
         </VictoryChart>
         </div>
-      // </svg>
     );
   }
 }
