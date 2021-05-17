@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import ModalButton from '../modal/ModalButton';
 import ChartHistory from '../historyScreen/ChartHistory';
 
@@ -211,7 +211,7 @@ function HomeGrid({ userId }) {
                 className={classes.image}
                 focusVisibleClassName={classes.focusVisible}
                 component={Link}
-                to="/users/data"
+                to={`/users/${userId}/data`}
               >
                 <span
                   className={classes.imageSrc}
