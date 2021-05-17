@@ -25,9 +25,10 @@ import {
 	CardMedia,
 	CardContent,
 	FormControl,
+	FormGroup,
 } from "@material-ui/core";
 
-import { graphSuggestor, formatForVictory, dataCleanup, dynamicVals } from "../utils";
+import { graphSuggestor, formatForVictory, dynamicVals } from "../utils";
 import { fetchAllUsers } from "../../store/users";
 import ChatRoom from "../rooms/ChatRoom";
 
@@ -196,8 +197,6 @@ class GraphControl extends Component {
 	}
 
 	render() {
-		console.log("PROPS", this.props);
-		console.log("STATE", this.state);
 		const matchingUser = this.props.allUsers.filter((user) => {
 			return user.roomKey === this.props.singleRoom;
 		});
@@ -227,22 +226,35 @@ class GraphControl extends Component {
 		}
 
 		// populating x & y axis
-		const xPossibilities1 = dynamicVals(data, "string");
-		const xPossibilities2 = dynamicVals(data, "number");
+		const xPossibilities1 = dynamicVals(data, "string", keys);
+		const xPossibilities2 = dynamicVals(data, "number", keys);
 		const xPossibilities = [...xPossibilities1, ...xPossibilities2];
-		const yPossibilities = dynamicVals(data, "number");
+		const yPossibilities = dynamicVals(data, "number", keys);
 
 		let xValues, yValues;
 		let suggestions = [];
 		let formattedData = [];
 
-		// clean data, create suggestions, reformat data
 		if (this.state.x && this.state.y) {
-			xValues = dataCleanup(data, this.state.x);
-			yValues = dataCleanup(data, this.state.y);
+			xValues = data.map((dataObj) => {
+				if (dataObj[this.state.x]) {
+					return dataObj[this.state.x];
+				} else return null;
+			});
+			yValues = data.map((dataObj) => {
+				if (dataObj[this.state.y]) {
+					return dataObj[this.state.y];
+				} else return null;
+			});
+
 			suggestions = graphSuggestor(xValues, yValues, this.state.x);
+			// data will be cleaned up on following line:
 			formattedData = formatForVictory(xValues, yValues);
+		} else if (this.state.x) {
+			suggestions.push("pie");
+			// formattedData = ??
 		}
+		// clean data, create suggestions, reformat data
 
 		const { changeStyle } = this;
 		const graphSelected = this.state.graph;
@@ -355,97 +367,97 @@ class GraphControl extends Component {
 								</label>
 							</div>
 							{graphSelected === "pie" ? (
-                <div id="for-pie">
-                  <div id="pie-switches">
-                    <FormGroup row>
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={this.state.checkedDonut}
-                            onChange={changeStyle}
-                            name="checkedDonut"
-                          />
-                        }
-                        label="Donut"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={this.state.checkedHalf}
-                            onChange={changeStyle}
-                            name="checkedHalf"
-                          />
-                        }
-                        label="Half"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={this.state.checkedPadding}
-                            onChange={changeStyle}
-                            name="checkedPadding"
-                          />
-                        }
-                        label="Spacers"
-                      />
-                    </FormGroup>
-                  </div>
-                  <div>
-                    <select
-                      name="pieColor"
-                      onChange={changeStyle}
-                      value={this.state.pieColor}
-                    >
-                      <option value="" disabled selected>
-                        Color Themes
-                      </option>
-                      <option value="cool">Cool</option>
-                      <option value="warm">Warm</option>
-                      <option value="qualitative">Classic</option>
-                      <option value="heatmap">Heatmap</option>
-                    </select>
-                  </div>
-                </div>
-              ) : ( <div id="not-pie" >
-							<div>
-								<label for='xTitle'>
-									X Axis:
-									<input
-										type='text'
-										placeholder={this.state.x}
-										name='xTitle'
-										onChange={changeStyle}
-										value={this.state.xTitle}
-									/>
-								</label>
-							</div>
-							<div>
-								<label for='yTitle'>
-									Y Axis:
-									<input
-										type='text'
-										placeholder={this.state.y}
-										name='yTitle'
-										onChange={changeStyle}
-										value={this.state.yTitle}
-									/>
-								</label>
-							</div>
-							<div>
-								<select
-									name='color'
-									onChange={changeStyle}
-									value={this.state.color}>
-									<option value='' disabled selected>
-										Color
-									</option>
-									<option value='#428A51'>Forrest Green</option>
-									<option value='#4680C3'>Sky Blue</option>
-									<option value='#B80040'>Rasberry Hue</option>
-									<option value='#D3B673'>Basic Beige</option>
-								</select>
-							</div>
-							</div>
+								<div id='for-pie'>
+									<div id='pie-switches'>
+										<FormGroup row>
+											<FormControlLabel
+												control={
+													<Switch
+														checked={this.state.checkedDonut}
+														onChange={changeStyle}
+														name='checkedDonut'
+													/>
+												}
+												label='Donut'
+											/>
+											<FormControlLabel
+												control={
+													<Switch
+														checked={this.state.checkedHalf}
+														onChange={changeStyle}
+														name='checkedHalf'
+													/>
+												}
+												label='Half'
+											/>
+											<FormControlLabel
+												control={
+													<Switch
+														checked={this.state.checkedPadding}
+														onChange={changeStyle}
+														name='checkedPadding'
+													/>
+												}
+												label='Spacers'
+											/>
+										</FormGroup>
+									</div>
+									<div>
+										<select
+											name='pieColor'
+											onChange={changeStyle}
+											value={this.state.pieColor}>
+											<option value='' disabled selected>
+												Color Themes
+											</option>
+											<option value='cool'>Cool</option>
+											<option value='warm'>Warm</option>
+											<option value='qualitative'>Classic</option>
+											<option value='heatmap'>Heatmap</option>
+										</select>
+									</div>
+								</div>
+							) : (
+								<div id='not-pie'>
+									<div>
+										<label for='xTitle'>
+											X Axis:
+											<input
+												type='text'
+												placeholder={this.state.x}
+												name='xTitle'
+												onChange={changeStyle}
+												value={this.state.xTitle}
+											/>
+										</label>
+									</div>
+									<div>
+										<label for='yTitle'>
+											Y Axis:
+											<input
+												type='text'
+												placeholder={this.state.y}
+												name='yTitle'
+												onChange={changeStyle}
+												value={this.state.yTitle}
+											/>
+										</label>
+									</div>
+									<div>
+										<select
+											name='color'
+											onChange={changeStyle}
+											value={this.state.color}>
+											<option value='' disabled selected>
+												Color
+											</option>
+											<option value='#428A51'>Forrest Green</option>
+											<option value='#4680C3'>Sky Blue</option>
+											<option value='#B80040'>Rasberry Hue</option>
+											<option value='#D3B673'>Basic Beige</option>
+										</select>
+									</div>
+								</div>
 							)}
 							<div>
 								<select
@@ -470,8 +482,7 @@ class GraphControl extends Component {
 				</div>
 				<ChatRoom />
 			</div>
-			);
-		}	
+		);
 	}
 }
 
