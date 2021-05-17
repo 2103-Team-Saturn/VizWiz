@@ -55,6 +55,7 @@ router.post('/:id/data/:dataId', async (req, res, next) => {
   }
 })
 
+//findbyPk
 router.get('/:id/history', async (req, res, next) => {
   try {
 		console.log("userId", req.params)
