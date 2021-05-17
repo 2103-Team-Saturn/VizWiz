@@ -66,7 +66,7 @@ class GraphControl extends Component {
 
     if (this.props.location.state) {
       this.setState({
-        selectedDataset: "", // Isabelle's dataset selection logic??
+        selectedDataset: "",
       graph: this.props.location.state.graph.properties.graph || "",
       x: this.props.location.state.graph.properties.x || "",
       y: this.props.location.state.graph.properties.y || "",
