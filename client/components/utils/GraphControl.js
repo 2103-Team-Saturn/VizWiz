@@ -63,7 +63,7 @@ class GraphControl extends Component {
 
 	componentDidMount() {
 		this.props.fetchAllUsers();
-    
+
     if (this.props.location.state) {
       this.setState({
         selectedDataset: "", // Isabelle's dataset selection logic??
@@ -184,11 +184,12 @@ class GraphControl extends Component {
     this.props.postGraph(
       this.state,
       this.props.userId,
-      this.props.match.params.dataId
+      this.state.dataId
     );
   }
 
 	render() {
+    console.log("dataId", this.props.dataId)
 		const matchingUser = this.props.allUsers.filter((user) => {
 			return user.roomKey === this.props.singleRoom;
 		});
