@@ -52,6 +52,21 @@ class GraphControl extends Component {
       this.props.userId,
       this.props.match.params.dataId
     );
+    if (this.props.location.state) {
+      this.setState({
+        selectedDataset: "", // Isabelle's dataset selection logic??
+      graph: this.props.location.state.graph.properties.graph || "",
+      x: this.props.location.state.graph.properties.x || "",
+      y: this.props.location.state.graph.properties.y || "",
+      title: this.props.location.state.graph.properties.title || "",
+      xTitle: this.props.location.state.graph.properties.xTitle || "",
+      yTitle: this.props.location.state.graph.properties.yTitle || "",
+      // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
+      // yAxis: this.props.location.state.yValues,
+      color: this.props.location.state.graph.properties.color || "",
+      highlight: this.props.location.state.graph.properties.highlight || "",
+      })
+    }
   }
 
   handleChange(evt) {
@@ -62,10 +77,15 @@ class GraphControl extends Component {
   }
 
   saveGraph() {
-    this.props.postGraph(this.state, this.props.userId, this.props.match.params.dataId)
+    this.props.postGraph(
+      this.state,
+      this.props.userId,
+      this.props.match.params.dataId
+    );
   }
 
   render() {
+    console.log("props", this.props);
     const data = this.props.unformatted.values || [];
 
     const firstLine = data[0] || {};
@@ -138,7 +158,7 @@ class GraphControl extends Component {
       // methods needed for components can go in here as needed??
     };
 
-    console.log('graphProperties>>>', graphProperties);
+    console.log("graphProperties>>>", graphProperties);
 
     const graphDictionary = {
       bar: <BarGraph {...graphProperties} />,
@@ -224,36 +244,39 @@ class GraphControl extends Component {
             </div>
             <div className="style-selectors">
               <div>
-                <label for="title">Title: 
-                <input
-                  type="text"
-                  placeholder={this.state.title}
-                  name="title"
-                  onChange={handleChange}
-                  value={this.state.title}
-                />
+                <label for="title">
+                  Title:
+                  <input
+                    type="text"
+                    placeholder={this.state.title}
+                    name="title"
+                    onChange={handleChange}
+                    value={this.state.title}
+                  />
                 </label>
               </div>
               <div>
-                <label for="xTitle">X Axis: 
-                <input
-                  type="text"
-                  placeholder={this.state.x}
-                  name="xTitle"
-                  onChange={handleChange}
-                  value={this.state.xTitle}
-                />
+                <label for="xTitle">
+                  X Axis:
+                  <input
+                    type="text"
+                    placeholder={this.state.x}
+                    name="xTitle"
+                    onChange={handleChange}
+                    value={this.state.xTitle}
+                  />
                 </label>
               </div>
               <div>
-                <label for="yTitle" >Y Axis:
-                <input
-                type="text"
-                placeholder={this.state.y}
-                  name="yTitle"
-                  onChange={handleChange}
-                  value={this.state.yTitle}
-                />
+                <label for="yTitle">
+                  Y Axis:
+                  <input
+                    type="text"
+                    placeholder={this.state.y}
+                    name="yTitle"
+                    onChange={handleChange}
+                    value={this.state.yTitle}
+                  />
                 </label>
               </div>
               <div>
