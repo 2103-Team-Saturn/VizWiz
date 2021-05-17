@@ -39,11 +39,12 @@ export const gotGraphs = (userId) => async dispatch => {
   }
 }
 
-export const deletingGraph = id => {
+export const deletingGraph = graph => {
   return async dispatch => {
     try {
-      const response = await axios.delete(`/api/users/ChartHistory/${id}`)
-      const action = deleteGraph(id)
+      console.log("graph", graph)
+      const response = await axios.delete(`/api/users/${graph.userId}/history`)
+      const action = deleteGraph(graph.id)
       dispatch(action)
     } catch (error) {
       console.error(error)
