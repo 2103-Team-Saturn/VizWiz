@@ -5,6 +5,7 @@ const db = require("./db");
 const User = require("./models/user");
 const Graph = require("./models/graph");
 const Data = require("./models/data");
+const Room = require("./models/room");
 
 //associations could go here!
 User.hasMany(Graph);
@@ -22,5 +23,6 @@ module.exports = {
 		User,
 		Graph,
 		Data,
+		Room,
 	},
 };
