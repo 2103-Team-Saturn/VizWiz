@@ -1,109 +1,124 @@
-import React, { Component } from 'react';
-import { formatData } from '../../store/singleData';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+
 import {
   VictoryPie,
-  VictoryTheme,
   VictoryTooltip,
+  VictoryContainer,
   VictoryLabel,
   VictoryLegend,
-  VictoryChart,
-  VictoryAxis,
-  VictoryStack,
-} from 'victory';
+} from "victory";
 
 export default class PieGraph extends Component {
   render() {
-    console.log('**PG props', this.props);
+    const title = this.props.title || this.props.selectedDataset;
+    const { formattedData } = this.props;
+    const pieColor = this.props.pieColor || "grayscale";
+    const highlight = this.props.highlight || "black";
+    const { checkedDonut, checkedHalf, checkedPadding } = this.props;
+    let legendData = [];
+    for ( let item of formattedData ) {
+      legendData.push({ name: item.x });
+    }
 
-    const { data, dataset, x, y } = this.props;
-    console.log('PG data>>>', data);
-    console.log('x>>>', x);
-    console.log('y>>>', y);
+    let donut, slicePadding, start, end;
+
+    if (checkedDonut) {
+      donut = 0;
+    } else donut = 85;
+
+    if (checkedHalf) {
+      start = 90;
+      end = 450;
+    } else {
+      start = -90;
+      end = 90;
+    }
+
+    if (checkedPadding) {
+      slicePadding = 0;
+    } else {
+      slicePadding = 5;
+    }
 
     return (
       <div id="graph">
-        <VictoryLabel
-          text={dataset}
-          animate={{
-            duration: 2000,
-            easing: 'exp',
-          }}
-          style={{
-            fontSize: 20,
-            textAnchor: 'start',
-            verticalAnchor: 'end',
-            fill: '#455A64',
-            fontFamily: 'inherit',
-          }}
+        <VictoryLegend
+          title={title}
+          centerTitle
+          titleOrientation="left"
+          containerComponent={<VictoryContainer responsive={false}/>}
+          data={legendData}
+          orientation="horizontal"
+          gutter={20}
+          itemsPerRow={3}
+          x={5}
+          y={15}
+          width="100%"
+          height="100%"
+          style={{ border: { stroke: "black" }, title: {fontSize: 16 , color: "black"} }}
+          colorScale={pieColor}
         />
-
-        <VictoryStack>
-          <VictoryPie
-            style={{
-              parent: {
-                maxWidth: '100%',
-              },
-              labels: {
-                fontSize: 16,
-                fill: 'black',
-              },
-            }}
-            labelComponent={
-              <VictoryTooltip
-                flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
-              />
-            }
-            events={[
-              {
-                target: 'data',
-                eventHandlers: {
-                  onMouseOver: () => {
-                    return [
-                      {
-                        target: 'data',
-                        mutation: () => ({
-                          style: { fill: 'lightgrey' },
-                        }),
-                      },
-                      {
-                        target: 'labels',
-                        mutation: () => ({ active: true }),
-                      },
-                    ];
-                  },
-                  onMouseOut: () => {
-                    return [
-                      {
-                        target: 'data',
-                        mutation: () => {},
-                      },
-                      {
-                        target: 'labels',
-                        mutation: () => ({ active: false }),
-                      },
-                    ];
-                  },
+        <VictoryPie
+          style={{
+            parent: {
+              maxWidth: "100%",
+            },
+            labels: {
+              fontSize: 16,
+              fill: "black",
+            },
+          }}
+          containerComponent={<VictoryContainer responsive={false} />}
+          labelComponent={
+            <VictoryTooltip flyoutStyle={{ fill: "white", stroke: "grey" }} />
+          }
+          events={[
+            {
+              target: "data",
+              eventHandlers: {
+                onMouseOver: () => {
+                  return [
+                    {
+                      target: "data",
+                      mutation: () => ({
+                        style: { fill: highlight },
+                      }),
+                    },
+                    {
+                      target: "labels",
+                      mutation: () => ({ active: true }),
+                    },
+                  ];
+                },
+                onMouseOut: () => {
+                  return [
+                    {
+                      target: "data",
+                      mutation: () => {},
+                    },
+                    {
+                      target: "labels",
+                      mutation: () => ({ active: false }),
+                    },
+                  ];
                 },
               },
-            ]}
-            domainPadding={45}
-            width={500}
-            height={350}
-            data={data}
-            x={x}
-            y={y}
-            colorScale={'cool'}
-            innerRadius={85}
-            padAngle={5}
-            // startAngle={-90}
-            // endAngle={90}
-            animate={{
-              duration: 2000,
-              onLoad: { duration: 1000 },
-            }}
-          />
-        </VictoryStack>
+            },
+          ]}
+          domainPadding={45}
+          width={500}
+          height={350}
+          data={formattedData}
+          colorScale={pieColor}
+          innerRadius={donut}
+          padAngle={slicePadding}
+          startAngle={start}
+          endAngle={end}
+          animate={{
+            duration: 2000,
+            onLoad: { duration: 1000 },
+          }}
+        />
       </div>
     );
   }
