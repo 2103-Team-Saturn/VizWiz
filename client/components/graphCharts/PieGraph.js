@@ -4,7 +4,6 @@ import {
   VictoryPie,
   VictoryTooltip,
   VictoryContainer,
-  VictoryLabel,
   VictoryLegend,
 } from "victory";
 
@@ -15,6 +14,7 @@ export default class PieGraph extends Component {
     const pieColor = this.props.pieColor || "grayscale";
     const highlight = this.props.highlight || "black";
     const { checkedDonut, checkedHalf, checkedPadding } = this.props;
+    
     let legendData = [];
     for ( let item of formattedData ) {
       legendData.push({ name: item.x });
