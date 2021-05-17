@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { gotGraphs } from "../../store/graph";
+import { Link } from "react-router-dom";
+import { gotGraphs, deletingGraph } from "../../store/graph";
 
 class ChartHistory extends Component {
   constructor() {
     super()
+    this.deleteGraph = this.deleteGraph.bind(this);
   }
 
   componentDidMount() {
     this.props.gotGraphs(this.props.userId);
+  }
+
+  deleteGraph(graph) {
+    this.props.deletingGraph(graph)
   }
 
   render() {
@@ -17,9 +23,16 @@ class ChartHistory extends Component {
       <div>
         <h1>Charts</h1>
         {this.props.userGraph.map(graph =>
-          <div key={graph.id}>
+        <div key={graph.id} >
+          <Link to={{
+            pathname: `/users/${graph.userId}/data/${graph.datumId}`,
+            state: {
+              graph
+            }}}>
             <h1>{graph.properties.title}</h1>
-          </div>
+          </Link>
+          <button onClick={() => this.deleteGraph(graph)}>Delete</button>
+        </div>
         )}
       </div>
     );
@@ -35,7 +48,8 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    gotGraphs: (id) => dispatch(gotGraphs(id))
+    gotGraphs: (id) => dispatch(gotGraphs(id)),
+    deletingGraph: (id) => dispatch(deletingGraph(id))
   };
 };
 

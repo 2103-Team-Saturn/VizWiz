@@ -91,11 +91,12 @@ router.get('/:id/history', async (req, res, next) => {
   }
 })
 
-router.delete('/ChartHistory/:graphId', async (req, res, next) => {
+router.delete('/:id/history', async (req, res, next) => {
   try {
+		console.log("body", req.body)
     const graph = await Graph.destroy({
       where: {
-        id: req.params.graphId
+        id: req.body.id
       }
     })
     res.sendStatus(202)
