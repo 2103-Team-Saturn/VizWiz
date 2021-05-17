@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchSingleData, formatData } from "../../store/singleData";
+import { fetchSingleData } from "../../store/singleData";
 import { postGraph } from "../../store/graph";
 import {
 	LineGraph,
@@ -19,6 +19,7 @@ import {
 	makeStyles,
 	Container,
 	FormControlLabel,
+	Switch,
 	Checkbox,
 	Card,
 	CardMedia,
@@ -26,8 +27,7 @@ import {
 	FormControl,
 } from "@material-ui/core";
 
-import { graphSuggestor } from "./graphSuggestor";
-import { formatForVictory } from "./formatForVictory";
+import { graphSuggestor, formatForVictory, dataCleanup, dynamicVals } from "../utils";
 import { fetchAllUsers } from "../../store/users";
 import ChatRoom from "../rooms/ChatRoom";
 
@@ -39,7 +39,6 @@ const sampleData = [
 	{ quarter: "4", earnings: 18, items: 81, state: "NY" },
 	{ quarter: "4", earnings: 19, items: 90, state: "NY" },
 ];
-
 class GraphControl extends Component {
 	constructor(props) {
 		super(props);
@@ -51,10 +50,12 @@ class GraphControl extends Component {
 			title: "",
 			xTitle: "",
 			yTitle: "",
-			// xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
-			// yAxis: this.props.location.state.yValues,
 			color: "",
 			highlight: "",
+			pieColor: "",
+			checkedDonut: true,
+			checkedHalf: true,
+			checkedPadding: true,
 		};
 		this.leaveRoom = this.leaveRoom.bind(this);
 		this.changeStyle = this.changeStyle.bind(this);
@@ -164,6 +165,16 @@ class GraphControl extends Component {
 					[attribute]: updated.value,
 				});
 				break;
+			case "pieColor":
+				this.setState({
+					[attribute]: updated.value,
+				});
+				break;
+			case "checkedDonut" || "checkedHalf" || "checkedPadding":
+				this.setState({
+					[attribute]: !this.state[attribute],
+				});
+				break;
 			default:
 				this.setState({
 					[attribute]: updated.value,
@@ -215,59 +226,32 @@ class GraphControl extends Component {
 			data.map((item) => obj[currentKey].push(item[currentKey]));
 		}
 
-		const dynamicVals = (data, type) => {
-			return keys.filter((key) => typeof data[0][key] === type);
-		};
-
-		// populating what can go in x/y axis select dropdowns
+		// populating x & y axis
 		const xPossibilities1 = dynamicVals(data, "string");
 		const xPossibilities2 = dynamicVals(data, "number");
 		const xPossibilities = [...xPossibilities1, ...xPossibilities2];
 		const yPossibilities = dynamicVals(data, "number");
 
-		//-------------------------------------------
-		// run logics to suggest graph types for users
-		let xValues;
-		let yValues;
+		let xValues, yValues;
 		let suggestions = [];
 		let formattedData = [];
 
-		// making the suggestions array, and mapping through axis selections
+		// clean data, create suggestions, reformat data
 		if (this.state.x && this.state.y) {
-			xValues = data.map((dataObj) => {
-				if (dataObj[this.state.x]) {
-					return dataObj[this.state.x];
-				} else return null;
-			});
-			yValues = data.map((dataObj) => {
-				if (dataObj[this.state.y]) {
-					return dataObj[this.state.y];
-				} else return null;
-			});
-
+			xValues = dataCleanup(data, this.state.x);
+			yValues = dataCleanup(data, this.state.y);
 			suggestions = graphSuggestor(xValues, yValues, this.state.x);
-			// data will be cleaned up on following line:
 			formattedData = formatForVictory(xValues, yValues);
-		} else if (this.state.x) {
-			suggestions.push("pie");
-			// formattedData = ??
 		}
-
-		//-------------------------------------------
 
 		const { changeStyle } = this;
 		const graphSelected = this.state.graph;
-		// const x = this.state.x;
-		// const y = this.state.y;
 		const dataset = this.props.unformatted.name;
-
-		// // data will be cleaned up on following line:
-		// const formattedData = formatForVictory(xValues, yValues);
 
 		let graphProperties = {
 			...this.state,
 			formattedData: formattedData,
-			// methods needed for components can go in here as needed??
+			// pass *download* function here?
 		};
 
 		const graphDictionary = {
@@ -276,14 +260,6 @@ class GraphControl extends Component {
 			scatter: <ScatterChart {...graphProperties} />,
 			pie: <PieGraph {...graphProperties} />,
 		};
-
-		// original graphs dictionary
-		// const graphs = {
-		//   bar: <BarGraph data={data} dataset={dataset} x={x} y={y} />,
-		//   line: <LineGraph data={data} dataset={dataset} x={x} y={y} />,
-		//   scatter: <ScatterChart data={data} dataset={dataset} x={x} y={y} />,
-		//   pie: <PieGraph data={data} dataset={dataset} x={x} y={y} />,
-		// };
 
 		return (
 			<div className='selector-box'>
@@ -378,6 +354,59 @@ class GraphControl extends Component {
 									/>
 								</label>
 							</div>
+							{graphSelected === "pie" ? (
+                <div id="for-pie">
+                  <div id="pie-switches">
+                    <FormGroup row>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={this.state.checkedDonut}
+                            onChange={changeStyle}
+                            name="checkedDonut"
+                          />
+                        }
+                        label="Donut"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={this.state.checkedHalf}
+                            onChange={changeStyle}
+                            name="checkedHalf"
+                          />
+                        }
+                        label="Half"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={this.state.checkedPadding}
+                            onChange={changeStyle}
+                            name="checkedPadding"
+                          />
+                        }
+                        label="Spacers"
+                      />
+                    </FormGroup>
+                  </div>
+                  <div>
+                    <select
+                      name="pieColor"
+                      onChange={changeStyle}
+                      value={this.state.pieColor}
+                    >
+                      <option value="" disabled selected>
+                        Color Themes
+                      </option>
+                      <option value="cool">Cool</option>
+                      <option value="warm">Warm</option>
+                      <option value="qualitative">Classic</option>
+                      <option value="heatmap">Heatmap</option>
+                    </select>
+                  </div>
+                </div>
+              ) : ( <div id="not-pie" >
 							<div>
 								<label for='xTitle'>
 									X Axis:
@@ -416,6 +445,8 @@ class GraphControl extends Component {
 									<option value='#D3B673'>Basic Beige</option>
 								</select>
 							</div>
+							</div>
+							)}
 							<div>
 								<select
 									name='highlight'
@@ -439,13 +470,13 @@ class GraphControl extends Component {
 				</div>
 				<ChatRoom />
 			</div>
-		);
+			);
+		}	
 	}
 }
 
 const mapState = (state) => {
 	return {
-		// formattedData: state.singleData.formatted,
 		unformatted: state.singleData.unformatted,
 		userId: state.auth.id,
 		userData: state.data,
@@ -461,7 +492,6 @@ const mapDispatch = (dispatch) => {
 	return {
 		fetchSingleData: (userId, dataId) =>
 			dispatch(fetchSingleData(userId, dataId)),
-		// formatData: (data) => dispatch(formatData(data)),
 		postGraph: (graphData, userId, dataId) =>
 			dispatch(postGraph(graphData, userId, dataId)),
 		fetchAllUsers: () => dispatch(fetchAllUsers()),
