@@ -27,8 +27,7 @@ import {
 	FormControl,
 } from "@material-ui/core";
 
-import { graphSuggestor } from "./graphSuggestor";
-import { formatForVictory } from "./formatForVictory";
+import { graphSuggestor, formatForVictory, dataCleanup } from "../utils";
 import { fetchAllUsers } from "../../store/users";
 import ChatRoom from "../rooms/ChatRoom";
 
@@ -230,20 +229,11 @@ class GraphControl extends Component {
 
 		// making the suggestions array, and mapping through axis selections
 		if (this.state.x && this.state.y) {
-			xValues = data.map((dataObj) => {
-				if (dataObj[this.state.x]) {
-					return dataObj[this.state.x];
-				} else return null;
-			});
-			yValues = data.map((dataObj) => {
-				if (dataObj[this.state.y]) {
-					return dataObj[this.state.y];
-				} else return null;
-			});
-
+			xValues = dataCleanup(data, this.state.x);
+			yValues = dataCleanup(data, this.state.y);
 			suggestions = graphSuggestor(xValues, yValues, this.state.x);
 			formattedData = formatForVictory(xValues, yValues);
-
+		}
 		//-------------------------------------------
 
 		const { changeStyle } = this;
