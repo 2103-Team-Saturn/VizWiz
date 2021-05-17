@@ -27,7 +27,7 @@ import {
 	FormControl,
 } from "@material-ui/core";
 
-import { graphSuggestor, formatForVictory, dataCleanup } from "../utils";
+import { graphSuggestor, formatForVictory, dataCleanup, dynamicVals } from "../utils";
 import { fetchAllUsers } from "../../store/users";
 import ChatRoom from "../rooms/ChatRoom";
 
@@ -50,8 +50,6 @@ class GraphControl extends Component {
 			title: "",
 			xTitle: "",
 			yTitle: "",
-			// xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
-			// yAxis: this.props.location.state.yValues,
 			color: "",
 			highlight: "",
 			pieColor: "",
@@ -210,31 +208,23 @@ class GraphControl extends Component {
 			data.map((item) => obj[currentKey].push(item[currentKey]));
 		}
 
-		const dynamicVals = (data, type) => {
-			return keys.filter((key) => typeof data[0][key] === type);
-		};
-
-		// populating what can go in x/y axis select dropdowns
+		// populating x & y axis
 		const xPossibilities1 = dynamicVals(data, "string");
 		const xPossibilities2 = dynamicVals(data, "number");
 		const xPossibilities = [...xPossibilities1, ...xPossibilities2];
 		const yPossibilities = dynamicVals(data, "number");
 
-		//-------------------------------------------
-		// run logics to suggest graph types for users
-		let xValues;
-		let yValues;
+		let xValues, yValues;
 		let suggestions = [];
 		let formattedData = [];
 
-		// making the suggestions array, and mapping through axis selections
+		// clean data, create suggestions, reformat data
 		if (this.state.x && this.state.y) {
 			xValues = dataCleanup(data, this.state.x);
 			yValues = dataCleanup(data, this.state.y);
 			suggestions = graphSuggestor(xValues, yValues, this.state.x);
 			formattedData = formatForVictory(xValues, yValues);
 		}
-		//-------------------------------------------
 
 		const { changeStyle } = this;
 		const graphSelected = this.state.graph;
