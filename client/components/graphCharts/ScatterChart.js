@@ -30,27 +30,6 @@ export default class ScatterChart extends Component {
 
     return (
       <div id="graph">
-        <div className="legendBox">
-          <VictoryLegend
-            title={xTitle}
-            centerTitle
-            titleOrientation="left"
-            containerComponent={<VictoryContainer responsive={false} />}
-            data={legendData}
-            orientation="horizontal"
-            gutter={20}
-            itemsPerRow={3}
-            x={5}
-            y={15}
-            width="100%"
-            height="100%"
-            style={{
-              border: { stroke: 'black' },
-              title: { fontSize: 16, color: 'black' },
-            }}
-            colorScale={[color]}
-          />
-        </div>
         <div>
           <VictoryChart
             theme={VictoryTheme.material}
@@ -61,12 +40,8 @@ export default class ScatterChart extends Component {
             padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
             containerComponent={
               <VictoryVoronoiContainer
-                voronoiDimension="x"
                 labelComponent={
-                  <VictoryTooltip
-                    cornerRadius={0}
-                    flyoutStyle={{ fill: 'white' }}
-                  />
+                  <VictoryTooltip dy={-7} constrainToVisibleArea />
                 }
               />
             }

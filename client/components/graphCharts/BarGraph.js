@@ -31,27 +31,6 @@ export default class BarGraph extends Component {
 
     return (
       <div id="bar-graph-container">
-        <div className="legendBox">
-          <VictoryLegend
-            title={xTitle}
-            centerTitle
-            titleOrientation="left"
-            containerComponent={<VictoryContainer responsive={false} />}
-            data={legendData}
-            orientation="horizontal"
-            gutter={20}
-            itemsPerRow={3}
-            x={5}
-            y={15}
-            width="100%"
-            height="100%"
-            style={{
-              border: { stroke: 'black' },
-              title: { fontSize: 16, color: 'black' },
-            }}
-            colorScale={[color]}
-          />
-        </div>
         <div>
           <VictoryChart
             theme={VictoryTheme.material}
