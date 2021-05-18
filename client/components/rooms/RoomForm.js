@@ -20,10 +20,10 @@ import { ThemeProvider } from "@material-ui/styles";
 const customTheme = createMuiTheme({
 	palette: {
 		primary: {
-			main: "#00695f",
+			main: "#e0e0e0",
 		},
 		secondary: {
-			main: "#00695f",
+			main: "#38b6ff",
 		},
 	},
 });
@@ -67,7 +67,6 @@ class RoomForm extends Component {
 		this.userRoomSubmit = this.userRoomSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleToggle = this.handleToggle.bind(this);
 		this.handleTabs = this.handleTabs.bind(this);
 	}
 
@@ -109,15 +108,6 @@ class RoomForm extends Component {
 		}
 	}
 
-	handleToggle(button1, button2) {
-		if (!this.state[button1]) {
-			this.setState({
-				[button1]: true,
-				[button2]: false,
-			});
-		}
-	}
-
 	handleTabs(e, val) {
 		this.setState({
 			tabValue: val,
@@ -131,7 +121,7 @@ class RoomForm extends Component {
 		return (
 			<ThemeProvider theme={customTheme}>
 				<div className={classes.container}>
-					<AppBar position='static'>
+					<AppBar position='static' className='appBar'>
 						<Tabs
 							indicatorColor='secondary'
 							value={this.state.tabValue}
