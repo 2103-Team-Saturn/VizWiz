@@ -66,21 +66,23 @@ class GraphControl extends Component {
 	componentDidMount() {
 		this.props.fetchAllUsers();
 
-		if (this.props.location.state) {
-			this.setState({
-				selectedDataset: "", // Isabelle's dataset selection logic??
-				graph: this.props.location.state.graph.properties.graph || "",
-				x: this.props.location.state.graph.properties.x || "",
-				y: this.props.location.state.graph.properties.y || "",
-				title: this.props.location.state.graph.properties.title || "",
-				xTitle: this.props.location.state.graph.properties.xTitle || "",
-				yTitle: this.props.location.state.graph.properties.yTitle || "",
-				// xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
-				// yAxis: this.props.location.state.yValues,
-				color: this.props.location.state.graph.properties.color || "",
-				highlight: this.props.location.state.graph.properties.highlight || "",
-			});
-		}
+
+    if (this.props.location.state) {
+      this.setState({
+        selectedDataset: "",
+      graph: this.props.location.state.graph.properties.graph || "",
+      x: this.props.location.state.graph.properties.x || "",
+      y: this.props.location.state.graph.properties.y || "",
+      title: this.props.location.state.graph.properties.title || "",
+      xTitle: this.props.location.state.graph.properties.xTitle || "",
+      yTitle: this.props.location.state.graph.properties.yTitle || "",
+      // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
+      // yAxis: this.props.location.state.yValues,
+      color: this.props.location.state.graph.properties.color || "",
+      highlight: this.props.location.state.graph.properties.highlight || "",
+      })
+    }
+
 
 		socket.emit("joinRoom", this.props.singleRoom, this.props.user);
 
@@ -203,10 +205,17 @@ class GraphControl extends Component {
 	}
 
 	saveGraph() {
-		this.props.postGraph(this.state, this.props.userId, this.state.dataId);
-	}
+
+    this.props.postGraph(
+      this.state,
+      this.props.userId,
+      this.state.dataId
+    );
+  }
+
 
 	render() {
+    console.log("props", this.props)
 		const matchingUser = this.props.allUsers.filter((user) => {
 			return user.roomKey === this.props.singleRoom;
 		});

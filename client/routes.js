@@ -32,6 +32,11 @@ class Routes extends Component {
 						<Route exact path='/users/:userId/data' component={DataDash} />
 						<Route
 							exact
+							path='/users/:id/data/:dataId/:graphId'
+							component={GraphControl}
+						/>
+						<Route
+							exact
 							path='/users/:id/data/:dataId'
 							component={GraphControl}
 						/>
