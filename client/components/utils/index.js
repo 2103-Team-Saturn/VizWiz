@@ -62,4 +62,15 @@ export function download () {
 	let png = canvas.toDataURL(); // default png
 	let jpeg = canvas.toDataURL('image/jpg');
 	let webp = canvas.toDataURL('image/webp');
+
+	var download = function(href, name){
+		var link = document.createElement('a');
+		link.download = name;
+		link.style.opacity = "0";
+		document.append(link);
+		link.href = href;
+		link.click();
+		link.remove();
+	}
+	download(png, "image.png");
 }
