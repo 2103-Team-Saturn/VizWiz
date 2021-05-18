@@ -189,7 +189,7 @@ class GraphControl extends Component {
   }
 
 	render() {
-    console.log("dataId", this.props.dataId)
+    console.log("props", this.props)
 		const matchingUser = this.props.allUsers.filter((user) => {
 			return user.roomKey === this.props.singleRoom;
 		});
