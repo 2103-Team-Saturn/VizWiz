@@ -1,4 +1,7 @@
 @import './cssModule/loginStyle.css';
+@import './cssModule/graphController.css';
+@import './cssModule/navbarStyle.css';
+@import './cssModule/homeStyle.css';
 
 body {
   font-family: sans-serif;
