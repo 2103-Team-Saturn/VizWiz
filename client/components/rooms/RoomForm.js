@@ -169,6 +169,7 @@ class RoomForm extends Component {
 								</InputLabel>
 								<OutlinedInput
 									name='room-key'
+									onChange={this.handleChange}
 									value={this.state.roomKey}
 									labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
 								/>
