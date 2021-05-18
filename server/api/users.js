@@ -77,6 +77,7 @@ router.post('/:id/data/:dataId', async (req, res, next) => {
   }
 })
 
+//findbyPk
 router.get('/:id/history', async (req, res, next) => {
   try {
 		console.log("userId", req.params)
@@ -91,12 +92,12 @@ router.get('/:id/history', async (req, res, next) => {
   }
 })
 
-router.delete('/:id/history', async (req, res, next) => {
+router.delete('/:id/history/:graphId', async (req, res, next) => {
   try {
-		console.log("body", req.body)
+		console.log("params", req.params)
     const graph = await Graph.destroy({
       where: {
-        id: req.body.id
+        id: req.params.graphId
       }
     })
     res.sendStatus(202)

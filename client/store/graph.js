@@ -43,7 +43,7 @@ export const deletingGraph = graph => {
   return async dispatch => {
     try {
       console.log("graph", graph)
-      const response = await axios.delete(`/api/users/${graph.userId}/history`)
+      const response = await axios.delete(`/api/users/${graph.userId}/history/${graph.id}`)
       const action = deleteGraph(graph.id)
       dispatch(action)
     } catch (error) {
