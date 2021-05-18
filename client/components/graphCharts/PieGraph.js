@@ -15,11 +15,16 @@ export default class PieGraph extends Component {
     const highlight = this.props.highlight || "black";
     const { checkedDonut, checkedHalf, checkedPadding } = this.props;
     
+    //create tooltip labels
+    for(let d of formattedData) {
+      d.label = `${d.x}: ${d.y}`
+    }
+
     let legendData = [];
     for ( let item of formattedData ) {
       legendData.push({ name: item.x });
     }
-
+    console.log('LD**>>>', legendData);
     let donut, slicePadding, start, end;
 
     if (checkedDonut) {

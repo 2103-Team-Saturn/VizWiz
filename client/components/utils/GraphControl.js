@@ -171,11 +171,21 @@ class GraphControl extends Component {
 					[attribute]: updated.value,
 				});
 				break;
-			case "checkedDonut" || "checkedHalf" || "checkedPadding":
+			case "checkedDonut":
 				this.setState({
 					[attribute]: !this.state[attribute],
 				});
 				break;
+				case "checkedHalf":
+					this.setState({
+						[attribute]: !this.state[attribute],
+					});
+					break;
+					case "checkedPadding":
+						this.setState({
+							[attribute]: !this.state[attribute],
+						});
+						break;
 			default:
 				this.setState({
 					[attribute]: updated.value,
