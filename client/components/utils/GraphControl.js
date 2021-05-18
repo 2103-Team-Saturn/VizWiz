@@ -28,7 +28,7 @@ import {
 	FormGroup,
 } from "@material-ui/core";
 
-import { graphSuggestor, formatForVictory, dynamicVals } from "../utils";
+import { graphSuggestor, formatForVictory, dynamicVals, download } from "../utils";
 import { fetchAllUsers } from "../../store/users";
 import ChatRoom from "../rooms/ChatRoom";
 
@@ -494,6 +494,15 @@ class GraphControl extends Component {
 					<div>
 						<button onClick={() => this.saveGraph()}>Save</button>
 					</div>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={() => download(this.state.title)}
+          >
+            Download
+          </Button>
 				</div>
 				<ChatRoom />
 			</div>

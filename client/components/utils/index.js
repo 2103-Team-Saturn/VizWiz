@@ -35,7 +35,7 @@ export function graphSuggestor(xValues, yValues, x) {
 	return suggestions;
 }
 
-export function download () {
+export function download (title) {
 	var svgElement = ReactDOM.findDOMNode(this).querySelector('svg')
 	let {width, height} = svgElement.getBBox();
 	let clonedSvgElement = svgElement.cloneNode(true);
@@ -63,7 +63,7 @@ export function download () {
 	let jpeg = canvas.toDataURL('image/jpg');
 	let webp = canvas.toDataURL('image/webp');
 
-	var download = function(href, name){
+	var downloadPNG = function(href, name){
 		var link = document.createElement('a');
 		link.download = name;
 		link.style.opacity = "0";
@@ -72,5 +72,6 @@ export function download () {
 		link.click();
 		link.remove();
 	}
-	download(png, "image.png");
+
+	downloadPNG(png, `${title}_image.png`);
 }
