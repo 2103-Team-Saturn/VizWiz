@@ -77,7 +77,7 @@ var downloadPNG = function(href, name){
 	var link = document.createElement('a');
 	link.download = name;
 	link.style.opacity = "0";
-	// document.append(link);
+	document.body.appendChild(link);
 	link.href = href;
 	link.click();
 	link.remove();
