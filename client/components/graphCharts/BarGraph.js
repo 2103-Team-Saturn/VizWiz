@@ -10,6 +10,7 @@ import {
   VictoryLabel,
 } from "victory";
 
+
 export default class BarGraph extends Component {
   render() {
     console.log("**BG props", this.props);
@@ -23,7 +24,7 @@ export default class BarGraph extends Component {
     console.log('formattedData inside BG>>>', formattedData);
 
     return (
-        <div id="bar-graph-container">
+        <div id="graph">
         <VictoryChart
           theme={VictoryTheme.material}
           style={ { parent: { maxWidth: "100%" } } }
@@ -77,7 +78,7 @@ export default class BarGraph extends Component {
             }}
             tickValues={formattedData.map((d) => d['x'])}
             tickFormat ={formattedData.map((d) => {
-              if(this.props.x.toLowerCase().includes("month") || 
+              if(this.props.x.toLowerCase().includes("month") ||
               this.props.x.toLowerCase().includes("day")) {
                 return d.x.slice(0, 3);
               } else {
@@ -117,7 +118,7 @@ export default class BarGraph extends Component {
                         {
                           target: "data",
                           mutation: () => ({
-                            style: { fill: highlight, width: 24 }, 
+                            style: { fill: highlight, width: 24 },
                           }),
                         },
                         {

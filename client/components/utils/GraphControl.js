@@ -11,6 +11,8 @@ import {
 const io = require("socket.io-client");
 const socket = io();
 
+import ReactDOM from "react-dom"
+
 import {
 	Grid,
 	Typography,

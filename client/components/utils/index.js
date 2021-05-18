@@ -36,15 +36,24 @@ export function graphSuggestor(xValues, yValues, x) {
 }
 
 export function download (title) {
-	var svgElement = ReactDOM.findDOMNode(this).querySelector('svg')
-	let {width, height} = svgElement.getBBox();
+
+	// var svgElement = ReactDOM.findDOMNode(this).querySelector('svg')
+	var svgElement = document.getElementById('graph');
+
+	let width = 500
+	let height = 350
+
 	let clonedSvgElement = svgElement.cloneNode(true);
+
 	let outerHTML = clonedSvgElement.outerHTML,
-	blob = new Blob([outerHTML],{type:'image/svg+xml;charset=utf-8'});
+  blob = new Blob([outerHTML],{type:'image/svg+xml;charset=utf-8'});
+
+
 	let URL = window.URL || window.webkitURL || window;
 	let blobURL = URL.createObjectURL(blob);
 
 	let image = new Image();
+	let png
 	image.onload = () => {
 
    let canvas = document.createElement('canvas');
@@ -52,26 +61,28 @@ export function download (title) {
    canvas.width = width;
 
    canvas.height = height;
+
    let context = canvas.getContext('2d');
    // draw image in canvas starting left-0 , top - 0
    context.drawImage(image, 0, 0, width, height );
   //  downloadImage(canvas); need to implement
-	};
 	image.src = blobURL;
 
-	let png = canvas.toDataURL(); // default png
+	png = canvas.toDataURL(); // default png
 	let jpeg = canvas.toDataURL('image/jpg');
 	let webp = canvas.toDataURL('image/webp');
 
-	var downloadPNG = function(href, name){
-		var link = document.createElement('a');
-		link.download = name;
-		link.style.opacity = "0";
-		document.append(link);
-		link.href = href;
-		link.click();
-		link.remove();
-	}
+};
+var downloadPNG = function(href, name){
+	var link = document.createElement('a');
+	link.download = name;
+	link.style.opacity = "0";
+	// document.append(link);
+	link.href = href;
+	link.click();
+	link.remove();
+}
 
-	downloadPNG(png, `${title}_image.png`);
+downloadPNG(png, `${title}_image.png`);
+
 }
