@@ -12,7 +12,6 @@ import {
   VictoryContainer,
 } from 'victory';
 
-
 export default class BarGraph extends Component {
   render() {
     console.log('**BG props', this.props);
@@ -31,7 +30,6 @@ export default class BarGraph extends Component {
     }
 
     return (
-
       <div id="graph">
         <div>
           <VictoryChart
@@ -81,7 +79,7 @@ export default class BarGraph extends Component {
             <VictoryAxis
               fixLabelOverlap={true}
               style={{
-                axis: { stroke: color },
+                axis: { stroke: '#756f6a' },
                 axisLabel: { fontSize: 12, padding: 60 },
                 tickLabels: { angle: 30 },
               }}

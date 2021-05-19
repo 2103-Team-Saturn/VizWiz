@@ -85,7 +85,7 @@ export default class ScatterChart extends Component {
             <VictoryAxis
               fixLabelOverlap={true}
               style={{
-                axis: { stroke: color },
+                axis: { stroke: '#756f6a' },
                 axisLabel: { fontSize: 12, padding: 60 },
                 tickLabels: { angle: 30 },
               }}

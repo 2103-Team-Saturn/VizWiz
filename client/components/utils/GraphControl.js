@@ -11,29 +11,33 @@ import {
 const io = require('socket.io-client');
 const socket = io();
 
-import ReactDOM from "react-dom"
+import ReactDOM from 'react-dom';
 
 import {
-	Grid,
-	Typography,
-	Button,
-	Box,
-	makeStyles,
-	Container,
-	FormControlLabel,
-	Switch,
-	Checkbox,
-	Card,
-	CardMedia,
-	CardContent,
-	FormControl,
-	FormGroup,
-} from "@material-ui/core";
+  Grid,
+  Typography,
+  Button,
+  Box,
+  makeStyles,
+  Container,
+  FormControlLabel,
+  Switch,
+  Checkbox,
+  Card,
+  CardMedia,
+  CardContent,
+  FormControl,
+  FormGroup,
+} from '@material-ui/core';
 
-import { graphSuggestor, formatForVictory, dynamicVals, download } from "../utils";
-import { fetchAllUsers } from "../../store/users";
-import ChatRoom from "../rooms/ChatRoom";
-
+import {
+  graphSuggestor,
+  formatForVictory,
+  dynamicVals,
+  download,
+} from '../utils';
+import { fetchAllUsers } from '../../store/users';
+import ChatRoom from '../rooms/ChatRoom';
 
 const sampleData = [
   { quarter: '1', earnings: 13, items: 40, state: 'NY' },
@@ -44,7 +48,6 @@ const sampleData = [
   { quarter: '4', earnings: 19, items: 90, state: 'NY' },
 ];
 class GraphControl extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -498,28 +501,27 @@ class GraphControl extends Component {
             <button onClick={() => this.saveGraph()}>Save</button>
           </div>
         </div>
-        <div id='graph-container'>{graphDictionary[graphSelected]}</div>
-					<div>
-						<button onClick={() => this.saveGraph()}>Save</button>
-					</div>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={() => download(this.state.title)}
-          >
-            Download
-          </Button>
-          <canvas
+        <div id="graph-container">{graphDictionary[graphSelected]}</div>
+        <div>
+          <button onClick={() => this.saveGraph()}>Save</button>
+        </div>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={() => download(this.state.title)}
+        >
+          Download
+        </Button>
+        <canvas
           id="canvas"
           width="500"
           height="350"
           display="none"
-          style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
+          style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
         />
-				</div>
-				<ChatRoom />
+        <ChatRoom />
       </div>
     );
   }
