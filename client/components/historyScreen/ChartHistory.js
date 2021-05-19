@@ -24,7 +24,7 @@ class ChartHistory extends Component {
     return (
       <div>
         <Container>
-          <h1 id="HistoryTitle">Charts</h1>
+          <h1 id="HistoryTitle">Graph Dashboard</h1>
           <Grid container spacing={10}>
             {this.props.userGraph.map((graph) => (
               <Grid key={graph.id} item xs={12} s={6} md={4} lg={3}>
