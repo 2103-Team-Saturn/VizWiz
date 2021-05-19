@@ -12,7 +12,7 @@ const io = require('socket.io-client');
 
 const socket = io();
 
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 
 import {
   Grid,
@@ -29,20 +29,19 @@ import {
   CardContent,
   FormControl,
   FormGroup,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import DownloadIcon from "@material-ui/icons/CloudDownload";
-import SaveIcon from "@material-ui/icons/Save";
+import DownloadIcon from '@material-ui/icons/CloudDownload';
+import SaveIcon from '@material-ui/icons/Save';
 
 import {
   graphSuggestor,
   formatForVictory,
   dynamicVals,
   download,
-} from "../utils";
-import { fetchAllUsers } from "../../store/users";
-import ChatRoom from "../rooms/ChatRoom";
-
+} from '../utils';
+import { fetchAllUsers } from '../../store/users';
+import ChatRoom from '../rooms/ChatRoom';
 
 const sampleData = [
   { quarter: '1', earnings: 13, items: 40, state: 'NY' },
@@ -53,7 +52,6 @@ const sampleData = [
   { quarter: '4', earnings: 19, items: 90, state: 'NY' },
 ];
 class GraphControl extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -110,7 +108,6 @@ class GraphControl extends Component {
     let attribute = Object.keys(payload)[0];
     let updated = Object.values(payload)[0];
     this.changeStyle(updated, attribute, 'sockets');
-
   }
 
   changeStyle(e, attribute, source) {
@@ -529,10 +526,11 @@ class GraphControl extends Component {
             width="500"
             height="350"
             display="none"
-            style={{ visibility: "hidden", zIndex: -950, position: "absolute" }}
+            style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
           />
         </div>
         <ChatRoom />
+      </div>
     );
   }
 }
@@ -561,4 +559,3 @@ const mapDispatch = (dispatch) => {
 };
 
 export default connect(mapState, mapDispatch)(GraphControl);
-
