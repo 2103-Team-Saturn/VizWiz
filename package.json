@@ -28,6 +28,7 @@
 		"express": "^4.16.4",
 		"faker": "^5.5.3",
 		"history": "^4.10.1",
+		"html2canvas": "^1.0.0-rc.7",
 		"jsonwebtoken": "^8.5.1",
 		"lodash": "^4.17.21",
 		"morgan": "^1.9.1",

@@ -505,6 +505,13 @@ class GraphControl extends Component {
           >
             Download
           </Button>
+          <canvas
+          id="canvas"
+          width="500"
+          height="350"
+          display="none"
+          style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
+        />
 				</div>
 				<ChatRoom />
 			</div>
