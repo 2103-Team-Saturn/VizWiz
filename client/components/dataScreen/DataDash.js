@@ -73,10 +73,7 @@ const DataDash = (props) => {
 			) : (
 				<div>
 					<h4>Looks like you still need to upload some data sets.</h4>
-					<Button
-						to={`/users/${userId}/data`}
-						component={RouterLink}
-						variant='contained'>
+					<Button to={`/home`} component={RouterLink} variant='contained'>
 						Go to Upload
 					</Button>
 				</div>
