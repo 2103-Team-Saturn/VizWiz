@@ -5,6 +5,7 @@ import { gotGraphs, deletingGraph } from "../../store/graph";
 import { Grid, Paper, Container, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { CallMissedSharp, CenterFocusStrong } from "@material-ui/icons";
+import { fetchAllUsers } from "../../store/users";
 
 class ChartHistory extends Component {
   constructor() {
@@ -13,6 +14,7 @@ class ChartHistory extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchAllUsers();
     this.props.gotGraphs(this.props.userId);
   }
 
@@ -48,7 +50,13 @@ class ChartHistory extends Component {
                 s={6}
                 md={4}
                 lg={3}
-                style={{ textAlign: "center" }}
+                style={{
+                  textAlign: "center",
+                  backgroundColor: "steelblue",
+                  margin: 30,
+                  border: 10,
+                  borderRadius: 12,
+                }}
               >
                 <Link
                   to={{
@@ -89,6 +97,7 @@ const mapDispatch = (dispatch) => {
   return {
     gotGraphs: (id) => dispatch(gotGraphs(id)),
     deletingGraph: (id) => dispatch(deletingGraph(id)),
+    fetchAllUsers: () => dispatch(fetchAllUsers()),
   };
 };
 
