@@ -505,9 +505,8 @@ class GraphControl extends Component {
           <div>
             <Button
               type="submit"
-              fullWidth
               variant="contained"
-              color="secondary"
+              color="success"
               onClick={() => this.saveGraph()}
             >
               Save <SaveIcon className="SaveIcon" />
@@ -515,7 +514,6 @@ class GraphControl extends Component {
           </div>
           <Button
             type="submit"
-            fullWidth
             variant="contained"
             color="primary"
             onClick={() => download(this.state.title)}

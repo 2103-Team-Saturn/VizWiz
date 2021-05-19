@@ -42,7 +42,7 @@ class ChartHistory extends Component {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   onClick={() => this.deleteGraph(graph)}
                 >
                   Delete <DeleteIcon />
