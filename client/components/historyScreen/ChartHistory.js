@@ -66,7 +66,13 @@ class ChartHistory extends Component {
                     },
                   }}
                 >
-                  <h1>{graph.properties.title}</h1>
+                  <h1
+                    style={{
+                      color: "black",
+                    }}
+                  >
+                    {graph.properties.title}
+                  </h1>
                 </Link>
                 <Button
                   type="submit"
