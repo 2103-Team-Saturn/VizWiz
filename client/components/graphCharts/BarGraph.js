@@ -12,6 +12,7 @@ import {
   VictoryContainer,
 } from 'victory';
 
+
 export default class BarGraph extends Component {
   render() {
     console.log('**BG props', this.props);
@@ -30,7 +31,8 @@ export default class BarGraph extends Component {
     }
 
     return (
-      <div id="bar-graph-container">
+
+      <div id="graph">
         <div>
           <VictoryChart
             theme={VictoryTheme.material}
@@ -103,6 +105,7 @@ export default class BarGraph extends Component {
                 axisLabel: { fontSize: 16, padding: 80 },
               }}
             />
+
             <VictoryBar
               data={formattedData.map((datum) => {
                 let flyLabel = `${datum.x} : ${datum.y}`;
