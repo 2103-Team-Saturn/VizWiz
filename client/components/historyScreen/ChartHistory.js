@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { gotGraphs, deletingGraph } from "../../store/graph";
 import { Grid, Paper, Container } from "@material-ui/core";
+import SaveIcon from '@material-ui/icons/Save';
 
 class ChartHistory extends Component {
   constructor() {

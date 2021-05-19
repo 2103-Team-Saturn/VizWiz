@@ -31,6 +31,7 @@ import {
 } from "@material-ui/core";
 
 import DownloadIcon from "@material-ui/icons/CloudDownload";
+import SaveIcon from "@material-ui/icons/Save";
 
 import {
   graphSuggestor,
@@ -502,7 +503,15 @@ class GraphControl extends Component {
           </div>
           <div id="graph-container">{graphDictionary[graphSelected]}</div>
           <div>
-            <button onClick={() => this.saveGraph()}>Save</button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="secondary"
+              onClick={() => this.saveGraph()}
+            >
+              Save <SaveIcon className="SaveIcon" />
+            </Button>
           </div>
           <Button
             type="submit"
