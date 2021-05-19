@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
 import { makeStyles } from "@material-ui/core/styles";
+import LeftDrawer from "./LeftDrawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 
@@ -51,6 +51,7 @@ const Navbar = ({ handleClick, isLoggedIn, userId }) => {
 			<div className={classes.root}>
 				<AppBar position='static'>
 					<Toolbar>
+						{isLoggedIn ? <LeftDrawer userId={userId} /> : ''}
 						<IconButton edge='start' className={classes.menuButton}>
 							<img src='/images/VizWiz.png' className={classes.logo} />
 						</IconButton>
