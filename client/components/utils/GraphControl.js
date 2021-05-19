@@ -8,7 +8,6 @@ import {
   PieGraph,
   ScatterChart,
 } from '../graphCharts/index';
-import BottomDrawer from '../sidedrawers/BottomDrawer';
 
 const io = require('socket.io-client');
 
@@ -220,12 +219,19 @@ class GraphControl extends Component {
   }
 
   render() {
-    const matchingUser = this.props.allUsers.filter((user) => {
-      return user.roomKey === this.props.singleRoom;
-    });
+    let matchingUser;
+
+    if (!this.props.singleRoom) {
+      matchingUser = this.props.allUsers.filter((user) => {
+        return user.id === this.props.userId;
+      });
+    } else {
+      matchingUser = this.props.allUsers.filter((user) => {
+        return user.roomKey === this.props.singleRoom;
+      });
+    }
 
     const matchingUserData = matchingUser[0].data;
-    console.log('graph control matching data', matchingUserData);
 
     const correctData = matchingUserData.filter(
       (dataSet) => dataSet.id === this.state.dataId
@@ -532,8 +538,7 @@ class GraphControl extends Component {
             style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
           />
         </div>
-        {/* <ChatRoom /> */}
-        <BottomDrawer />
+        <ChatRoom />
       </div>
     );
   }
