@@ -9,28 +9,37 @@ import {
   ScatterChart,
 } from '../graphCharts/index';
 const io = require('socket.io-client');
+
 const socket = io();
 
-import ReactDOM from "react-dom"
+import ReactDOM from "react-dom";
 
 import {
-	Grid,
-	Typography,
-	Button,
-	Box,
-	makeStyles,
-	Container,
-	FormControlLabel,
-	Switch,
-	Checkbox,
-	Card,
-	CardMedia,
-	CardContent,
-	FormControl,
-	FormGroup,
+  Grid,
+  Typography,
+  Button,
+  Box,
+  makeStyles,
+  Container,
+  FormControlLabel,
+  Switch,
+  Checkbox,
+  Card,
+  CardMedia,
+  CardContent,
+  FormControl,
+  FormGroup,
 } from "@material-ui/core";
 
-import { graphSuggestor, formatForVictory, dynamicVals, download } from "../utils";
+import DownloadIcon from "@material-ui/icons/CloudDownload";
+import SaveIcon from "@material-ui/icons/Save";
+
+import {
+  graphSuggestor,
+  formatForVictory,
+  dynamicVals,
+  download,
+} from "../utils";
 import { fetchAllUsers } from "../../store/users";
 import ChatRoom from "../rooms/ChatRoom";
 
@@ -101,6 +110,7 @@ class GraphControl extends Component {
     let attribute = Object.keys(payload)[0];
     let updated = Object.values(payload)[0];
     this.changeStyle(updated, attribute, 'sockets');
+
   }
 
   changeStyle(e, attribute, source) {
@@ -494,33 +504,35 @@ class GraphControl extends Component {
               </div>
             </div>
           </div>
+          <div id="graph-container">{graphDictionary[graphSelected]}</div>
           <div>
-            <button onClick={() => this.saveGraph()}>Save</button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              onClick={() => this.saveGraph()}
+            >
+              Save <SaveIcon className="SaveIcon" />
+            </Button>
           </div>
-        </div>
-        <div id='graph-container'>{graphDictionary[graphSelected]}</div>
-					<div>
-						<button onClick={() => this.saveGraph()}>Save</button>
-					</div>
+
           <Button
             type="submit"
-            fullWidth
             variant="contained"
             color="primary"
             onClick={() => download(this.state.title)}
           >
-            Download
+            Download <DownloadIcon className="DownloadIcon" />
           </Button>
           <canvas
-          id="canvas"
-          width="500"
-          height="350"
-          display="none"
-          style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
-        />
-				</div>
-				<ChatRoom />
-      </div>
+            id="canvas"
+            width="500"
+            height="350"
+            display="none"
+            style={{ visibility: "hidden", zIndex: -950, position: "absolute" }}
+          />
+        </div>
+        <ChatRoom />
     );
   }
 }
@@ -549,3 +561,4 @@ const mapDispatch = (dispatch) => {
 };
 
 export default connect(mapState, mapDispatch)(GraphControl);
+
