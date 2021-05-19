@@ -9,6 +9,7 @@ import {
   ScatterChart,
 } from '../graphCharts/index';
 const io = require('socket.io-client');
+
 const socket = io();
 
 import ReactDOM from 'react-dom';
@@ -29,6 +30,9 @@ import {
   FormControl,
   FormGroup,
 } from '@material-ui/core';
+
+import DownloadIcon from '@material-ui/icons/CloudDownload';
+import SaveIcon from '@material-ui/icons/Save';
 
 import {
   graphSuggestor,
@@ -497,30 +501,34 @@ class GraphControl extends Component {
               </div>
             </div>
           </div>
+          <div id="graph-container">{graphDictionary[graphSelected]}</div>
           <div>
-            <button onClick={() => this.saveGraph()}>Save</button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              onClick={() => this.saveGraph()}
+            >
+              Save <SaveIcon className="SaveIcon" />
+            </Button>
           </div>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={() => download(this.state.title)}
+          >
+            Download <DownloadIcon className="DownloadIcon" />
+          </Button>
+          <canvas
+            id="canvas"
+            width="500"
+            height="350"
+            display="none"
+            style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
+          />
         </div>
-        <div id="graph-container">{graphDictionary[graphSelected]}</div>
-        <div>
-          <button onClick={() => this.saveGraph()}>Save</button>
-        </div>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={() => download(this.state.title)}
-        >
-          Download
-        </Button>
-        <canvas
-          id="canvas"
-          width="500"
-          height="350"
-          display="none"
-          style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
-        />
         <ChatRoom />
       </div>
     );
