@@ -26,7 +26,7 @@ class ViewData extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	data: state.data,
+	data: state.data.data,
 	userId: state.auth.id,
 });
 
