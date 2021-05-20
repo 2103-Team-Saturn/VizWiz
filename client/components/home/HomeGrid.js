@@ -36,6 +36,7 @@ const historyImg =
 const useStyles = makeStyles((theme) => ({
   layout: {
     width: 'auto',
+    marginTop: 150,
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
     [theme.breakpoints.up(1100 + theme.spacing(6))]: {
