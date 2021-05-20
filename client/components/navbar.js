@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout } from "../store";
 import { makeStyles } from "@material-ui/core/styles";
 import LeftDrawer from "./LeftDrawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -25,6 +24,7 @@ const customTheme = createMuiTheme({
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+	flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -33,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     color: "#000",
   },
-  navDisplayFlex: {
-    flexGrow: 1,
-    display: "flex",
-    justifyContent: "space-between",
-  },
+//   navDisplayFlex: {
+//     flexGrow: 1,
+//     display: "flex",
+//     justifyContent: "space-between",
+//   },
 }));
 
 const Navbar = ({ isLoggedIn, userId }) => {
@@ -46,26 +46,26 @@ const Navbar = ({ isLoggedIn, userId }) => {
   return (
     <ThemeProvider theme={customTheme}>
       <div className={classes.root}>
-        <div className={classes.navDisplayFlex}>
+        {/* <div className={classes.navDisplayFlex}> */}
           {isLoggedIn ? (
             <LeftDrawer userId={userId} />
           ) : (
             <div>
               {/* The navbar will show these links before you log in */}
               <Link to="/login">
-                <Typography variant="h6" className={classes.title}>
+                <Typography variant="h6" >
                   Login
                 </Typography>
               </Link>
               <Link to="/signup">
-                <Typography variant="h6" className={classes.title}>
+                <Typography variant="h6" >
                   Sign Up
                 </Typography>
               </Link>
             </div>
           )}
         </div>
-      </div>
+      {/* </div> */}
     </ThemeProvider>
   );
 };

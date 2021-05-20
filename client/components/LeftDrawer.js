@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { logout } from "../store";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    padding: theme.spacing(12, 1),
+    padding: theme.spacing(3),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
@@ -89,11 +90,17 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
   },
   logo: {
-    maxWidth: 150,
+    maxWidth: 60,
   },
   logout: {
-    // AHHHHHHH!!!!
     alignSelf: "flex-end",
+  },
+  title: {
+    flexGrow: 1,
+    color: "#000",
+  },
+  imageContainer: {
+    flexGrow: 1,
   },
 }));
 
@@ -121,27 +128,53 @@ function LeftMiniDrawer(props) {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              alignItems: "center",
+            }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Link to="/home">
-            <IconButton edge="start" className={classes.menuButton}>
-              <img src="/images/VizWiz.png" className={classes.logo} />
-            </IconButton>
-          </Link>
-          <a className={classes.logout} href="#" onClick={handleClick}>
-            <Typography variant="h6" className={clsx(classes.linkText, classes.title)} >
-              Logout
-            </Typography>
-          </a>
+            <div>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                className={clsx(classes.menuButton, {
+                  [classes.hide]: open,
+                })}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Link to="/home">
+                <IconButton edge="start" className={classes.menuButton}>
+                  <div className={classes.imageContainer}>
+                    <img src="/images/VizWiz.png" className={classes.logo} />
+                  </div>
+                  <div style={{ alignItems: "end" }}>
+                    <Typography variant="h4">VizWiz</Typography>
+                  </div>
+                </IconButton>
+              </Link>
+            </div>
+            <div>
+              <a
+                edge="end"
+                className={classes.logout}
+                href="#"
+                onClick={handleClick}
+              >
+                <Typography
+                  variant="h6"
+                  className={clsx(classes.linkText, classes.title)}
+                >
+                  Logout
+                </Typography>
+              </a>
+            </div>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -166,7 +199,7 @@ function LeftMiniDrawer(props) {
             )}
           </IconButton>
         </div>
-        <Divider />
+        {/* <Divider /> */}
         <List>
           <Link to={`/users/${userId}/history`}>
             <Tooltip title="My Graphs" placement="right">
@@ -209,11 +242,11 @@ function LeftMiniDrawer(props) {
 }
 
 const mapDispatch = (dispatch) => {
-	return {
-		handleClick() {
-			dispatch(logout());
-		},
-	};
+  return {
+    handleClick() {
+      dispatch(logout());
+    },
+  };
 };
 
 export default connect(null, mapDispatch)(LeftMiniDrawer);
