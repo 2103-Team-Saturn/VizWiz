@@ -75,9 +75,10 @@ class ChartHistory extends Component {
                   >
                     {graph.properties.title}
                   </h1>
-                </Link>
 
-                  <img src={graph.properties.img} alt="Graph" width="500" height="600" />
+                  <img src={graph.properties.img} alt="Graph" width="300" height="300" />
+                  
+                </Link>
 
                 <Button
                   type="submit"

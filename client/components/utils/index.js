@@ -117,6 +117,4 @@ export async function saveImg () {
 	return canvas.toDataURL('image/png')
 
 
-	// console.log("image src", image.src.slice(5))
-	// return image.src.slice(5)
 }
