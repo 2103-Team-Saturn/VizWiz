@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
-import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -14,10 +15,12 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
+import Typography from "@material-ui/core/Typography";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import PieChartIcon from "@material-ui/icons/PieChart";
 import AssessmentIcon from "@material-ui/icons/Assessment";
+import GroupWorkIcon from "@material-ui/icons/GroupWork";
 
 const drawerWidth = 240;
 
@@ -82,16 +85,22 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   linkText: {
-      color: "black",
-      textDecoration: "none",
-  }
+    color: "black",
+    textDecoration: "none",
+  },
+  logo: {
+    maxWidth: 150,
+  },
+  logout: {
+    // AHHHHHHH!!!!
+  },
 }));
 
-export default function LeftMiniDrawer(props) {
+function LeftMiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const { userId } = props;
+  const { userId, handleClick } = props;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -122,6 +131,16 @@ export default function LeftMiniDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
+          <Link to="/home">
+            <IconButton edge="start" className={classes.menuButton}>
+              <img src="/images/VizWiz.png" className={classes.logo} />
+            </IconButton>
+          </Link>
+          <a className={classes.logout} href="#" onClick={handleClick}>
+            <Typography variant="h6" className={clsx(classes.linkText, classes.title)} >
+              Logout
+            </Typography>
+          </a>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -152,15 +171,33 @@ export default function LeftMiniDrawer(props) {
             <Tooltip title="My Graphs" placement="right">
               <ListItem button key="my-graphs">
                 <ListItemIcon>{<PieChartIcon fontSize="large" />}</ListItemIcon>
-                <ListItemText primary="My Graphs" className={classes.linkText} />
+                <ListItemText
+                  primary="My Graphs"
+                  className={classes.linkText}
+                />
               </ListItem>
             </Tooltip>
           </Link>
-          <Link to={`/users/${userId}/data`} >
+          <Link to={`/users/${userId}/data`}>
             <Tooltip title="My Data" placement="right">
               <ListItem button key="my-data">
-                <ListItemIcon>{<AssessmentIcon fontSize="large" />}</ListItemIcon>
+                <ListItemIcon>
+                  {<AssessmentIcon fontSize="large" />}
+                </ListItemIcon>
                 <ListItemText primary="My Data" className={classes.linkText} />
+              </ListItem>
+            </Tooltip>
+          </Link>
+          <Link to="/room">
+            <Tooltip title="Join a Room" placement="right">
+              <ListItem button key="join-room">
+                <ListItemIcon>
+                  {<GroupWorkIcon fontSize="large" />}
+                </ListItemIcon>
+                <ListItemText
+                  primary="Join a Room"
+                  className={classes.linkText}
+                />
               </ListItem>
             </Tooltip>
           </Link>
@@ -169,3 +206,13 @@ export default function LeftMiniDrawer(props) {
     </div>
   );
 }
+
+const mapDispatch = (dispatch) => {
+	return {
+		handleClick() {
+			dispatch(logout());
+		},
+	};
+};
+
+export default connect(null, mapDispatch)(LeftMiniDrawer);
