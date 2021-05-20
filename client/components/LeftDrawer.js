@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
@@ -22,6 +23,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PieChartIcon from "@material-ui/icons/PieChart";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const drawerWidth = 240;
 
@@ -78,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     padding: theme.spacing(3),
-    // necessary for content to be below app bar
+    // ^ moves content to be below app bar
     ...theme.mixins.toolbar,
   },
   content: {
@@ -160,19 +162,15 @@ function LeftMiniDrawer(props) {
               </Link>
             </div>
             <div>
-              <a
-                edge="end"
-                className={classes.logout}
-                href="#"
-                onClick={handleClick}
-              >
-                <Typography
-                  variant="h6"
-                  className={clsx(classes.linkText, classes.title)}
-                >
-                  Logout
-                </Typography>
-              </a>
+            <Button
+              className={classes.logout}
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={handleClick}
+            >
+              Logout <ExitToAppIcon />
+            </Button>
             </div>
           </div>
         </Toolbar>
@@ -199,7 +197,6 @@ function LeftMiniDrawer(props) {
             )}
           </IconButton>
         </div>
-        {/* <Divider /> */}
         <List>
           <Link to={`/users/${userId}/history`}>
             <Tooltip title="My Graphs" placement="right">
