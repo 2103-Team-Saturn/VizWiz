@@ -540,7 +540,7 @@ const mapState = (state) => {
 	return {
 		unformatted: state.singleData.unformatted,
 		userId: state.auth.id,
-		userData: state.data,
+		userData: state.data.data,
 		user: state.auth,
 		rooms: state.rooms.allRooms,
 		singleRoom: state.rooms.singleRoom,
