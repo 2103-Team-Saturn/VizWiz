@@ -8,6 +8,7 @@ import {
 	PieGraph,
 	ScatterChart,
 } from "../graphCharts/index";
+import SnackbarSave from "./SnackbarSave";
 const io = require("socket.io-client");
 
 const socket = io();
@@ -86,8 +87,6 @@ class GraphControl extends Component {
 				title: this.props.location.state.graph.properties.title || "",
 				xTitle: this.props.location.state.graph.properties.xTitle || "",
 				yTitle: this.props.location.state.graph.properties.yTitle || "",
-				// xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
-				// yAxis: this.props.location.state.yValues,
 				color: this.props.location.state.graph.properties.color || "",
 				highlight: this.props.location.state.graph.properties.highlight || "",
 			});
@@ -281,10 +280,9 @@ class GraphControl extends Component {
 			formattedData = formatForVictory(xValues, yValues);
 		} else if (this.state.x) {
 			suggestions.push("pie");
-			// formattedData = ??
 		}
-		// clean data, create suggestions, reformat data
 
+		// clean data, create suggestions, reformat data
 		const { changeStyle } = this;
 		const graphSelected = this.state.graph;
 		const dataset = this.props.unformatted.name;
@@ -506,15 +504,16 @@ class GraphControl extends Component {
 					</div>
 					<div id='graph-container'>{graphDictionary[graphSelected]}</div>
 					<div>
-						<Button
+						<SnackbarSave saveGraph={this.saveGraph} />
+						{/* <Button
 							type='submit'
 							variant='contained'
 							color='success'
 							onClick={() => this.saveGraph()}>
 							Save <SaveIcon className='SaveIcon' />
-						</Button>
+						</Button> */}
 					</div>
-
+					<div>
 					<Button
 						type='submit'
 						variant='contained'
@@ -522,6 +521,7 @@ class GraphControl extends Component {
 						onClick={() => download(this.state.title)}>
 						Download <DownloadIcon className='DownloadIcon' />
 					</Button>
+					</div>
 					<canvas
 						id='canvas'
 						width='500'
