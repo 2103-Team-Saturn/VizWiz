@@ -71,7 +71,10 @@ export async function download (title) {
 
     document.body.appendChild(link)
     link.click()
+
+		console.log("imageURL", URL)
 	};
+
 }
 
 
@@ -95,26 +98,29 @@ export async function saveImg () {
 
 	image.onload = () => {
 
-   context.drawImage(image, 0, 0);
-	 var png = canvas.toDataURL('image/png')
-	 document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
-	 DOMURL.revokeObjectURL(png)
+		context.drawImage(image, 0, 0);
+		var png = canvas.toDataURL('image/png')
+		document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
+		DOMURL.revokeObjectURL(png)
 
 
 
-	 //download
-	 //  const canvas2 = document.getElementById("canvas")
-	 //   let URL = canvas2.toDataURL('image/png')
-	 //   let link = document.createElement('a')
-	 //   link.href = URL
-	 //   link.download = title ? title + '.png' : 'chart.png'
+	  //download
+	  //  let link = document.createElement('a')
+	  //  link.href = URL
+	  //  link.download = title ? title + '.png' : 'chart.png'
 
-	 //   document.body.appendChild(link)
-	 //   link.click()
-
+	  //  document.body.appendChild(link)
+	  //  link.click()
 	};
-	console.log("canvas.toDataURL('image/png')", canvas.toDataURL('image/png'))
-	return canvas.toDataURL('image/png')
+	const canvas2 = document.getElementById("canvas")
+	let URL = canvas2.toDataURL('image/png')
+
+	// console.log("canvas.toDataURL('image/png')", canvas.toDataURL('image/png'))
+	// return canvas.toDataURL('image/png')
+
+	console.log("URL", URL)
+	return URL
 
 
 }
