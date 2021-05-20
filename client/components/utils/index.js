@@ -100,18 +100,23 @@ export async function saveImg () {
 	 document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
 	 DOMURL.revokeObjectURL(png)
 
-  //download
-	//  const canvas2 = document.getElementById("canvas")
-  //   let URL = canvas2.toDataURL('image/png')
-  //   let link = document.createElement('a')
-  //   link.href = URL
-  //   link.download = title ? title + '.png' : 'chart.png'
 
-  //   document.body.appendChild(link)
-  //   link.click()
+
+	 //download
+	 //  const canvas2 = document.getElementById("canvas")
+	 //   let URL = canvas2.toDataURL('image/png')
+	 //   let link = document.createElement('a')
+	 //   link.href = URL
+	 //   link.download = title ? title + '.png' : 'chart.png'
+
+	 //   document.body.appendChild(link)
+	 //   link.click()
+
 	};
+	console.log("canvas.toDataURL('image/png')", canvas.toDataURL('image/png'))
+	return canvas.toDataURL('image/png')
 
 
-	// console.log("image src", image.src.slice(6))
-	return image.src.slice(5)
+	// console.log("image src", image.src.slice(5))
+	// return image.src.slice(5)
 }

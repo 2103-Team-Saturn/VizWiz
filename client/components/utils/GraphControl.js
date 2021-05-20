@@ -216,15 +216,17 @@ class GraphControl extends Component {
 	}
 
 	async saveGraph() {
-		let imgString = await saveImg()
+		let png = await saveImg()
 		this.setState({
-			img: imgString
+			img: png
 		})
-		console.log("imgString", imgString)
+		console.log("this.state.png", this.state.img)
+		console.log("state", this.state)
 		this.props.postGraph(this.state, this.props.userId, this.state.dataId);
 	}
 
 	render() {
+
 		let matchingUser;
 
 		if (!this.props.singleRoom) {

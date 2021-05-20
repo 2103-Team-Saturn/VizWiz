@@ -6,6 +6,7 @@ import { Grid, Paper, Container, Button, Image } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { CallMissedSharp, CenterFocusStrong } from "@material-ui/icons";
 import { fetchAllUsers } from "../../store/users";
+import { saveImg } from "../utils";
 
 
 class ChartHistory extends Component {
@@ -77,6 +78,7 @@ class ChartHistory extends Component {
                 </Link>
 
                   <img src={graph.properties.img} alt="Graph" width="500" height="600" />
+
                 <Button
                   type="submit"
                   fullWidth
