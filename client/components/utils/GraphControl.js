@@ -39,6 +39,7 @@ import {
 	formatForVictory,
 	dynamicVals,
 	download,
+	saveImg,
 } from "../utils";
 import { fetchAllUsers } from "../../store/users";
 import ChatRoom from "../rooms/ChatRoom";
@@ -68,6 +69,7 @@ class GraphControl extends Component {
 			checkedDonut: true,
 			checkedHalf: true,
 			checkedPadding: true,
+			img: "",
 		};
 		this.leaveRoom = this.leaveRoom.bind(this);
 		this.changeStyle = this.changeStyle.bind(this);
@@ -213,7 +215,12 @@ class GraphControl extends Component {
 		}
 	}
 
-	saveGraph() {
+	async saveGraph() {
+		let imgString = await saveImg()
+		this.setState({
+			img: imgString
+		})
+		console.log("imgString", imgString)
 		this.props.postGraph(this.state, this.props.userId, this.state.dataId);
 	}
 

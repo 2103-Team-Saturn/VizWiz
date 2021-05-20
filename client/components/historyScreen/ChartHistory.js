@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { gotGraphs, deletingGraph } from "../../store/graph";
-import { Grid, Paper, Container, Button } from "@material-ui/core";
+import { Grid, Paper, Container, Button, Image } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { CallMissedSharp, CenterFocusStrong } from "@material-ui/icons";
 import { fetchAllUsers } from "../../store/users";
+
 
 class ChartHistory extends Component {
   constructor() {
@@ -74,6 +75,8 @@ class ChartHistory extends Component {
                     {graph.properties.title}
                   </h1>
                 </Link>
+
+                  <img src={graph.properties.img} alt="Graph" width="500" height="600" />
                 <Button
                   type="submit"
                   fullWidth
