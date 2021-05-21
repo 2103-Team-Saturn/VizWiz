@@ -231,6 +231,21 @@ class GraphControl extends Component {
     )
 	}
 
+	handleClose(evt, reason) {
+		if (reason === "clickaway") {
+			return;
+		}
+		this.setState({ openSnack: false });
+		}
+
+	handleSubmit(evt) {
+			evt.preventDefault();
+			this.saveGraph();
+			this.setState({
+				openSnack: true,
+			});
+	}
+
   render() {
     let matchingUser;
 
@@ -560,13 +575,13 @@ class GraphControl extends Component {
 const mapState = (state) => {
   return {
     unformatted: state.singleData.unformatted,
-    userId: state.auth.id,
-    userData: state.data,
-    user: state.auth,
-    rooms: state.rooms.allRooms,
-    singleRoom: state.rooms.singleRoom,
-    allUsers: state.users,
-    dataId: state.singleData.dataId,
+		userId: state.auth.id,
+		userData: state.data.data,
+		user: state.auth,
+		rooms: state.rooms.allRooms,
+		singleRoom: state.rooms.singleRoom,
+		allUsers: state.users,
+		dataId: state.singleData.dataId,
   };
 };
 
