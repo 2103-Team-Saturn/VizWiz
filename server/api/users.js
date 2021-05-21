@@ -54,28 +54,28 @@ router.post("/:id/data/:dataId", async (req, res, next) => {
 });
 
 
-router.post('/:id/data/:dataId', async (req, res, next) => {
-  try {
-    const graph = await Graph.create({
-      userId: req.params.id,
-      properties: req.body,
-      datumId: req.params.dataId
-    })
-    const allData = await Graph.findAll({
-      where: {
-        id: graph.id
-      },
-      include: [
-        {
-          model: Data
-        }
-      ]
-    })
-    res.send(allData[0])
-  } catch (err) {
-    next(err)
-  }
-})
+// router.post('/:id/data/:dataId', async (req, res, next) => {
+//   try {
+//     const graph = await Graph.create({
+//       userId: req.params.id,
+//       properties: req.body,
+//       datumId: req.params.dataId
+//     })
+//     const allData = await Graph.findAll({
+//       where: {
+//         id: graph.id
+//       },
+//       include: [
+//         {
+//           model: Data
+//         }
+//       ]
+//     })
+//     res.send(allData[0])
+//   } catch (err) {
+//     next(err)
+//   }
+// })
 
 //findbyPk
 router.get('/:id/history', async (req, res, next) => {

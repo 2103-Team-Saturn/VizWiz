@@ -14,7 +14,6 @@ import {
 
 export default class BarGraph extends Component {
   render() {
-    console.log('**BG props', this.props);
     // const { x, y } = this.props;
     const title = this.props.title || this.props.selectedDataset;
     const xTitle = this.props.xTitle || this.props.x;
@@ -22,7 +21,6 @@ export default class BarGraph extends Component {
     const color = this.props.color || '#000000';
     const highlight = this.props.highlight || '#A9A9A9';
     const { formattedData } = this.props;
-    console.log('formattedData inside BG>>>', formattedData);
 
     let legendData = [];
     for (let item of formattedData) {
