@@ -31,6 +31,7 @@ const customTheme = createMuiTheme({
 
 const styles = (theme) => ({
 	container: {
+		marginTop: 150,
 		alignItems: "center",
 		flexGrow: 1,
 		textAlign: "center",
