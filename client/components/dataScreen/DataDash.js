@@ -83,7 +83,7 @@ const DataDash = (props) => {
 };
 
 const mapState = (state) => ({
-	data: state.data,
+	data: state.data.data,
 	userId: state.auth.id,
 });
 

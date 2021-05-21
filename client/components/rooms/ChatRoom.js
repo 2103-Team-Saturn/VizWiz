@@ -110,7 +110,7 @@ const mapState = (state) => {
 	return {
 		userId: state.auth.id,
 		user: state.auth,
-		userData: state.data,
+		userData: state.data.data,
 		rooms: state.rooms.allRooms,
 		singleRoom: state.rooms.singleRoom,
 		allUsers: state.users,

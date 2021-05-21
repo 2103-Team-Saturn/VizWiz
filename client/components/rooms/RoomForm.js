@@ -16,6 +16,7 @@ import { Tab } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import { Redirect } from "react-router-dom";
 
 const customTheme = createMuiTheme({
 	palette: {
@@ -62,6 +63,7 @@ class RoomForm extends Component {
 			yourRoom: true,
 			otherRoom: false,
 			tabValue: 0,
+			redirect: null,
 		};
 
 		this.userRoomSubmit = this.userRoomSubmit.bind(this);
@@ -75,6 +77,7 @@ class RoomForm extends Component {
 	}
 
 	userRoomSubmit(userKey) {
+		console.log(this.props);
 		event.preventDefault();
 		let roomKey = userKey;
 		const users = this.props.allUsers;
@@ -83,7 +86,7 @@ class RoomForm extends Component {
 		});
 		if (match.length) {
 			this.props.fetchSingleRoom(roomKey);
-			this.props.history.push("room/live");
+			this.setState({ redirect: "/room/live" });
 		} else {
 			console.log("INVALID KEY");
 		}
@@ -102,7 +105,7 @@ class RoomForm extends Component {
 		});
 		if (match.length) {
 			this.props.fetchSingleRoom(roomKey);
-			this.props.history.push("room/live");
+			this.setState({ redirect: "/room/live" });
 		} else {
 			console.log("INVALID KEY");
 		}
@@ -117,6 +120,10 @@ class RoomForm extends Component {
 	render() {
 		const userKey = this.props.user.roomKey;
 		const { classes } = this.props;
+
+		if (this.state.redirect) {
+			return <Redirect to={this.state.redirect} />;
+		}
 
 		return (
 			<ThemeProvider theme={customTheme}>
