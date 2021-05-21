@@ -36,23 +36,25 @@ export function graphSuggestor(xValues, yValues, x) {
 }
 
 export async function download(title) {
-  var svgHtml = document.querySelector('svg');
+  const svgHtml = document.querySelector('div.VictoryContainer > svg'); // once integrated with new navbar
+  // 	const svgHtml = document.querySelector('svg');	// working original selector
+  // const multiplePossible = document.querySelectorAll("svg");
+  console.log('svgHtml>>>', svgHtml);
 
-  var svgString = new XMLSerializer().serializeToString(svgHtml);
-
-  const canvasElement = document.querySelector('canvas');
-  let context = canvas.getContext('2d');
-  var DOMURL = window.self.URL || window.self.webkitURL || window.self;
+  const svgString = new XMLSerializer().serializeToString(svgHtml);
+  // console.log('svgString>>>', svgString);
+  const canvasElement = document.getElementById('canvas');
+  let context = canvasElement.getContext('2d');
+  const DOMURL = window.self.URL || window.self.webkitURL || window.self;
 
   let image = new Image();
-  var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-  var url = DOMURL.createObjectURL(svg);
+  const svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+  const url = DOMURL.createObjectURL(svg);
   image.src = url;
 
-  const imageType = 'image/png';
-  const imageData = canvasElement.toDataURL(imageType);
-
   image.onload = () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
     context.drawImage(image, 0, 0);
     var png = canvas.toDataURL('image/png');
     document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>';
@@ -66,5 +68,38 @@ export async function download(title) {
 
     document.body.appendChild(link);
     link.click();
+  };
+}
+
+export async function saveImg(title, saveGraphCallback) {
+  const svgHtml = document.querySelector('div.VictoryContainer > svg');
+
+  var svgString = new XMLSerializer().serializeToString(svgHtml);
+
+  const canvasElement = document.querySelector('canvas');
+  let context = canvas.getContext('2d');
+  var DOMURL = window.self.URL || window.self.webkitURL || window.self;
+
+  let image = new Image();
+  var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+
+  var url = DOMURL.createObjectURL(svg);
+  image.src = url;
+
+  const imageType = 'image/png';
+  const imageData = canvasElement.toDataURL(imageType);
+
+  image.onload = () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    context.drawImage(image, 0, 0);
+    var png = canvas.toDataURL('image/png');
+    document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>';
+    DOMURL.revokeObjectURL(png);
+
+    const canvas2 = document.getElementById('canvas');
+    let URL = canvas2.toDataURL('image/png');
+
+    saveGraphCallback(URL);
   };
 }

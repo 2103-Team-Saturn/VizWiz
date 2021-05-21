@@ -32,13 +32,12 @@ import {
   formatForVictory,
   dynamicVals,
   download,
+  saveImg,
 } from '../utils';
 import { fetchAllUsers } from '../../store/users';
 import Alert from '@material-ui/lab/Alert';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import SaveIcon from '@material-ui/icons/Save';
-
-import BottomDrawer from '../sidedrawers/BottomDrawer';
 
 const io = require('socket.io-client');
 const socket = io();
@@ -69,13 +68,17 @@ class GraphControl extends Component {
       checkedDonut: true,
       checkedHalf: true,
       checkedPadding: true,
+
       openSnack: false,
+      img: '/Users/kevinkim/VizWiz/public/images/Graph.png',
     };
     this.leaveRoom = this.leaveRoom.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateCodeFromSockets = this.updateCodeFromSockets.bind(this);
+    this.saveGraph = this.saveGraph.bind(this);
+    this.saveGraphDB = this.saveGraphDB.bind(this);
   }
 
   componentDidMount() {
@@ -83,13 +86,15 @@ class GraphControl extends Component {
 
     if (this.props.location.state) {
       this.setState({
-        selectedDataset: '',
+        selectedDataset: '', // Isabelle's dataset selection logic??
         graph: this.props.location.state.graph.properties.graph || '',
         x: this.props.location.state.graph.properties.x || '',
         y: this.props.location.state.graph.properties.y || '',
         title: this.props.location.state.graph.properties.title || '',
         xTitle: this.props.location.state.graph.properties.xTitle || '',
         yTitle: this.props.location.state.graph.properties.yTitle || '',
+        // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
+        // yAxis: this.props.location.state.yValues,
         color: this.props.location.state.graph.properties.color || '',
         highlight: this.props.location.state.graph.properties.highlight || '',
       });
@@ -215,8 +220,19 @@ class GraphControl extends Component {
     }
   }
 
-  saveGraph() {
-    this.props.postGraph(this.state, this.props.userId, this.state.dataId);
+  async saveGraph() {
+    let png = await saveImg(this.state.title, this.saveGraphDB);
+  }
+
+  saveGraphDB(png) {
+    this.setState(
+      {
+        img: png,
+      },
+      () => {
+        this.props.postGraph(this.state, this.props.userId, this.state.dataId);
+      }
+    );
   }
 
   handleClose(evt, reason) {
@@ -232,6 +248,8 @@ class GraphControl extends Component {
     this.setState({
       openSnack: true,
     });
+    console.log('handlesubmit state >>>', evt);
+    console.log('handlesubmit state >>>', this.state);
   }
 
   render() {
@@ -302,7 +320,8 @@ class GraphControl extends Component {
     }
     // clean data, create suggestions, reformat data
 
-    const { changeStyle } = this;
+    const { changeStyle, handleSubmit, handleClose } = this;
+
     const graphSelected = this.state.graph;
     const dataset = this.props.unformatted.name;
 
@@ -538,7 +557,7 @@ class GraphControl extends Component {
                 type="submit"
                 variant="contained"
                 color="success"
-                onClick={() => this.saveGraph()}
+                onClick={handleSubmit}
               >
                 Save <SaveIcon className="SaveIcon" />
               </Button>
@@ -575,7 +594,6 @@ class GraphControl extends Component {
             />
           </div>
           <ChatDrawer />
-          {/* <BottomDrawer /> */}
         </div>
       </div>
     );
