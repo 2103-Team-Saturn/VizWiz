@@ -68,12 +68,12 @@ class GraphControl extends Component {
       checkedDonut: true,
       checkedHalf: true,
       checkedPadding: true,
-	  openSnack: false,
+	    openSnack: false,
     };
     this.leaveRoom = this.leaveRoom.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
-	this.handleClose = this.handleClose.bind(this);
-	this.handleSubmit = this.handleSubmit.bind(this);
+	  this.handleClose = this.handleClose.bind(this);
+	  this.handleSubmit = this.handleSubmit.bind(this);
     this.updateCodeFromSockets = this.updateCodeFromSockets.bind(this);
   }
 
@@ -300,7 +300,7 @@ class GraphControl extends Component {
     }
 
     // clean data, create suggestions, reformat data
-    const { changeStyle } = this;
+    const { changeStyle, handleSubmit, handleClose } = this;
     const graphSelected = this.state.graph;
     const dataset = this.props.unformatted.name;
 
@@ -530,16 +530,16 @@ class GraphControl extends Component {
               type="submit"
               variant="contained"
               color="success"
-              onClick={this.handleSubmit}
+              onClick={handleSubmit}
             >
               Save <SaveIcon className="SaveIcon" />
             </Button>
             <Snackbar
               open={this.state.openSnack}
               autoHideDuration={3000}
-              onClose={this.handleClose}
+              onClose={handleClose}
             >
-              <Alert onClose={this.handleClose} severity="success">
+              <Alert onClose={handleClose} severity="success">
                 Graph saved!
               </Alert>
             </Snackbar>
