@@ -3,7 +3,7 @@ const io = require('socket.io-client');
 const socket = io();
 import { connect } from 'react-redux';
 
-import IconButton from '@material-ui/core/IconButton';
+import { IconButton, Tooltip } from '@material-ui/core';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 
@@ -109,16 +109,20 @@ class ChatRoom extends Component {
               value={this.state.messageInput}
               onChange={this.typeMessage}
             />
-            <IconButton className="sendButton" color="primary" type="submit">
-              <SendRoundedIcon />
-            </IconButton>
-            <IconButton
-              className="leaveButton"
-              color="secondary"
-              onClick={() => this.leaveRoom()}
-            >
-              <MeetingRoomIcon />
-            </IconButton>
+            <Tooltip title="Send" placement="top" arrow>
+              <IconButton className="sendButton" color="primary" type="submit">
+                <SendRoundedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Leave Room" placement="top" arrow>
+              <IconButton
+                className="leaveButton"
+                color="secondary"
+                onClick={() => this.leaveRoom()}
+              >
+                <MeetingRoomIcon />
+              </IconButton>
+            </Tooltip>
           </form>
         </div>
       </div>
@@ -127,14 +131,14 @@ class ChatRoom extends Component {
 }
 
 const mapState = (state) => {
-	return {
-		userId: state.auth.id,
-		user: state.auth,
-		userData: state.data.data,
-		rooms: state.rooms.allRooms,
-		singleRoom: state.rooms.singleRoom,
-		allUsers: state.users,
-	};
+  return {
+    userId: state.auth.id,
+    user: state.auth,
+    userData: state.data.data,
+    rooms: state.rooms.allRooms,
+    singleRoom: state.rooms.singleRoom,
+    allUsers: state.users,
+  };
 };
 
 const mapDispatch = (dispatch) => {

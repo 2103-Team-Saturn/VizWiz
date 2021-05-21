@@ -24,6 +24,7 @@ import {
   CardContent,
   FormControl,
   FormGroup,
+  Tooltip,
 } from '@material-ui/core';
 import {
   graphSuggestor,
@@ -541,8 +542,7 @@ class GraphControl extends Component {
               }}
             />
           </div>
-
-          <ChatDrawer className="chat-wdiget" />
+          <ChatDrawer />
         </div>
       </div>
     );
