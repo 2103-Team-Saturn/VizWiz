@@ -1,41 +1,40 @@
-import React from "react";
-import { connect } from "react-redux";
-import ModalButton from "../modal/ModalButton";
-import ChartHistory from "../historyScreen/ChartHistory";
+import React from 'react';
+import { connect } from 'react-redux';
+import ModalButton from '../modal/ModalButton';
+import ChartHistory from '../historyScreen/ChartHistory';
 
-import ButtonBase from "@material-ui/core/ButtonBase";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import Tooltip from "@material-ui/core/Tooltip";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
+import ButtonBase from '@material-ui/core/ButtonBase';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 import {
-	Typography,
-	Grid,
-	Card,
-	Box,
-	Button,
-	CardActions,
-} from "@material-ui/core";
-import { Link } from "react-router-dom";
-import RoomModal from "../rooms/RoomModal";
+  Typography,
+  Grid,
+  Card,
+  Box,
+  Button,
+  CardActions,
+} from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import RoomModal from '../rooms/RoomModal';
 
 // images for card
-const uploadDataImg =
-	"https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1355&q=80";
+const uploadDataImg = 'https://pbs.twimg.com/media/EnlVcxtXIAAPNg7.jpg';
 
 const dataDashImg =
-	"https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80";
+  'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1350&q=80';
 
 const historyImg =
-	"https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+  'https://images.unsplash.com/photo-1543286386-2e659306cd6c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
 
 const collabImage =
-	"https://www.meistertask.com/blog/wp-content/uploads/2020/06/Meeting-Productivity-Tips-scaled.jpg";
+  'https://www.meistertask.com/blog/wp-content/uploads/2020/06/Meeting-Productivity-Tips-scaled.jpg';
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -150,118 +149,117 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HomeGrid({ userId }) {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	return (
-		<React.Fragment>
-			<CssBaseline />
-			<div className={classes.layout}>
-				<Grid container spacing={10}>
-					{/* Card #1 */}
-					<Grid item sm={6} md={4} lg={3}>
-						<Card className={classes.card}>
-							<Tooltip title={`click 'IMPORT HERE' below`} placement='bottom'>
-								<CardMedia
-									className={classes.cardMedia}
-									image={uploadDataImg}
-									// style={}
-								/>
-							</Tooltip>
-							<CardContent className={classes.cardContent}>
-								<Typography variant='body2' style={{ cursor: "pointer" }}>
-									<ModalButton className={classes.contentIcon} />
-									Import Data Here
-								</Typography>
-							</CardContent>
-						</Card>
-					</Grid>
-					<Grid item sm={6} md={4} lg={3}>
-						<Card className={classes.card}>
-							<Tooltip title={`click join room`} placement='bottom'>
-								<CardMedia
-									className={classes.cardMedia}
-									image={collabImage}
-									// style={}
-								/>
-							</Tooltip>
-							<CardContent className={classes.cardContent}>
-								<Typography variant='body2' style={{ cursor: "pointer" }}>
-									<RoomModal className={classes.contentIcon} />
-									Join a Room
-								</Typography>
-							</CardContent>
-						</Card>
-					</Grid>
-					{/* Card #2 */}
-					<Grid item sm={6} md={4} lg={3}>
-						<Card className={classes.card}>
-							{/* <Link to="/ChartData">Data</Link> */}
-							<ButtonBase
-								focusRipple
-								className={classes.image}
-								focusVisibleClassName={classes.focusVisible}
-								component={Link}
-								to={`/users/${userId}/history`}>
-								<span
-									className={classes.imageSrc}
-									style={{
-										backgroundImage: `url(${historyImg})`,
-									}}
-								/>
-								<span className={classes.imageBackdrop} />
-								<span className={classes.imageButton}>
-									<Typography
-										component='span'
-										variant='subtitle1'
-										color='inherit'
-										className={classes.imageTitle}>
-										History
-										<span className={classes.imageMarked} />
-									</Typography>
-								</span>
-							</ButtonBase>
-						</Card>
-					</Grid>
-					{/* Card #3 */}
-					<Grid item sm={6} md={4} lg={3}>
-						<Card className={classes.card}>
-							{/* <Link to="/ChartData">Data</Link> */}
-							<ButtonBase
-								focusRipple
-								className={classes.image}
-								focusVisibleClassName={classes.focusVisible}
-								component={Link}
-								to={`/users/${userId}/data`}>
-								<span
-									className={classes.imageSrc}
-									style={{
-										backgroundImage: `url(${dataDashImg})`,
-									}}
-								/>
-								<span className={classes.imageBackdrop} />
-								<span className={classes.imageButton}>
-									<Typography
-										component='span'
-										variant='subtitle1'
-										color='inherit'
-										className={classes.imageTitle}>
-										Data
-										<span className={classes.imageMarked} />
-									</Typography>
-								</span>
-							</ButtonBase>
-						</Card>
-					</Grid>
-				</Grid>
-			</div>
-		</React.Fragment>
-	);
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <div className={classes.layout}>
+        <Grid container spacing={10}>
+          {/* Card #1 */}
+          <Grid item sm={6} md={4} lg={3}>
+            <Card className={classes.card}>
+              <Tooltip title={`click 'IMPORT HERE' below`} placement="bottom">
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={uploadDataImg}
+                />
+              </Tooltip>
+              <CardContent className={classes.cardContent}>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  <ModalButton className={classes.contentIcon} />
+                  Import Data Here
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item sm={6} md={4} lg={3}>
+            <Card className={classes.card}>
+              <Tooltip title={`click join room`} placement="bottom">
+                <CardMedia className={classes.cardMedia} image={collabImage} />
+              </Tooltip>
+              <CardContent className={classes.cardContent}>
+                <Typography variant="body2" style={{ cursor: 'pointer' }}>
+                  <RoomModal className={classes.contentIcon} />
+                  Join a Room
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          {/* Card #2 */}
+          <Grid item sm={6} md={4} lg={3}>
+            <Card className={classes.card}>
+              {/* <Link to="/ChartData">Data</Link> */}
+              <ButtonBase
+                focusRipple
+                className={classes.image}
+                focusVisibleClassName={classes.focusVisible}
+                component={Link}
+                to={`/users/${userId}/history`}
+              >
+                <span
+                  className={classes.imageSrc}
+                  style={{
+                    backgroundImage: `url(${historyImg})`,
+                  }}
+                />
+                <span className={classes.imageBackdrop} />
+                <span className={classes.imageButton}>
+                  <Typography
+                    component="span"
+                    variant="subtitle1"
+                    color="inherit"
+                    className={classes.imageTitle}
+                  >
+                    History
+                    <span className={classes.imageMarked} />
+                  </Typography>
+                </span>
+              </ButtonBase>
+            </Card>
+          </Grid>
+          {/* Card #3 */}
+          <Grid item sm={6} md={4} lg={3}>
+            <Card className={classes.card}>
+              {/* <Link to="/ChartData">Data</Link> */}
+              <ButtonBase
+                focusRipple
+                className={classes.image}
+                focusVisibleClassName={classes.focusVisible}
+                component={Link}
+                to={`/users/${userId}/data`}
+              >
+                <span
+                  className={classes.imageSrc}
+                  style={{
+                    backgroundImage: `url(${dataDashImg})`,
+                  }}
+                />
+                <span className={classes.imageBackdrop} />
+                <span className={classes.imageButton}>
+                  <Typography
+                    component="span"
+                    variant="subtitle1"
+                    color="inherit"
+                    className={classes.imageTitle}
+                  >
+                    Data
+                    <span className={classes.imageMarked} />
+                  </Typography>
+                </span>
+              </ButtonBase>
+            </Card>
+          </Grid>
+        </Grid>
+      </div>
+    </React.Fragment>
+  );
 }
 
 const mapState = (state) => {
-	return {
-		userId: state.auth.id,
-	};
+  return {
+    userId: state.auth.id,
+  };
 };
 
 export default connect(mapState, null)(HomeGrid);
