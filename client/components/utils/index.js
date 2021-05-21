@@ -72,13 +72,12 @@ export async function download (title) {
     document.body.appendChild(link)
     link.click()
 
-		console.log("imageURL", URL)
 	};
 
 }
 
 
-export async function saveImg () {
+export async function saveImg (title, saveGraphCallback) {
 	var svgHtml = document.querySelector('svg');
 
 	var svgString = new XMLSerializer().serializeToString(svgHtml)
@@ -89,6 +88,7 @@ export async function saveImg () {
 
 	let image = new Image();
 	var svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
+
   var url = DOMURL.createObjectURL(svg)
   image.src = url
 
@@ -98,12 +98,19 @@ export async function saveImg () {
 
 	image.onload = () => {
 
+		context.clearRect(0, 0, canvas.width, canvas.height);
+
 		context.drawImage(image, 0, 0);
 		var png = canvas.toDataURL('image/png')
 		document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
 		DOMURL.revokeObjectURL(png)
 
+		const canvas2 = document.getElementById("canvas")
+		let URL = canvas2.toDataURL('image/png')
 
+		console.log("URL before setstate ", URL)
+
+		saveGraphCallback(URL)
 
 	  //download
 	  //  let link = document.createElement('a')
@@ -113,14 +120,12 @@ export async function saveImg () {
 	  //  document.body.appendChild(link)
 	  //  link.click()
 	};
-	const canvas2 = document.getElementById("canvas")
-	let URL = canvas2.toDataURL('image/png')
 
 	// console.log("canvas.toDataURL('image/png')", canvas.toDataURL('image/png'))
 	// return canvas.toDataURL('image/png')
 
-	console.log("URL", URL)
-	return URL
-
 
 }
+
+
+

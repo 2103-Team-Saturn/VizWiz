@@ -74,6 +74,8 @@ class GraphControl extends Component {
     this.leaveRoom = this.leaveRoom.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
     this.updateCodeFromSockets = this.updateCodeFromSockets.bind(this);
+		this.saveGraph = this.saveGraph.bind(this)
+		this.saveGraphDB = this.saveGraphDB.bind(this)
   }
 
   componentDidMount() {
@@ -216,21 +218,21 @@ class GraphControl extends Component {
   }
 
   async saveGraph() {
-    let png = await saveImg()
-      .then((png) => {
-        this.setState({
-          img: png,
-        })
-				console.log("png inside saveGraph", png) }
-      )
-      .then( () => {
-        this.props.postGraph(this.state, this.props.userId, this.state.dataId)
-				console.log("this.state.png", this.state.img);
-				console.log("state", this.state);}
-      );
+    let png = await saveImg(this.state.title, this.saveGraphDB);
 
     // await this.props.postGraph(this.state, this.props.userId, this.state.dataId);
   }
+
+	saveGraphDB(png) {
+		this.setState(
+      {
+        img: png,
+      }, () => {
+				this.props.postGraph(this.state, this.props.userId, this.state.dataId)
+				console.log("newState", this.state)
+			}
+    )
+	}
 
   render() {
     let matchingUser;
