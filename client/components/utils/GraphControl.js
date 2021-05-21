@@ -1,21 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchSingleData } from "../../store/singleData";
-import { postGraph } from "../../store/graph";
-import Alert from "@material-ui/lab/Alert";
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchSingleData } from '../../store/singleData';
+import { postGraph } from '../../store/graph';
 import {
   LineGraph,
   BarGraph,
   PieGraph,
   ScatterChart,
-} from "../graphCharts/index";
-const io = require("socket.io-client");
-
-const socket = io();
-
-import ReactDOM from "react-dom";
-
+} from '../graphCharts/index';
+import { ChatDrawer } from '../sidedrawers/ChatDrawer';
 import {
   Grid,
   Typography,
@@ -31,59 +24,61 @@ import {
   CardContent,
   FormControl,
   FormGroup,
-	Snackbar,
-} from "@material-ui/core";
-
-import DownloadIcon from "@material-ui/icons/CloudDownload";
-import SaveIcon from "@material-ui/icons/Save";
-
+  Tooltip,
+  Snackbar,
+} from '@material-ui/core';
 import {
   graphSuggestor,
   formatForVictory,
   dynamicVals,
   download,
   saveImg,
-} from "../utils";
-import { fetchAllUsers } from "../../store/users";
-import ChatRoom from "../rooms/ChatRoom";
+} from '../utils';
+import { fetchAllUsers } from '../../store/users';
+import Alert from '@material-ui/lab/Alert';
+import DownloadIcon from '@material-ui/icons/CloudDownload';
+import SaveIcon from '@material-ui/icons/Save';
+
+const io = require('socket.io-client');
+const socket = io();
 
 const sampleData = [
-  { quarter: "1", earnings: 13, items: 40, state: "NY" },
-  { quarter: "2", earnings: 16, items: 60, state: "NJ" },
-  { quarter: "3", earnings: 17, items: 70, state: "PA" },
-  { quarter: "4", earnings: 18, items: 80, state: "NY" },
-  { quarter: "4", earnings: 18, items: 81, state: "NY" },
-  { quarter: "4", earnings: 19, items: 90, state: "NY" },
+  { quarter: '1', earnings: 13, items: 40, state: 'NY' },
+  { quarter: '2', earnings: 16, items: 60, state: 'NJ' },
+  { quarter: '3', earnings: 17, items: 70, state: 'PA' },
+  { quarter: '4', earnings: 18, items: 80, state: 'NY' },
+  { quarter: '4', earnings: 18, items: 81, state: 'NY' },
+  { quarter: '4', earnings: 19, items: 90, state: 'NY' },
 ];
+
 class GraphControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataId: +this.props.match.params.dataId || "",
-      graph: "",
-      x: "",
-      y: "",
-      title: "",
-      xTitle: "",
-      yTitle: "",
-      color: "",
-      highlight: "",
-      pieColor: "",
+      dataId: +this.props.match.params.dataId || '',
+      graph: '',
+      x: '',
+      y: '',
+      title: '',
+      xTitle: '',
+      yTitle: '',
+      color: '',
+      highlight: '',
+      pieColor: '',
       checkedDonut: true,
       checkedHalf: true,
       checkedPadding: true,
 
-	    openSnack: false, 
-      img: "/Users/kevinkim/VizWiz/public/images/Graph.png",
+      openSnack: false,
+      img: '/Users/kevinkim/VizWiz/public/images/Graph.png',
     };
     this.leaveRoom = this.leaveRoom.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
-	  this.handleClose = this.handleClose.bind(this);
-	  this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.handleClose = this.handleClose.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.updateCodeFromSockets = this.updateCodeFromSockets.bind(this);
-		this.saveGraph = this.saveGraph.bind(this)
-		this.saveGraphDB = this.saveGraphDB.bind(this)
+    this.saveGraph = this.saveGraph.bind(this);
+    this.saveGraphDB = this.saveGraphDB.bind(this);
   }
 
   componentDidMount() {
@@ -91,35 +86,35 @@ class GraphControl extends Component {
 
     if (this.props.location.state) {
       this.setState({
-        selectedDataset: "", // Isabelle's dataset selection logic??
-        graph: this.props.location.state.graph.properties.graph || "",
-        x: this.props.location.state.graph.properties.x || "",
-        y: this.props.location.state.graph.properties.y || "",
-        title: this.props.location.state.graph.properties.title || "",
-        xTitle: this.props.location.state.graph.properties.xTitle || "",
-        yTitle: this.props.location.state.graph.properties.yTitle || "",
+        selectedDataset: '', // Isabelle's dataset selection logic??
+        graph: this.props.location.state.graph.properties.graph || '',
+        x: this.props.location.state.graph.properties.x || '',
+        y: this.props.location.state.graph.properties.y || '',
+        title: this.props.location.state.graph.properties.title || '',
+        xTitle: this.props.location.state.graph.properties.xTitle || '',
+        yTitle: this.props.location.state.graph.properties.yTitle || '',
         // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
         // yAxis: this.props.location.state.yValues,
-        color: this.props.location.state.graph.properties.color || "",
-        highlight: this.props.location.state.graph.properties.highlight || "",
+        color: this.props.location.state.graph.properties.color || '',
+        highlight: this.props.location.state.graph.properties.highlight || '',
       });
     }
 
-    socket.emit("joinRoom", this.props.singleRoom, this.props.user);
+    socket.emit('joinRoom', this.props.singleRoom, this.props.user);
 
-    socket.on("receiveCode", (payload) => {
+    socket.on('receiveCode', (payload) => {
       this.updateCodeFromSockets(payload);
     });
   }
 
   leaveRoom() {
-    socket.emit("leaveRoom", this.props.singleRoom, this.props.user);
+    socket.emit('leaveRoom', this.props.singleRoom, this.props.user);
   }
 
   updateCodeFromSockets(payload) {
     let attribute = Object.keys(payload)[0];
     let updated = Object.values(payload)[0];
-    this.changeStyle(updated, attribute, "sockets");
+    this.changeStyle(updated, attribute, 'sockets');
   }
 
   changeStyle(e, attribute, source) {
@@ -135,76 +130,76 @@ class GraphControl extends Component {
     }
 
     switch (attribute) {
-      case "graph":
+      case 'graph':
         this.setState({
           [attribute]: updated.value,
           x: this.state.x,
           y: this.state.y,
         });
         break;
-      case "x":
+      case 'x':
         this.setState({
           [attribute]: updated.value,
           graph: this.state.graph,
           y: this.state.y,
         });
         break;
-      case "y":
+      case 'y':
         this.setState({
           [attribute]: updated.value,
           graph: this.state.graph,
           x: this.state.x,
         });
         break;
-      case "dataId":
+      case 'dataId':
         this.setState({
           [attribute]: Number(updated.value),
-          graph: "",
-          x: "",
-          y: "",
+          graph: '',
+          x: '',
+          y: '',
         });
         break;
-      case "title":
+      case 'title':
         this.setState({
           [attribute]: updated.value,
         });
         break;
-      case "xTitle":
+      case 'xTitle':
         this.setState({
           [attribute]: updated.value,
         });
         break;
-      case "yTitle":
+      case 'yTitle':
         this.setState({
           [attribute]: updated.value,
         });
         break;
-      case "color":
+      case 'color':
         this.setState({
           [attribute]: updated.value,
         });
         break;
-      case "highlight":
+      case 'highlight':
         this.setState({
           [attribute]: updated.value,
         });
         break;
-      case "pieColor":
+      case 'pieColor':
         this.setState({
           [attribute]: updated.value,
         });
         break;
-      case "checkedDonut":
+      case 'checkedDonut':
         this.setState({
           [attribute]: !this.state[attribute],
         });
         break;
-      case "checkedHalf":
+      case 'checkedHalf':
         this.setState({
           [attribute]: !this.state[attribute],
         });
         break;
-      case "checkedPadding":
+      case 'checkedPadding':
         this.setState({
           [attribute]: !this.state[attribute],
         });
@@ -221,7 +216,7 @@ class GraphControl extends Component {
     };
 
     if (!source) {
-      socket.emit("newChanges", this.props.singleRoom, change);
+      socket.emit('newChanges', this.props.singleRoom, change);
     }
   }
 
@@ -229,30 +224,33 @@ class GraphControl extends Component {
     let png = await saveImg(this.state.title, this.saveGraphDB);
   }
 
-	saveGraphDB(png) {
-		this.setState(
+  saveGraphDB(png) {
+    this.setState(
       {
         img: png,
-      }, () => {
-				this.props.postGraph(this.state, this.props.userId, this.state.dataId)
-			}
-    )
-	}
+      },
+      () => {
+        this.props.postGraph(this.state, this.props.userId, this.state.dataId);
+      }
+    );
+  }
 
-	handleClose(evt, reason) {
-		if (reason === "clickaway") {
-			return;
-		}
-		this.setState({ openSnack: false });
-		}
+  handleClose(evt, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ openSnack: false });
+  }
 
-	handleSubmit(evt) {
-			evt.preventDefault();
-			this.saveGraph();
-			this.setState({
-				openSnack: true,
-			});
-	}
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.saveGraph();
+    this.setState({
+      openSnack: true,
+    });
+    console.log('handlesubmit state >>>', evt);
+    console.log('handlesubmit state >>>', this.state);
+  }
 
   render() {
     let matchingUser;
@@ -292,10 +290,10 @@ class GraphControl extends Component {
     }
 
     // populating x & y axis
-    const xPossibilities1 = dynamicVals(data, "string", keys);
-    const xPossibilities2 = dynamicVals(data, "number", keys);
+    const xPossibilities1 = dynamicVals(data, 'string', keys);
+    const xPossibilities2 = dynamicVals(data, 'number', keys);
     const xPossibilities = [...xPossibilities1, ...xPossibilities2];
-    const yPossibilities = dynamicVals(data, "number", keys);
+    const yPossibilities = dynamicVals(data, 'number', keys);
 
     let xValues, yValues;
     let suggestions = [];
@@ -317,7 +315,7 @@ class GraphControl extends Component {
       // data will be cleaned up on following line:
       formattedData = formatForVictory(xValues, yValues);
     } else if (this.state.x) {
-      suggestions.push("pie");
+      suggestions.push('pie');
       // formattedData = ??
     }
     // clean data, create suggestions, reformat data
@@ -341,252 +339,262 @@ class GraphControl extends Component {
     };
 
     return (
-      <div className="selector-box" style={{ marginTop: 150}}>
-        <div className="setting-selectors">
-          <h2>{dataset}</h2>
-          <div>
-            <select
-              name="dataId"
-              onChange={changeStyle}
-              value={this.state.dataId}
-            >
-              <option value="" disabled selected>
-                Data Id
-              </option>
-              {matchingUserData.map((data, idx) => (
-                <option key={idx} value={data.id}>
-                  {data.name}
-                </option>
-              ))}
-            </select>
+      <div className="main-box">
+        <div className="left-container">
+          <div className="suggestions-container">
+            {this.state.x ? (
+              <div id="suggestions">
+                <h3>
+                  Suggested graph types based on your dataset and axis
+                  selections:
+                </h3>
+                <ul>
+                  {suggestions.map((suggestion, idx) => {
+                    return (
+                      <li key={idx} style={{ textDecoration: 'none' }}>
+                        {suggestion.toUpperCase()}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ) : (
+              <h3>Select data for your axis.</h3>
+            )}
           </div>
-          <div>
-            <select name="x" onChange={changeStyle} value={this.state.x}>
-              <option value="" disabled selected>
-                X axis
-              </option>
-              {xPossibilities.map((key, idx) => (
-                <option key={idx} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select>
+          <div className="graph-container">
+            {graphDictionary[graphSelected]}
+          </div>
+        </div>
+
+        <div className="right-container">
+          <div className="setting-selectors">
+            <h2>{dataset}</h2>
             <div>
-              <select name="y" onChange={changeStyle} value={this.state.y}>
+              <select
+                name="dataId"
+                onChange={changeStyle}
+                value={this.state.dataId}
+              >
                 <option value="" disabled selected>
-                  Y axis
+                  Data Id
                 </option>
-                {yPossibilities.map((key, idx) => (
+                {matchingUserData.map((data, idx) => (
+                  <option key={idx} value={data.id}>
+                    {data.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <select name="x" onChange={changeStyle} value={this.state.x}>
+                <option value="" disabled selected>
+                  X axis
+                </option>
+                {xPossibilities.map((key, idx) => (
                   <option key={idx} value={key}>
                     {key}
                   </option>
                 ))}
               </select>
-            </div>
-            <div>
-              <select
-                name="graph"
-                onChange={changeStyle}
-                value={this.state.graph}
-              >
-                <option value="" disabled selected>
-                  Graph Type
-                </option>
-                {suggestions.map((suggestion, idx) => (
-                  <option key={idx} value={suggestion}>
-                    {suggestion}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <div id="suggestions-container">
-                {this.state.x ? (
-                  <div id="suggestions">
-                    <h3>
-                      Suggested graph types based on your dataset and axis
-                      selections:
-                    </h3>
-                    <ul>
-                      {suggestions.map((suggestion, idx) => {
-                        return (
-                          <li key={idx} style={{ textDecoration: "none" }}>
-                            {suggestion.toUpperCase()}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ) : (
-                  <h3>Select data for your axis.</h3>
-                )}
-              </div>
-            </div>
-            <div className="style-selectors">
               <div>
-                <label for="title">
-                  Title:
-                  <input
-                    type="text"
-                    placeholder={this.state.title}
-                    name="title"
-                    onChange={changeStyle}
-                    value={this.state.title}
-                  />
-                </label>
-              </div>
-              {graphSelected === "pie" ? (
-                <div id="for-pie">
-                  <div id="pie-switches">
-                    <FormGroup row>
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={this.state.checkedDonut}
-                            onChange={changeStyle}
-                            name="checkedDonut"
-                          />
-                        }
-                        label="Donut"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={this.state.checkedHalf}
-                            onChange={changeStyle}
-                            name="checkedHalf"
-                          />
-                        }
-                        label="Half"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={this.state.checkedPadding}
-                            onChange={changeStyle}
-                            name="checkedPadding"
-                          />
-                        }
-                        label="Spacers"
-                      />
-                    </FormGroup>
-                  </div>
-                  <div>
-                    <select
-                      name="pieColor"
-                      onChange={changeStyle}
-                      value={this.state.pieColor}
-                    >
-                      <option value="" disabled selected>
-                        Color Themes
-                      </option>
-                      <option value="cool">Cool</option>
-                      <option value="warm">Warm</option>
-                      <option value="qualitative">Classic</option>
-                      <option value="heatmap">Heatmap</option>
-                    </select>
-                  </div>
-                </div>
-              ) : (
-                <div id="not-pie">
-                  <div>
-                    <label for="xTitle">
-                      X Axis:
-                      <input
-                        type="text"
-                        placeholder={this.state.x}
-                        name="xTitle"
-                        onChange={changeStyle}
-                        value={this.state.xTitle}
-                      />
-                    </label>
-                  </div>
-                  <div>
-                    <label for="yTitle">
-                      Y Axis:
-                      <input
-                        type="text"
-                        placeholder={this.state.y}
-                        name="yTitle"
-                        onChange={changeStyle}
-                        value={this.state.yTitle}
-                      />
-                    </label>
-                  </div>
-                  <div>
-                    <select
-                      name="color"
-                      onChange={changeStyle}
-                      value={this.state.color}
-                    >
-                      <option value="" disabled selected>
-                        Color
-                      </option>
-                      <option value="#428A51">Forrest Green</option>
-                      <option value="#4680C3">Sky Blue</option>
-                      <option value="#B80040">Rasberry Hue</option>
-                      <option value="#D3B673">Basic Beige</option>
-                    </select>
-                  </div>
-                </div>
-              )}
-              <div>
-                <select
-                  name="highlight"
-                  onChange={changeStyle}
-                  value={this.state.highlight}
-                >
+                <select name="y" onChange={changeStyle} value={this.state.y}>
                   <option value="" disabled selected>
-                    Higlight
+                    Y axis
                   </option>
-                  <option value="#73070B">Crimson Red</option>
-                  <option value="#FFCB47">Sunflower Yellow</option>
-                  <option value="#FFD2A6">Sherbert Orange</option>
-                  <option value="#A2AEBB">Cadet Blue</option>
+                  {yPossibilities.map((key, idx) => (
+                    <option key={idx} value={key}>
+                      {key}
+                    </option>
+                  ))}
                 </select>
               </div>
+              <div>
+                <select
+                  name="graph"
+                  onChange={changeStyle}
+                  value={this.state.graph}
+                >
+                  <option value="" disabled selected>
+                    Graph Type
+                  </option>
+                  {suggestions.map((suggestion, idx) => (
+                    <option key={idx} value={suggestion}>
+                      {suggestion}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="style-selectors">
+                <div>
+                  <label for="title">
+                    Title:
+                    <input
+                      type="text"
+                      placeholder={this.state.title}
+                      name="title"
+                      onChange={changeStyle}
+                      value={this.state.title}
+                    />
+                  </label>
+                </div>
+                {graphSelected === 'pie' ? (
+                  <div id="for-pie">
+                    <div id="pie-switches">
+                      <FormGroup row>
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={this.state.checkedDonut}
+                              onChange={changeStyle}
+                              name="checkedDonut"
+                            />
+                          }
+                          label="Donut"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={this.state.checkedHalf}
+                              onChange={changeStyle}
+                              name="checkedHalf"
+                            />
+                          }
+                          label="Half"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={this.state.checkedPadding}
+                              onChange={changeStyle}
+                              name="checkedPadding"
+                            />
+                          }
+                          label="Spacers"
+                        />
+                      </FormGroup>
+                    </div>
+                    <div>
+                      <select
+                        name="pieColor"
+                        onChange={changeStyle}
+                        value={this.state.pieColor}
+                      >
+                        <option value="" disabled selected>
+                          Color Themes
+                        </option>
+                        <option value="cool">Cool</option>
+                        <option value="warm">Warm</option>
+                        <option value="qualitative">Classic</option>
+                        <option value="heatmap">Heatmap</option>
+                      </select>
+                    </div>
+                  </div>
+                ) : (
+                  <div id="not-pie">
+                    <div>
+                      <label for="xTitle">
+                        X Axis:
+                        <input
+                          type="text"
+                          placeholder={this.state.x}
+                          name="xTitle"
+                          onChange={changeStyle}
+                          value={this.state.xTitle}
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      <label for="yTitle">
+                        Y Axis:
+                        <input
+                          type="text"
+                          placeholder={this.state.y}
+                          name="yTitle"
+                          onChange={changeStyle}
+                          value={this.state.yTitle}
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      <select
+                        name="color"
+                        onChange={changeStyle}
+                        value={this.state.color}
+                      >
+                        <option value="" disabled selected>
+                          Color
+                        </option>
+                        <option value="#428A51">Forrest Green</option>
+                        <option value="#4680C3">Sky Blue</option>
+                        <option value="#B80040">Rasberry Hue</option>
+                        <option value="#D3B673">Basic Beige</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+                <div>
+                  <select
+                    name="highlight"
+                    onChange={changeStyle}
+                    value={this.state.highlight}
+                  >
+                    <option value="" disabled selected>
+                      Higlight
+                    </option>
+                    <option value="#73070B">Crimson Red</option>
+                    <option value="#FFCB47">Sunflower Yellow</option>
+                    <option value="#FFD2A6">Sherbert Orange</option>
+                    <option value="#A2AEBB">Cadet Blue</option>
+                  </select>
+                </div>
+              </div>
             </div>
+
+            <div>
+              <Button
+                type="submit"
+                variant="contained"
+                color="success"
+                onClick={handleSubmit}
+              >
+                Save <SaveIcon className="SaveIcon" />
+              </Button>
+              <Snackbar
+                open={this.state.openSnack}
+                autoHideDuration={3000}
+                onClose={this.handleClose}
+              >
+                <Alert onClose={this.handleClose} severity="success">
+                  Graph saved!
+                </Alert>
+              </Snackbar>
+            </div>
+            <div>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={() => download(this.state.title)}
+              >
+                Download <DownloadIcon className="DownloadIcon" />
+              </Button>
+            </div>
+            <canvas
+              id="canvas"
+              width="500"
+              height="350"
+              display="none"
+              style={{
+                visibility: 'hidden',
+                zIndex: -950,
+                position: 'absolute',
+              }}
+            />
           </div>
-          <div id="graph-container">{graphDictionary[graphSelected]}</div>
-          <div>
-            <Button
-              type="submit"
-              variant="contained"
-              color="success"
-
-              onClick={handleSubmit}
-
-            >
-              Save <SaveIcon className="SaveIcon" />
-            </Button>
-						<Snackbar
-              open={this.state.openSnack}
-              autoHideDuration={3000}
-              onClose={handleClose}
-            >
-              <Alert onClose={handleClose} severity="success">
-                Graph saved!
-              </Alert>
-            </Snackbar>
-          </div>
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={() => download(this.state.title)}
-          >
-            Download <DownloadIcon className="DownloadIcon" />
-          </Button>
-          <canvas
-            id="canvas"
-            width="500"
-            height="350"
-            display="none"
-            style={{ visibility: "hidden", zIndex: -950, position: "absolute" }}
-          />
+          <ChatDrawer />
         </div>
-        <ChatRoom />
       </div>
     );
   }
@@ -595,13 +603,13 @@ class GraphControl extends Component {
 const mapState = (state) => {
   return {
     unformatted: state.singleData.unformatted,
-		userId: state.auth.id,
-		userData: state.data.data,
-		user: state.auth,
-		rooms: state.rooms.allRooms,
-		singleRoom: state.rooms.singleRoom,
-		allUsers: state.users,
-		dataId: state.singleData.dataId,
+    userId: state.auth.id,
+    userData: state.data.data,
+    user: state.auth,
+    rooms: state.rooms.allRooms,
+    singleRoom: state.rooms.singleRoom,
+    allUsers: state.users,
+    dataId: state.singleData.dataId,
   };
 };
 

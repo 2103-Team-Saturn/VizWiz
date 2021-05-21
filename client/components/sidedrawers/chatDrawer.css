@@ -1,0 +1,19 @@
+.my-footer {
+  position: absolute;
+  right: 0px;
+}
+
+.my-footer .card {
+  flex-direction: column-reverse;
+}
+
+.card-header {
+  padding: 0;
+  margin-bottom: 0;
+  background-color: rgb(255, 255, 255);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.chat-widget {
+  float: right;
+}
