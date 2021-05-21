@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchSingleData } from "../../store/singleData";
 import { postGraph } from "../../store/graph";
+import Alert from "@material-ui/lab/Alert";
+
 import {
   LineGraph,
   BarGraph,
@@ -12,7 +14,8 @@ const io = require("socket.io-client");
 
 const socket = io();
 
-import Alert from "@material-ui/lab/Alert";
+import ReactDOM from "react-dom";
+
 import {
   Grid,
   Typography,
@@ -28,7 +31,7 @@ import {
   CardContent,
   FormControl,
   FormGroup,
-  Snackbar,
+	Snackbar,
 } from "@material-ui/core";
 
 import DownloadIcon from "@material-ui/icons/CloudDownload";
@@ -39,6 +42,7 @@ import {
   formatForVictory,
   dynamicVals,
   download,
+  saveImg,
 } from "../utils";
 import { fetchAllUsers } from "../../store/users";
 import ChatRoom from "../rooms/ChatRoom";
@@ -68,13 +72,18 @@ class GraphControl extends Component {
       checkedDonut: true,
       checkedHalf: true,
       checkedPadding: true,
-	    openSnack: false,
+
+	    openSnack: false, 
+      img: "/Users/kevinkim/VizWiz/public/images/Graph.png",
     };
     this.leaveRoom = this.leaveRoom.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
 	  this.handleClose = this.handleClose.bind(this);
 	  this.handleSubmit = this.handleSubmit.bind(this);
+
     this.updateCodeFromSockets = this.updateCodeFromSockets.bind(this);
+		this.saveGraph = this.saveGraph.bind(this)
+		this.saveGraphDB = this.saveGraphDB.bind(this)
   }
 
   componentDidMount() {
@@ -89,6 +98,8 @@ class GraphControl extends Component {
         title: this.props.location.state.graph.properties.title || "",
         xTitle: this.props.location.state.graph.properties.xTitle || "",
         yTitle: this.props.location.state.graph.properties.yTitle || "",
+        // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
+        // yAxis: this.props.location.state.yValues,
         color: this.props.location.state.graph.properties.color || "",
         highlight: this.props.location.state.graph.properties.highlight || "",
       });
@@ -214,23 +225,33 @@ class GraphControl extends Component {
     }
   }
 
-  saveGraph() {
-    this.props.postGraph(this.state, this.props.userId, this.state.dataId);
+  async saveGraph() {
+    let png = await saveImg(this.state.title, this.saveGraphDB);
   }
 
-  handleClose(evt, reason) {
-	if (reason === "clickaway") {
-		return;
-	}
-	this.setState({ openSnack: false });
+	saveGraphDB(png) {
+		this.setState(
+      {
+        img: png,
+      }, () => {
+				this.props.postGraph(this.state, this.props.userId, this.state.dataId)
+			}
+    )
 	}
 
+	handleClose(evt, reason) {
+		if (reason === "clickaway") {
+			return;
+		}
+		this.setState({ openSnack: false });
+		}
+
 	handleSubmit(evt) {
-		evt.preventDefault();
-		this.saveGraph();
-		this.setState({
-			openSnack: true,
-		});
+			evt.preventDefault();
+			this.saveGraph();
+			this.setState({
+				openSnack: true,
+			});
 	}
 
   render() {
@@ -297,10 +318,12 @@ class GraphControl extends Component {
       formattedData = formatForVictory(xValues, yValues);
     } else if (this.state.x) {
       suggestions.push("pie");
+      // formattedData = ??
     }
-
     // clean data, create suggestions, reformat data
+
     const { changeStyle, handleSubmit, handleClose } = this;
+
     const graphSelected = this.state.graph;
     const dataset = this.props.unformatted.name;
 
@@ -318,7 +341,7 @@ class GraphControl extends Component {
     };
 
     return (
-      <div className="selector-box">
+      <div className="selector-box" style={{ marginTop: 150}}>
         <div className="setting-selectors">
           <h2>{dataset}</h2>
           <div>
@@ -530,11 +553,13 @@ class GraphControl extends Component {
               type="submit"
               variant="contained"
               color="success"
+
               onClick={handleSubmit}
+
             >
               Save <SaveIcon className="SaveIcon" />
             </Button>
-            <Snackbar
+						<Snackbar
               open={this.state.openSnack}
               autoHideDuration={3000}
               onClose={handleClose}
@@ -544,16 +569,15 @@ class GraphControl extends Component {
               </Alert>
             </Snackbar>
           </div>
-          <div>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => download(this.state.title)}
-            >
-              Download <DownloadIcon className="DownloadIcon" />
-            </Button>
-          </div>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={() => download(this.state.title)}
+          >
+            Download <DownloadIcon className="DownloadIcon" />
+          </Button>
           <canvas
             id="canvas"
             width="500"
@@ -571,13 +595,13 @@ class GraphControl extends Component {
 const mapState = (state) => {
   return {
     unformatted: state.singleData.unformatted,
-    userId: state.auth.id,
-    userData: state.data,
-    user: state.auth,
-    rooms: state.rooms.allRooms,
-    singleRoom: state.rooms.singleRoom,
-    allUsers: state.users,
-    dataId: state.singleData.dataId,
+		userId: state.auth.id,
+		userData: state.data.data,
+		user: state.auth,
+		rooms: state.rooms.allRooms,
+		singleRoom: state.rooms.singleRoom,
+		allUsers: state.users,
+		dataId: state.singleData.dataId,
   };
 };
 
