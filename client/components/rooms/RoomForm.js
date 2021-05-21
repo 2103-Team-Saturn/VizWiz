@@ -34,7 +34,6 @@ const styles = (theme) => ({
     alignItems: 'center',
     flexGrow: 1,
     textAlign: 'center',
-    marginTop: 250,
   },
   formControl: {
     margin: theme.spacing.unit,
