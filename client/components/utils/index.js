@@ -58,6 +58,9 @@ export async function download (title) {
 
 	image.onload = () => {
 
+		//change made
+		context.clearRect(0, 0, canvas.width, canvas.height);
+
    context.drawImage(image, 0, 0);
 	 var png = canvas.toDataURL('image/png')
 	 document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
