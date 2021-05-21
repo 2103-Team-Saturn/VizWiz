@@ -8,15 +8,7 @@ import {
   PieGraph,
   ScatterChart,
 } from '../graphCharts/index';
-
 import { ChatDrawer } from '../sidedrawers/ChatDrawer';
-
-const io = require('socket.io-client');
-
-const socket = io();
-
-import ReactDOM from 'react-dom';
-
 import {
   Grid,
   Typography,
@@ -33,10 +25,6 @@ import {
   FormControl,
   FormGroup,
 } from '@material-ui/core';
-
-import DownloadIcon from '@material-ui/icons/CloudDownload';
-import SaveIcon from '@material-ui/icons/Save';
-
 import {
   graphSuggestor,
   formatForVictory,
@@ -44,7 +32,12 @@ import {
   download,
 } from '../utils';
 import { fetchAllUsers } from '../../store/users';
-// import ChatRoom from '../rooms/ChatRoom';
+
+import DownloadIcon from '@material-ui/icons/CloudDownload';
+import SaveIcon from '@material-ui/icons/Save';
+
+const io = require('socket.io-client');
+const socket = io();
 
 const sampleData = [
   { quarter: '1', earnings: 13, items: 40, state: 'NY' },
@@ -54,6 +47,7 @@ const sampleData = [
   { quarter: '4', earnings: 18, items: 81, state: 'NY' },
   { quarter: '4', earnings: 19, items: 90, state: 'NY' },
 ];
+
 class GraphControl extends Component {
   constructor(props) {
     super(props);
@@ -82,15 +76,13 @@ class GraphControl extends Component {
 
     if (this.props.location.state) {
       this.setState({
-        selectedDataset: '', // Isabelle's dataset selection logic??
+        selectedDataset: '',
         graph: this.props.location.state.graph.properties.graph || '',
         x: this.props.location.state.graph.properties.x || '',
         y: this.props.location.state.graph.properties.y || '',
         title: this.props.location.state.graph.properties.title || '',
         xTitle: this.props.location.state.graph.properties.xTitle || '',
         yTitle: this.props.location.state.graph.properties.yTitle || '',
-        // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
-        // yAxis: this.props.location.state.yValues,
         color: this.props.location.state.graph.properties.color || '',
         highlight: this.props.location.state.graph.properties.highlight || '',
       });
@@ -528,16 +520,15 @@ class GraphControl extends Component {
               >
                 Save <SaveIcon className="SaveIcon" />
               </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={() => download(this.state.title)}
+              >
+                Download <DownloadIcon className="DownloadIcon" />
+              </Button>
             </div>
-
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => download(this.state.title)}
-            >
-              Download <DownloadIcon className="DownloadIcon" />
-            </Button>
             <canvas
               id="canvas"
               width="500"
@@ -559,16 +550,16 @@ class GraphControl extends Component {
 }
 
 const mapState = (state) => {
-	return {
-		unformatted: state.singleData.unformatted,
-		userId: state.auth.id,
-		userData: state.data.data,
-		user: state.auth,
-		rooms: state.rooms.allRooms,
-		singleRoom: state.rooms.singleRoom,
-		allUsers: state.users,
-		dataId: state.singleData.dataId,
-	};
+  return {
+    unformatted: state.singleData.unformatted,
+    userId: state.auth.id,
+    userData: state.data.data,
+    user: state.auth,
+    rooms: state.rooms.allRooms,
+    singleRoom: state.rooms.singleRoom,
+    allUsers: state.users,
+    dataId: state.singleData.dataId,
+  };
 };
 
 const mapDispatch = (dispatch) => {
