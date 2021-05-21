@@ -6,7 +6,7 @@ import ChatRoom from '../rooms/ChatRoom';
 import ChatIcon from '@material-ui/icons/Chat';
 import IconButton from '@material-ui/core/IconButton';
 
-export function ChatDrawer(props) {
+export function ChatDrawer() {
   const Styles = {
     width: 'auto',
     position: 'fixed',

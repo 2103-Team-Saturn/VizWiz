@@ -10,11 +10,10 @@
 .card-header {
   padding: 0;
   margin-bottom: 0;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .chat-widget {
-  color: black;
-  background-color: black;
+  float: right;
 }

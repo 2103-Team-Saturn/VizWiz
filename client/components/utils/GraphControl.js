@@ -38,6 +38,8 @@ import Alert from '@material-ui/lab/Alert';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import SaveIcon from '@material-ui/icons/Save';
 
+import BottomDrawer from '../sidedrawers/BottomDrawer';
+
 const io = require('socket.io-client');
 const socket = io();
 
@@ -573,6 +575,7 @@ class GraphControl extends Component {
             />
           </div>
           <ChatDrawer />
+          {/* <BottomDrawer /> */}
         </div>
       </div>
     );
