@@ -56,25 +56,6 @@ export default class PieGraph extends Component {
           height={400}
           padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
         >
-          <VictoryLegend
-            title={title}
-            centerTitle
-            titleOrientation="left"
-            containerComponent={<VictoryContainer responsive={false} />}
-            data={legendData}
-            orientation="horizontal"
-            gutter={20}
-            itemsPerRow={3}
-            x={5}
-            y={15}
-            width="100%"
-            height="100%"
-            style={{
-              border: { stroke: "black" },
-              title: { fontSize: 16, color: "black" },
-            }}
-            colorScale={pieColor}
-          />
           <VictoryPie
             style={{
               parent: {
@@ -135,6 +116,26 @@ export default class PieGraph extends Component {
               duration: 2000,
               onLoad: { duration: 1000 },
             }}
+          />
+          <VictoryLegend
+            title={title}
+            centerTitle
+            titleOrientation="left"
+            containerComponent={<VictoryContainer responsive={false} />}
+            data={legendData}
+            orientation="horizontal"
+            gutter={20}
+            itemsPerRow={3}
+            x={5}
+            y={15}
+            width="100%"
+            height="100%"
+            style={{
+              border: { stroke: "black" },
+              title: { fontSize: 16, color: "black" },
+              zIndex: 2,
+            }}
+            colorScale={pieColor}
           />
           <VictoryAxis
             style={{
