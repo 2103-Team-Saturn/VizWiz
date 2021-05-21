@@ -1,39 +1,39 @@
-import React from "react";
-import clsx from "clsx";
-import { logout } from "../store";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import Typography from "@material-ui/core/Typography";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import PieChartIcon from "@material-ui/icons/PieChart";
-import AssessmentIcon from "@material-ui/icons/Assessment";
-import GroupWorkIcon from "@material-ui/icons/GroupWork";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import React from 'react';
+import clsx from 'clsx';
+import { logout } from '../store';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItem from '@material-ui/core/ListItem';
+import Typography from '@material-ui/core/Typography';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import PieChartIcon from '@material-ui/icons/PieChart';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
+    transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
+    transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -50,35 +50,35 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 36,
   },
   hide: {
-    display: "none",
+    display: 'none',
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: "nowrap",
+    whiteSpace: 'nowrap',
   },
   drawerOpen: {
     width: drawerWidth,
-    transition: theme.transitions.create("width", {
+    transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   drawerClose: {
-    transition: theme.transitions.create("width", {
+    transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    overflowX: "hidden",
+    overflowX: 'hidden',
     width: theme.spacing(7) + 1,
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
   },
   toolbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     padding: theme.spacing(3),
     // ^ moves content to be below app bar
     ...theme.mixins.toolbar,
@@ -88,18 +88,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   linkText: {
-    color: "black",
-    textDecoration: "none",
+    color: 'black',
+    textDecoration: 'none',
   },
   logo: {
     maxWidth: 60,
   },
   logout: {
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
   },
   title: {
     flexGrow: 1,
-    color: "#000",
+    color: '#000',
   },
   imageContainer: {
     flexGrow: 1,
@@ -132,10 +132,10 @@ function LeftMiniDrawer(props) {
         <Toolbar>
           <div
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+              alignItems: 'center',
             }}
           >
             <div>
@@ -151,26 +151,26 @@ function LeftMiniDrawer(props) {
                 <MenuIcon />
               </IconButton>
               <Link to="/home">
-                <IconButton edge="start" className={classes.menuButton}>
+                <Button edge="start" className={classes.menuButton}>
                   <div className={classes.imageContainer}>
                     <img src="/images/VizWiz.png" className={classes.logo} />
                   </div>
-                  <div style={{ alignItems: "end" }}>
+                  <div style={{ alignItems: 'end' }}>
                     <Typography variant="h4">VizWiz</Typography>
                   </div>
-                </IconButton>
+                </Button>
               </Link>
             </div>
             <div>
-            <Button
-              className={classes.logout}
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={handleClick}
-            >
-              Logout <ExitToAppIcon />
-            </Button>
+              <Button
+                className={classes.logout}
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={handleClick}
+              >
+                Logout <ExitToAppIcon />
+              </Button>
             </div>
           </div>
         </Toolbar>
@@ -190,7 +190,7 @@ function LeftMiniDrawer(props) {
       >
         <div className={classes.toolbar}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
+            {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
               <ChevronLeftIcon />

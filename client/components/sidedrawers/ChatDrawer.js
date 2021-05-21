@@ -5,7 +5,6 @@ import './chatDrawer.css';
 import ChatRoom from '../rooms/ChatRoom';
 import ChatIcon from '@material-ui/icons/Chat';
 import IconButton from '@material-ui/core/IconButton';
-import { axisRight } from 'd3-axis';
 
 export function ChatDrawer(props) {
   const Styles = {
