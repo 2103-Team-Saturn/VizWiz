@@ -559,16 +559,16 @@ class GraphControl extends Component {
 }
 
 const mapState = (state) => {
-  return {
-    unformatted: state.singleData.unformatted,
-    userId: state.auth.id,
-    userData: state.data,
-    user: state.auth,
-    rooms: state.rooms.allRooms,
-    singleRoom: state.rooms.singleRoom,
-    allUsers: state.users,
-    dataId: state.singleData.dataId,
-  };
+	return {
+		unformatted: state.singleData.unformatted,
+		userId: state.auth.id,
+		userData: state.data.data,
+		user: state.auth,
+		rooms: state.rooms.allRooms,
+		singleRoom: state.rooms.singleRoom,
+		allUsers: state.users,
+		dataId: state.singleData.dataId,
+	};
 };
 
 const mapDispatch = (dispatch) => {

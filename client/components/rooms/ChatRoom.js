@@ -127,14 +127,14 @@ class ChatRoom extends Component {
 }
 
 const mapState = (state) => {
-  return {
-    userId: state.auth.id,
-    user: state.auth,
-    userData: state.data,
-    rooms: state.rooms.allRooms,
-    singleRoom: state.rooms.singleRoom,
-    allUsers: state.users,
-  };
+	return {
+		userId: state.auth.id,
+		user: state.auth,
+		userData: state.data.data,
+		rooms: state.rooms.allRooms,
+		singleRoom: state.rooms.singleRoom,
+		allUsers: state.users,
+	};
 };
 
 const mapDispatch = (dispatch) => {
