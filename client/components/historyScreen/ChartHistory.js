@@ -27,7 +27,7 @@ class ChartHistory extends Component {
   render() {
     console.log("props", this.props);
     return (
-      <div>
+      <div style={{ marginTop: 150}}>
         <Container>
           <h1
             id="HistoryTitle"
@@ -77,7 +77,7 @@ class ChartHistory extends Component {
                   </h1>
 
                   <img src={graph.properties.img} alt="Graph" width="300" height="300" />
-                  
+
                 </Link>
 
                 <Button

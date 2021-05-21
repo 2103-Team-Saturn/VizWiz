@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchSingleData } from "../../store/singleData";
 import { postGraph } from "../../store/graph";
+import Alert from "@material-ui/lab/Alert";
+
 import {
   LineGraph,
   BarGraph,
@@ -29,6 +31,7 @@ import {
   CardContent,
   FormControl,
   FormGroup,
+	Snackbar,
 } from "@material-ui/core";
 
 import DownloadIcon from "@material-ui/icons/CloudDownload";
@@ -332,7 +335,7 @@ class GraphControl extends Component {
     };
 
     return (
-      <div className="selector-box">
+      <div className="selector-box" style={{ marginTop: 150}}>
         <div className="setting-selectors">
           <h2>{dataset}</h2>
           <div>
@@ -548,6 +551,15 @@ class GraphControl extends Component {
             >
               Save <SaveIcon className="SaveIcon" />
             </Button>
+						<Snackbar
+              open={this.state.openSnack}
+              autoHideDuration={3000}
+              onClose={this.handleClose}
+            >
+              <Alert onClose={this.handleClose} severity="success">
+                Graph saved!
+              </Alert>
+            </Snackbar>
           </div>
 
           <Button
