@@ -219,8 +219,6 @@ class GraphControl extends Component {
 
   async saveGraph() {
     let png = await saveImg(this.state.title, this.saveGraphDB);
-
-    // await this.props.postGraph(this.state, this.props.userId, this.state.dataId);
   }
 
 	saveGraphDB(png) {
@@ -229,7 +227,6 @@ class GraphControl extends Component {
         img: png,
       }, () => {
 				this.props.postGraph(this.state, this.props.userId, this.state.dataId)
-				console.log("newState", this.state)
 			}
     )
 	}

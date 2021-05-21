@@ -58,7 +58,6 @@ export async function download (title) {
 
 	image.onload = () => {
 
-		//change made
 		context.clearRect(0, 0, canvas.width, canvas.height);
 
    context.drawImage(image, 0, 0);
@@ -111,21 +110,9 @@ export async function saveImg (title, saveGraphCallback) {
 		const canvas2 = document.getElementById("canvas")
 		let URL = canvas2.toDataURL('image/png')
 
-		console.log("URL before setstate ", URL)
-
 		saveGraphCallback(URL)
 
-	  //download
-	  //  let link = document.createElement('a')
-	  //  link.href = URL
-	  //  link.download = title ? title + '.png' : 'chart.png'
-
-	  //  document.body.appendChild(link)
-	  //  link.click()
 	};
-
-	// console.log("canvas.toDataURL('image/png')", canvas.toDataURL('image/png'))
-	// return canvas.toDataURL('image/png')
 
 
 }
