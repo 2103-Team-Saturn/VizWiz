@@ -24,7 +24,7 @@ export function ChatDrawer(props) {
               variant="link"
               eventKey="0"
             >
-              <IconButton color="primary">
+              <IconButton color="inherit">
                 <ChatIcon />
               </IconButton>
             </Accordion.Toggle>

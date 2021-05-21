@@ -25,6 +25,7 @@ import {
   FormControl,
   FormGroup,
   Tooltip,
+  Snackbar,
 } from '@material-ui/core';
 import {
   graphSuggestor,
@@ -33,7 +34,7 @@ import {
   download,
 } from '../utils';
 import { fetchAllUsers } from '../../store/users';
-
+import Alert from '@material-ui/lab/Alert';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import SaveIcon from '@material-ui/icons/Save';
 
@@ -66,9 +67,12 @@ class GraphControl extends Component {
       checkedDonut: true,
       checkedHalf: true,
       checkedPadding: true,
+      openSnack: false,
     };
     this.leaveRoom = this.leaveRoom.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.updateCodeFromSockets = this.updateCodeFromSockets.bind(this);
   }
 
@@ -211,6 +215,21 @@ class GraphControl extends Component {
 
   saveGraph() {
     this.props.postGraph(this.state, this.props.userId, this.state.dataId);
+  }
+
+  handleClose(evt, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ openSnack: false });
+  }
+
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.saveGraph();
+    this.setState({
+      openSnack: true,
+    });
   }
 
   render() {
@@ -521,6 +540,17 @@ class GraphControl extends Component {
               >
                 Save <SaveIcon className="SaveIcon" />
               </Button>
+              <Snackbar
+                open={this.state.openSnack}
+                autoHideDuration={3000}
+                onClose={this.handleClose}
+              >
+                <Alert onClose={this.handleClose} severity="success">
+                  Graph saved!
+                </Alert>
+              </Snackbar>
+            </div>
+            <div>
               <Button
                 type="submit"
                 variant="contained"
