@@ -25,7 +25,14 @@ class ChartHistory extends Component {
 
   render() {
     return (
-      <div style={{ marginTop: 150 }}>
+      <div
+        style={{
+          marginTop: 150,
+          width: "auto",
+          marginLeft: 150,
+          marginRight: 150,
+        }}
+      >
         <Container>
           <h1
             id="HistoryTitle"
