@@ -8,7 +8,6 @@ import { CallMissedSharp, CenterFocusStrong } from "@material-ui/icons";
 import { fetchAllUsers } from "../../store/users";
 import { saveImg } from "../utils";
 
-
 class ChartHistory extends Component {
   constructor() {
     super();
@@ -25,9 +24,8 @@ class ChartHistory extends Component {
   }
 
   render() {
-    console.log("props", this.props);
     return (
-      <div style={{ marginTop: 150}}>
+      <div style={{ marginTop: 150 }}>
         <Container>
           <h1
             id="HistoryTitle"
@@ -37,7 +35,6 @@ class ChartHistory extends Component {
               border: 0,
               color: "black",
               height: 48,
-              padding: 30,
               textAlign: "center",
             }}
           >
@@ -53,11 +50,14 @@ class ChartHistory extends Component {
                 md={4}
                 lg={3}
                 style={{
+                  display: "flex",
+                  flexDirection: "column",
                   textAlign: "center",
-                  backgroundColor: "steelblue",
+                  backgroundColor: "lightgrey",
                   margin: 30,
                   border: 10,
                   borderRadius: 12,
+                  alignItems: "center",
                 }}
               >
                 <Link
@@ -76,8 +76,21 @@ class ChartHistory extends Component {
                     {graph.properties.title}
                   </h1>
 
-                  <img src={graph.properties.img} alt="Graph" width="300" height="300" />
-
+                  <div
+                    style={{
+                      display: "block",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      width: "50",
+                    }}
+                  >
+                    <img
+                      src={graph.properties.img}
+                      alt="Graph"
+                      width="300"
+                      height="300"
+                    />
+                  </div>
                 </Link>
 
                 <Button
