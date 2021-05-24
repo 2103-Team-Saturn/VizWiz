@@ -338,6 +338,8 @@ class GraphControl extends Component {
       pie: <PieGraph {...graphProperties} />,
     };
 
+    const { classes } = this.props;
+
     return (
       <div className="main-box">
         <div className="left-container">

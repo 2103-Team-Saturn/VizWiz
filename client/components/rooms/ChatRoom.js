@@ -7,8 +7,7 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 
-// import './chatRoom.css';
-
+import './chatRoom.css';
 class ChatRoom extends Component {
   constructor() {
     super();
@@ -101,20 +100,27 @@ class ChatRoom extends Component {
         {/* message input box */}
         <div className="messageInputBox">
           <form onSubmit={this.handleSubmit}>
-            <input
-              className="messageInput"
-              name="messageInput"
-              type="text"
-              placeholder="Type a message..."
-              value={this.state.messageInput}
-              onChange={this.typeMessage}
-            />
-            <Tooltip title="Send" placement="top" arrow>
-              <IconButton className="sendButton" color="primary" type="submit">
-                <SendRoundedIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Leave Room" placement="top" arrow>
+            <div className="msg-inputbox">
+              <input
+                name="messageInput"
+                className="msg-input"
+                type="text"
+                placeholder="Type a message..."
+                value={this.state.messageInput}
+                onChange={this.typeMessage}
+              />
+            </div>
+            <div className="btn-box">
+              <Tooltip title="Send" placement="top" arrow>
+                <IconButton
+                  className="sendButton"
+                  color="primary"
+                  type="submit"
+                >
+                  <SendRoundedIcon />
+                </IconButton>
+              </Tooltip>
+              {/* <Tooltip title="Leave Room" placement="top" arrow>
               <IconButton
                 className="leaveButton"
                 color="secondary"
@@ -122,7 +128,8 @@ class ChatRoom extends Component {
               >
                 <MeetingRoomIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
+            </div>
           </form>
         </div>
       </div>
