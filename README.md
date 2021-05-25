@@ -36,8 +36,6 @@ To build this application, we used JavaScript, Victory JS, Node.js, React/Redux,
 <br>
 <img width="75" alt="wizard-wand" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/whatsapp/273/magic-wand_1fa84.png" >
 
-<br>
-
 ## Getting Started
 
 1. Clone this repo
