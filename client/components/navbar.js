@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexGrow: 1,
+    justifyContent: "center",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -36,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   logo: {
-    maxWidth: 60,
+    maxWidth: 150,
+    marginTop: 10,
   },
 }));
 
@@ -45,31 +47,41 @@ const Navbar = ({ isLoggedIn, userId }) => {
 
   return (
     <ThemeProvider theme={customTheme}>
-      <div className={classes.root}>
+      <div className={classes.root} >
         {isLoggedIn ? (
           <LeftDrawer userId={userId} />
         ) : (
-          <AppBar position="fixed">
-            <Toolbar>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  width: '100%',
-                  alignItems: 'center',
-                }}
-              >
-                <Button edge="start" className={classes.menuButton}>
-                  <div className={classes.imageContainer}>
-                    <img src="/images/VizWiz.png" className={classes.logo} />
-                  </div>
-                  <div style={{ alignItems: 'end' }}>
-                    <Typography variant="h4">VizWiz</Typography>
-                  </div>
-                </Button>
-              </div>
-            </Toolbar>
-          </AppBar>
+          // <AppBar position="fixed">
+          //   <Toolbar>
+          //     <div
+          //       style={{
+          //         display: 'flex',
+          //         justifyContent: 'space-between',
+          //         width: '100%',
+          //         alignItems: 'center',
+          //       }}
+          //     >
+          //       <Button edge="start" className={classes.menuButton}>
+          //         <div className={classes.imageContainer}>
+          //           <img src="/images/VizWiz.png" className={classes.logo} />
+          //         </div>
+          //         <div style={{ alignItems: 'end' }}>
+          //           <Typography variant="h4">VizWiz</Typography>
+          //         </div>
+          //       </Button>
+          //     </div>
+          //   </Toolbar>
+          // </AppBar>
+          <div>
+            <div>
+              <img src="/images/VizWiz.png" className={classes.logo} />
+            </div>
+            <div>
+              <Typography
+              variant="h3"
+              style={ { justifyContent: "flex-end"}}>VizWiz</Typography>
+            </div>
+          </div>
         )}
       </div>
     </ThemeProvider>

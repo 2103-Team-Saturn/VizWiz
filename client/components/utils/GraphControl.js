@@ -10,22 +10,19 @@ import {
 } from '../graphCharts/index';
 import { ChatDrawer } from '../sidedrawers/ChatDrawer';
 import {
-  Grid,
   Typography,
   Button,
-  Box,
-  makeStyles,
-  Container,
   FormControlLabel,
   Switch,
-  Checkbox,
-  Card,
-  CardMedia,
-  CardContent,
-  FormControl,
   FormGroup,
-  Tooltip,
   Snackbar,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Tooltip,
+  IconButton,
 } from '@material-ui/core';
 import {
   graphSuggestor,
@@ -37,7 +34,9 @@ import {
 import { fetchAllUsers } from '../../store/users';
 import Alert from '@material-ui/lab/Alert';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import SaveIcon from '@material-ui/icons/Save';
+import { withStyles } from '@material-ui/core/styles';
 
 const io = require('socket.io-client');
 const socket = io();
@@ -50,6 +49,30 @@ const sampleData = [
   { quarter: '4', earnings: 18, items: 81, state: 'NY' },
   { quarter: '4', earnings: 19, items: 90, state: 'NY' },
 ];
+
+const styles = (theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '24ch',
+    },
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 125,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  chip: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    '& > *': {
+      margin: theme.spacing(0.5),
+    },
+  },
+});
 
 class GraphControl extends Component {
   constructor(props) {
@@ -86,15 +109,13 @@ class GraphControl extends Component {
 
     if (this.props.location.state) {
       this.setState({
-        selectedDataset: '', // Isabelle's dataset selection logic??
+        selectedDataset: '',
         graph: this.props.location.state.graph.properties.graph || '',
         x: this.props.location.state.graph.properties.x || '',
         y: this.props.location.state.graph.properties.y || '',
         title: this.props.location.state.graph.properties.title || '',
         xTitle: this.props.location.state.graph.properties.xTitle || '',
         yTitle: this.props.location.state.graph.properties.yTitle || '',
-        // xAxis: this.props.location.state.xValues, // hold all values in array corresponding to user selected key
-        // yAxis: this.props.location.state.yValues,
         color: this.props.location.state.graph.properties.color || '',
         highlight: this.props.location.state.graph.properties.highlight || '',
       });
@@ -105,10 +126,6 @@ class GraphControl extends Component {
     socket.on('receiveCode', (payload) => {
       this.updateCodeFromSockets(payload);
     });
-  }
-
-  leaveRoom() {
-    socket.emit('leaveRoom', this.props.singleRoom, this.props.user);
   }
 
   updateCodeFromSockets(payload) {
@@ -252,6 +269,11 @@ class GraphControl extends Component {
     console.log('handlesubmit state >>>', this.state);
   }
 
+  leaveRoom() {
+    socket.emit('leaveRoom', this.props.singleRoom, this.props.user);
+    this.props.history.push('/home');
+  }
+
   render() {
     let matchingUser;
 
@@ -316,7 +338,6 @@ class GraphControl extends Component {
       formattedData = formatForVictory(xValues, yValues);
     } else if (this.state.x) {
       suggestions.push('pie');
-      // formattedData = ??
     }
     // clean data, create suggestions, reformat data
 
@@ -328,7 +349,6 @@ class GraphControl extends Component {
     let graphProperties = {
       ...this.state,
       formattedData: formattedData,
-      // pass *download* function here?
     };
 
     const graphDictionary = {
@@ -338,30 +358,42 @@ class GraphControl extends Component {
       pie: <PieGraph {...graphProperties} />,
     };
 
+    const { classes } = this.props;
+
     return (
       <div className="main-box">
         <div className="left-container">
-          <div className="suggestions-container">
-            {this.state.x ? (
-              <div id="suggestions">
-                <h3>
-                  Suggested graph types based on your dataset and axis
-                  selections:
-                </h3>
-                <ul>
-                  {suggestions.map((suggestion, idx) => {
-                    return (
-                      <li key={idx} style={{ textDecoration: 'none' }}>
-                        {suggestion.toUpperCase()}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ) : (
-              <h3>Select data for your axis.</h3>
-            )}
-          </div>
+          {!graphSelected ? (
+            <div className="suggestions-container">
+              {this.state.x ? (
+                <div id="suggestions">
+                  <h3>
+                    Suggested graph types based on your dataset and axis
+                    selections:
+                  </h3>
+                  <ul>
+                    {suggestions.map((suggestion, idx) => {
+                      return (
+                        <li
+                          key={idx}
+                          style={{
+                            textDecoration: 'none',
+                            listStyleType: 'none',
+                            fontWeight: 'bold',
+                            fontSize: '24px',
+                          }}
+                        >
+                          {suggestion.toUpperCase()}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : (
+                <h3>Select data for your axis.</h3>
+              )}
+            </div>
+          ) : null}
           <div className="graph-container">
             {graphDictionary[graphSelected]}
           </div>
@@ -371,73 +403,109 @@ class GraphControl extends Component {
           <div className="setting-selectors">
             <h2>{dataset}</h2>
             <div>
-              <select
-                name="dataId"
-                onChange={changeStyle}
-                value={this.state.dataId}
+              <FormControl
+                variant="outlined"
+                margin="dense"
+                className={classes.formControl}
               >
-                <option value="" disabled selected>
-                  Data Id
-                </option>
-                {matchingUserData.map((data, idx) => (
-                  <option key={idx} value={data.id}>
-                    {data.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <select name="x" onChange={changeStyle} value={this.state.x}>
-                <option value="" disabled selected>
-                  X axis
-                </option>
-                {xPossibilities.map((key, idx) => (
-                  <option key={idx} value={key}>
-                    {key}
-                  </option>
-                ))}
-              </select>
-              <div>
-                <select name="y" onChange={changeStyle} value={this.state.y}>
-                  <option value="" disabled selected>
-                    Y axis
-                  </option>
-                  {yPossibilities.map((key, idx) => (
-                    <option key={idx} value={key}>
-                      {key}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <select
-                  name="graph"
+                <InputLabel id="data-selector">Data Set</InputLabel>
+                <Select
+                  name="dataId"
+                  value={this.state.dataId}
                   onChange={changeStyle}
-                  value={this.state.graph}
+                  label="Data Set"
                 >
-                  <option value="" disabled selected>
-                    Graph Type
-                  </option>
-                  {suggestions.map((suggestion, idx) => (
-                    <option key={idx} value={suggestion}>
-                      {suggestion}
-                    </option>
+                  <MenuItem value="" disabled selected>
+                    <em>Data Set</em>
+                  </MenuItem>
+                  {matchingUserData.map((data, idx) => (
+                    <MenuItem key={idx} value={data.id}>
+                      {data.name}
+                    </MenuItem>
                   ))}
-                </select>
-              </div>
+                </Select>
+              </FormControl>
+            </div>
 
+            <div>
+              <FormControl
+                variant="outlined"
+                margin="dense"
+                className={classes.formControl}
+              >
+                <InputLabel id="x-selector">X-Axis</InputLabel>
+                <Select
+                  name="x"
+                  value={this.state.x}
+                  onChange={changeStyle}
+                  label="X-Axis"
+                >
+                  {xPossibilities.map((key, idx) => (
+                    <MenuItem key={idx} value={key}>
+                      {key}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                variant="outlined"
+                margin="dense"
+                className={classes.formControl}
+              >
+                <InputLabel id="y-selector">Y-Axis</InputLabel>
+                <Select
+                  name="y"
+                  value={this.state.y}
+                  onChange={changeStyle}
+                  label="Y-Axis"
+                >
+                  {yPossibilities.map((key, idx) => (
+                    <MenuItem key={idx} value={key}>
+                      {key}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <div>
+                <FormControl
+                  variant="outlined"
+                  margin="dense"
+                  className={classes.formControl}
+                >
+                  <InputLabel id="graph">Graph Type</InputLabel>
+                  <Select
+                    name="graph"
+                    value={this.state.graph}
+                    onChange={changeStyle}
+                    label="Graph Type"
+                  >
+                    <MenuItem value="" disabled selected>
+                      <em>Graph Type</em>
+                    </MenuItem>
+                    {suggestions.map((suggestion, idx) => (
+                      <MenuItem key={idx} value={suggestion}>
+                        {suggestion}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="seperator">
+                <Typography>Customize:</Typography>
+              </div>
               <div className="style-selectors">
                 <div>
-                  <label for="title">
-                    Title:
-                    <input
+                  <form className={classes.root} noValidate autoComplete="off">
+                    <TextField
+                      id="data-title"
                       type="text"
-                      placeholder={this.state.title}
                       name="title"
-                      onChange={changeStyle}
+                      label="Title"
+                      onChange={this.changeStyle}
                       value={this.state.title}
                     />
-                  </label>
+                  </form>
                 </div>
                 {graphSelected === 'pie' ? (
                   <div id="for-pie">
@@ -494,72 +562,76 @@ class GraphControl extends Component {
                 ) : (
                   <div id="not-pie">
                     <div>
-                      <label for="xTitle">
-                        X Axis:
-                        <input
+                      <form
+                        className={classes.root}
+                        noValidate
+                        autoComplete="off"
+                      >
+                        <TextField
+                          id="xTitle"
                           type="text"
-                          placeholder={this.state.x}
                           name="xTitle"
-                          onChange={changeStyle}
+                          label="X-Axis"
+                          onChange={this.changeStyle}
                           value={this.state.xTitle}
                         />
-                      </label>
-                    </div>
-                    <div>
-                      <label for="yTitle">
-                        Y Axis:
-                        <input
+                        <TextField
+                          id="yTitle"
                           type="text"
-                          placeholder={this.state.y}
                           name="yTitle"
-                          onChange={changeStyle}
+                          label="Y-Axis"
+                          onChange={this.changeStyle}
                           value={this.state.yTitle}
                         />
-                      </label>
+                      </form>
                     </div>
                     <div>
-                      <select
-                        name="color"
-                        onChange={changeStyle}
-                        value={this.state.color}
+                      <FormControl
+                        margin="dense"
+                        className={classes.formControl}
                       >
-                        <option value="" disabled selected>
-                          Color
-                        </option>
-                        <option value="#428A51">Forrest Green</option>
-                        <option value="#4680C3">Sky Blue</option>
-                        <option value="#B80040">Rasberry Hue</option>
-                        <option value="#D3B673">Basic Beige</option>
-                      </select>
+                        <InputLabel id="color-selector">Color</InputLabel>
+                        <Select
+                          name="color"
+                          value={this.state.color}
+                          onChange={changeStyle}
+                        >
+                          <MenuItem value="#428A51">Forrest Green</MenuItem>
+                          <MenuItem value="#4680C3">Sky Blue</MenuItem>
+                          <MenuItem value="#B80040">Rasberry Hue</MenuItem>
+                          <MenuItem value="#D3B673">Basic Beige</MenuItem>
+                        </Select>
+                      </FormControl>
                     </div>
                   </div>
                 )}
                 <div>
-                  <select
-                    name="highlight"
-                    onChange={changeStyle}
-                    value={this.state.highlight}
-                  >
-                    <option value="" disabled selected>
-                      Higlight
-                    </option>
-                    <option value="#73070B">Crimson Red</option>
-                    <option value="#FFCB47">Sunflower Yellow</option>
-                    <option value="#FFD2A6">Sherbert Orange</option>
-                    <option value="#A2AEBB">Cadet Blue</option>
-                  </select>
+                  <FormControl margin="dense" className={classes.formControl}>
+                    <InputLabel id="highlight-selector">Highlight</InputLabel>
+                    <Select
+                      name="highlight"
+                      value={this.state.highlight}
+                      onChange={changeStyle}
+                    >
+                      <MenuItem value="#73070B">Crimson Red</MenuItem>
+                      <MenuItem value="#FFCB47">Sunflower Yellow</MenuItem>
+                      <MenuItem value="#FFD2A6">Sherbert Orange</MenuItem>
+                      <MenuItem value="#A2AEBB">Cadet Blue</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
               </div>
             </div>
 
-            <div>
+            <div className="btn-container">
               <Button
                 type="submit"
                 variant="contained"
-                color="success"
+                color="primary"
                 onClick={handleSubmit}
+                startIcon={<SaveIcon />}
               >
-                Save <SaveIcon className="SaveIcon" />
+                Save
               </Button>
               <Snackbar
                 open={this.state.openSnack}
@@ -570,16 +642,24 @@ class GraphControl extends Component {
                   Graph saved!
                 </Alert>
               </Snackbar>
-            </div>
-            <div>
               <Button
                 type="submit"
                 variant="contained"
-                color="primary"
+                color="default"
                 onClick={() => download(this.state.title)}
+                startIcon={<DownloadIcon />}
               >
-                Download <DownloadIcon className="DownloadIcon" />
+                Download
               </Button>
+              <Tooltip title="Leave Room" placement="top" arrow>
+                <IconButton
+                  className="leaveButton"
+                  color="secondary"
+                  onClick={() => this.leaveRoom()}
+                >
+                  <MeetingRoomIcon />
+                </IconButton>
+              </Tooltip>
             </div>
             <canvas
               id="canvas"
@@ -623,4 +703,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState, mapDispatch)(GraphControl);
+export default connect(mapState, mapDispatch)(withStyles(styles)(GraphControl));
