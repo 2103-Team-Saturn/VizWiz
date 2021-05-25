@@ -363,34 +363,37 @@ class GraphControl extends Component {
     return (
       <div className="main-box">
         <div className="left-container">
-          <div className="suggestions-container">
-            {this.state.x ? (
-              <div id="suggestions">
-                <h5>
-                  Suggested graph types based on your dataset and axis
-                  selections:
-                </h5>
-                <ul>
-                  {suggestions.map((suggestion, idx) => {
-                    return (
-                      <li
-                        key={idx}
-                        style={{
-                          textDecoration: 'none',
-                          listStyleType: 'none',
-                          fontWeight: 'bold',
-                        }}
-                      >
-                        {suggestion.toUpperCase()}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ) : (
-              <h3>Select data for your axis.</h3>
-            )}
-          </div>
+          {!graphSelected ? (
+            <div className="suggestions-container">
+              {this.state.x ? (
+                <div id="suggestions">
+                  <h3>
+                    Suggested graph types based on your dataset and axis
+                    selections:
+                  </h3>
+                  <ul>
+                    {suggestions.map((suggestion, idx) => {
+                      return (
+                        <li
+                          key={idx}
+                          style={{
+                            textDecoration: 'none',
+                            listStyleType: 'none',
+                            fontWeight: 'bold',
+                            fontSize: '24px',
+                          }}
+                        >
+                          {suggestion.toUpperCase()}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : (
+                <h3>Select data for your axis.</h3>
+              )}
+            </div>
+          ) : null}
           <div className="graph-container">
             {graphDictionary[graphSelected]}
           </div>
