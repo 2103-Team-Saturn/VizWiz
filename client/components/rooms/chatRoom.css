@@ -7,7 +7,10 @@ form {
   width: 90%;
 }
 
-div.msg-input {
+.msg-input {
+  padding: 0%;
+  margin: 0%;
+
   width: 100%;
 }
 

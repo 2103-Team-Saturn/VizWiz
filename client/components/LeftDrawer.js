@@ -168,8 +168,9 @@ function LeftMiniDrawer(props) {
                 variant="contained"
                 color="primary"
                 onClick={handleClick}
+                endIcon={<ExitToAppIcon />}
               >
-                Logout <ExitToAppIcon />
+                Logout
               </Button>
             </div>
           </div>
