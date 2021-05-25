@@ -1,3 +1,3 @@
 import "../../public/style.scss";
-export { Login } from "./login";
-export { Signup } from "./register";
+export { Login } from "./Login";
+export { Signup } from "./Register";

@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
-const io = require('socket.io-client');
+import React, { Component } from "react";
+const io = require("socket.io-client");
 const socket = io();
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { IconButton, Tooltip } from '@material-ui/core';
-import SendRoundedIcon from '@material-ui/icons/SendRounded';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import { IconButton, Tooltip } from "@material-ui/core";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import { Redirect } from "react-router-dom";
 
 import './chatRoom.css';
 class ChatRoom extends Component {
+
   constructor() {
     super();
 
@@ -135,23 +137,25 @@ class ChatRoom extends Component {
       </div>
     );
   }
+
+
 }
 
 const mapState = (state) => {
-  return {
-    userId: state.auth.id,
-    user: state.auth,
-    userData: state.data.data,
-    rooms: state.rooms.allRooms,
-    singleRoom: state.rooms.singleRoom,
-    allUsers: state.users,
-  };
+	return {
+		userId: state.auth.id,
+		user: state.auth,
+		userData: state.data.data,
+		rooms: state.rooms.allRooms,
+		singleRoom: state.rooms.singleRoom,
+		allUsers: state.users,
+	};
 };
 
 const mapDispatch = (dispatch) => {
-  return {
-    fetchAllUsers: () => dispatch(fetchAllUsers()),
-  };
+	return {
+		fetchAllUsers: () => dispatch(fetchAllUsers()),
+	};
 };
 
 export default connect(mapState, mapDispatch)(ChatRoom);
