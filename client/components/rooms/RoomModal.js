@@ -3,11 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { Button } from "@material-ui/core";
+
 import ForumIcon from "@material-ui/icons/Forum";
-import FileUpload from "../FileUpload";
-import AddIcon from "@material-ui/icons/Add";
-import Typography from "@material-ui/core/Typography";
+
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import RoomForm from "./RoomForm";
@@ -17,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
+		height: 500,
+		marginTop: 100,
 	},
 	paper: {
 		backgroundColor: theme.palette.background.paper,
