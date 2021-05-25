@@ -8,133 +8,137 @@ import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import { Redirect } from "react-router-dom";
 
-// import './chatRoom.css';
-
+import './chatRoom.css';
 class ChatRoom extends Component {
-	constructor() {
-		super();
 
-		this.state = {
-			messageInput: "",
-			messages: [],
-			chat: true,
-			redirect: null,
-		};
+  constructor() {
+    super();
 
-		this.typeMessage = this.typeMessage.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.scrollToBottom = this.scrollToBottom.bind(this);
-		this.leaveRoom = this.leaveRoom.bind(this);
-	}
+    this.state = {
+      messageInput: '',
+      messages: [],
+      chat: true,
+    };
 
-	componentDidMount() {
-		socket.emit("joinRoom", this.props.singleRoom, this.props.user);
+    this.typeMessage = this.typeMessage.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.leaveRoom = this.leaveRoom.bind(this);
+  }
 
-		socket.on("receiveMessage", (message) => {
-			this.setState({ messages: [...this.state.messages, message] });
-		});
-	}
+  componentDidMount() {
+    socket.emit('joinRoom', this.props.singleRoom, this.props.user);
 
-	typeMessage(evt) {
-		this.setState({ [evt.target.name]: evt.target.value });
-	}
+    socket.on('receiveMessage', (message) => {
+      this.setState({ messages: [...this.state.messages, message] });
+    });
+  }
 
-	componentDidUpdate() {
-		if (this.state.chat) {
-			this.scrollToBottom();
-		}
-	}
+  typeMessage(evt) {
+    this.setState({ [evt.target.name]: evt.target.value });
+  }
 
-	scrollToBottom() {
-		if (!this.state.redirect) {
-			this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-		}
-	}
+  componentDidUpdate() {
+    if (this.state.chat) {
+      this.scrollToBottom();
+    }
+  }
 
-	handleSubmit(evt) {
-		evt.preventDefault();
-		const user = this.props.user.username;
+  scrollToBottom() {
+    this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+  }
 
-		const newMessage = this.state.messageInput;
+  handleSubmit(evt) {
+    evt.preventDefault();
+    const user = this.props.user.username;
 
-		if (newMessage) {
-			const message = {
-				user,
-				newMessage,
-			};
+    const newMessage = this.state.messageInput;
 
-			this.setState({
-				messages: [...this.state.messages, message],
-				messageInput: "",
-			});
+    if (newMessage) {
+      const message = {
+        user,
+        newMessage,
+      };
 
-			socket.emit("newMessages", this.props.singleRoom, message);
-		}
-	}
+      this.setState({
+        messages: [...this.state.messages, message],
+        messageInput: '',
+      });
 
-	leaveRoom() {
-		socket.emit("leaveRoom", this.props.singleRoom, this.props.user);
-		this.setState({ redirect: "/home" });
-	}
+      socket.emit('newMessages', this.props.singleRoom, message);
+    }
+  }
 
-	render() {
-		const chatMessages = this.state.messages;
-		console.log(this.props);
+  leaveRoom() {
+    socket.emit('leaveRoom', this.props.singleRoom, this.props.user);
+    this.props.history.push('/home');
+  }
 
-		if (this.state.redirect) {
-			return <Redirect to={this.state.redirect} />;
-		}
-		return (
-			<div>
-				{/* message rendering box */}
-				<div className='messagesContainer'>
-					{chatMessages.map((message, index) => {
-						const user = message.user;
-						const incomingMessage = message.newMessage;
-						return (
-							<div key={index}>
-								<p>
-									{user}:{incomingMessage}
-								</p>
-							</div>
-						);
-					})}
-					<div
-						ref={(el) => {
-							this.messagesEnd = el;
-						}}
-					/>
-				</div>
+  render() {
+    const chatMessages = this.state.messages;
+    console.log(this.props);
+    return (
+      <div>
+        {/* message rendering box */}
+        <div className="messagesContainer">
+          {chatMessages.map((message, index) => {
+            const user = message.user;
+            const incomingMessage = message.newMessage;
+            return (
+              <div key={index}>
+                <p>
+                  {user}:{incomingMessage}
+                </p>
+              </div>
+            );
+          })}
+          <div
+            ref={(el) => {
+              this.messagesEnd = el;
+            }}
+          />
+        </div>
 
-				{/* message input box */}
-				<div className='messageInputBox'>
-					<form onSubmit={this.handleSubmit}>
-						<input
-							className='messageInput'
-							name='messageInput'
-							type='text'
-							placeholder='Type a message...'
-							value={this.state.messageInput}
-							onChange={this.typeMessage}
-						/>
-						<Tooltip title='Send' placement='top' arrow>
-							<IconButton className='sendButton' color='primary' type='submit'>
-								<SendRoundedIcon />
-							</IconButton>
-						</Tooltip>
-						<Tooltip title='Leave Room' placement='top' arrow>
-							<IconButton
-								className='leaveButton'
-								color='secondary'
-								onClick={() => this.leaveRoom()}>
-								<MeetingRoomIcon />
-							</IconButton>
-						</Tooltip>
-					</form>
-				</div>
-			</div>
-		);
-	}
+        {/* message input box */}
+        <div className="messageInputBox">
+          <form onSubmit={this.handleSubmit}>
+            <div className="msg-inputbox">
+              <input
+                name="messageInput"
+                className="msg-input"
+                type="text"
+                placeholder=" Type a message..."
+                value={this.state.messageInput}
+                onChange={this.typeMessage}
+              />
+            </div>
+            <div className="btn-box">
+              <Tooltip title="Send" placement="top" arrow>
+                <IconButton
+                  className="sendButton"
+                  color="primary"
+                  type="submit"
+                >
+                  <SendRoundedIcon />
+                </IconButton>
+              </Tooltip>
+              {/* <Tooltip title="Leave Room" placement="top" arrow>
+              <IconButton
+                className="leaveButton"
+                color="secondary"
+                onClick={() => this.leaveRoom()}
+              >
+                <MeetingRoomIcon />
+              </IconButton>
+            </Tooltip> */}
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+
 }
 
 const mapState = (state) => {
