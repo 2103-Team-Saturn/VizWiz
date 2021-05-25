@@ -21,6 +21,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Tooltip,
+  IconButton,
 } from '@material-ui/core';
 import {
   graphSuggestor,
@@ -32,6 +34,7 @@ import {
 import { fetchAllUsers } from '../../store/users';
 import Alert from '@material-ui/lab/Alert';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import SaveIcon from '@material-ui/icons/Save';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -123,10 +126,6 @@ class GraphControl extends Component {
     socket.on('receiveCode', (payload) => {
       this.updateCodeFromSockets(payload);
     });
-  }
-
-  leaveRoom() {
-    socket.emit('leaveRoom', this.props.singleRoom, this.props.user);
   }
 
   updateCodeFromSockets(payload) {
@@ -268,6 +267,11 @@ class GraphControl extends Component {
     });
     console.log('handlesubmit state >>>', evt);
     console.log('handlesubmit state >>>', this.state);
+  }
+
+  leaveRoom() {
+    socket.emit('leaveRoom', this.props.singleRoom, this.props.user);
+    this.props.history.push('/home');
   }
 
   render() {
@@ -644,6 +648,15 @@ class GraphControl extends Component {
               >
                 Download
               </Button>
+              <Tooltip title="Leave Room" placement="top" arrow>
+                <IconButton
+                  className="leaveButton"
+                  color="secondary"
+                  onClick={() => this.leaveRoom()}
+                >
+                  <MeetingRoomIcon />
+                </IconButton>
+              </Tooltip>
             </div>
             <canvas
               id="canvas"

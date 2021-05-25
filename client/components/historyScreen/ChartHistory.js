@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { gotGraphs, deletingGraph } from "../../store/graph";
-import { Grid, Paper, Container, Button, Image } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { CallMissedSharp, CenterFocusStrong } from "@material-ui/icons";
-import { fetchAllUsers } from "../../store/users";
-import { saveImg } from "../utils";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { gotGraphs, deletingGraph } from '../../store/graph';
+import { Grid, Paper, Container, Button, Image } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { CallMissedSharp, CenterFocusStrong } from '@material-ui/icons';
+import { fetchAllUsers } from '../../store/users';
+import { saveImg } from '../utils';
 
 class ChartHistory extends Component {
   constructor() {
@@ -27,8 +27,8 @@ class ChartHistory extends Component {
     return (
       <div
         style={{
-          marginTop: 150,
-          width: "auto",
+          marginTop: 120,
+          width: 'auto',
           marginLeft: 150,
           marginRight: 150,
         }}
@@ -40,9 +40,9 @@ class ChartHistory extends Component {
               borderRadius: 3,
               fontSize: 40,
               border: 0,
-              color: "black",
+              color: 'black',
               height: 48,
-              textAlign: "center",
+              textAlign: 'center',
             }}
           >
             Graph Dashboard
@@ -57,14 +57,16 @@ class ChartHistory extends Component {
                 md={4}
                 lg={3}
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  textAlign: "center",
-                  backgroundColor: "lightgrey",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  textAlign: 'center',
+                  backgroundColor: 'white',
+                  boxShadow: '0px 0px 12px 2px rgba(15, 15, 15, 0.2)',
                   margin: 30,
+                  marginTop: 50,
                   border: 10,
                   borderRadius: 12,
-                  alignItems: "center",
+                  alignItems: 'center',
                 }}
               >
                 <Link
@@ -75,20 +77,20 @@ class ChartHistory extends Component {
                     },
                   }}
                 >
-                  <h1
+                  <h3
                     style={{
-                      color: "black",
+                      color: 'black',
                     }}
                   >
                     {graph.properties.title}
-                  </h1>
+                  </h3>
 
                   <div
                     style={{
-                      display: "block",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      width: "50",
+                      display: 'block',
+                      marginLeft: 'auto',
+                      marginRight: 'auto',
+                      width: '50',
                     }}
                   >
                     <img
