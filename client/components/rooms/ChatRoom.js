@@ -105,7 +105,7 @@ class ChatRoom extends Component {
                 name="messageInput"
                 className="msg-input"
                 type="text"
-                placeholder="Type a message..."
+                placeholder=" Type a message..."
                 value={this.state.messageInput}
                 onChange={this.typeMessage}
               />
