@@ -49,7 +49,7 @@ To build this application, we used JavaScript, Victory JS, Node.js, React/Redux,
 
 ## Brought to you by:
 - [Isabelle Nelson](https://www.linkedin.com/in/isabellenoelnelson/)
-- [Jack Chen](https://www.linkedin.com/in/jaeke-c/)
+- [Jake Chen](https://www.linkedin.com/in/jaeke-c/)
 - [Kevin Kim](https://www.linkedin.com/in/kevin-k-/)
 - [Jeanette Abell](https://www.linkedin.com/in/jeanetteabell/)
 <br>
