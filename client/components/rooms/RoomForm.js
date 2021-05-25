@@ -35,9 +35,9 @@ const styles = (theme) => ({
     alignItems: 'center',
     flexGrow: 1,
     textAlign: 'center',
-    // width: '20%',
-    // position: 'absolute',
-    // left: '800px',
+    width: '20%',
+    position: 'absolute',
+    left: '800px',
   },
   formControl: {
     margin: theme.spacing.unit,
