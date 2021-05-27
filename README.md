@@ -1,77 +1,60 @@
-# FS-App-Template
 
-## Setup
+<div align="center">
+<img  width="150"  alt="VizWiz logo" src="public/images/VizWiz.png" >
+</div>
 
-To use this as boilerplate, you'll need to take the following steps:
+## VizWiz 
 
-* Don't fork or clone this repo! Instead, create a new, empty
-  directory on your machine and `git init` (or create an empty repo on
-  Github and clone it to your local machine)
+VizWiz is a data visualization dashboard for uploading data, creating graphs, and saving the created graphs. Collaborate with others to create visually stunning graphs and charts without the hassle of working with a spreadsheet program. This application will turn you into a Vizualization Wizard!
+<br>
+<br>
+<img width="75" alt="wizard" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/facebook/230/mage_1f9d9.png" >
+<br>
 
-* Now you will have to add the fs-app-template as a remote and merge it into your own repository.
+Check out demo video here -> ...
 
-```
-git remote add boilermaker https://github.com/FullstackAcademy/fs-app-template.git
-git fetch boilermaker
-git merge boilermaker/main
-git branch -m master main
-```
+<img width="1260" alt="dashboard screenshot 05-25-2021" src="public/screenshots/screenshot2.png">
+<br>
+<br>
+<hr>
+<br>
+<br>
+<img width="1260" alt="graph control screenshot 05-25-2021" src="public/screenshots/screenshot1.png">
+<br>
+<br>
 
-## Customize
+  ## Deployed at
+ https://vizwiz.herokuapp.com/
+ <br>
+ <br>
 
-Now that you've got the code, follow these steps to get acclimated:
+ ## Technologies Used
+To build this application, we used JavaScript, Victory JS, Node.js, React/Redux, Express, Postgres, Socket io, and MaterialUI.
 
-* Update project name and description in `package.json`
-* `npm install`
-* Create two postgres databases (`MY_APP_NAME` should match the `name`
-  parameter in `package.json`):
-* These commands will create both your **development** and **test** databases
+<img width="500" alt="technologies used" src="public/screenshots/technologies.png" >
+<br>
+<br>
+<img width="75" alt="wizard-wand" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/whatsapp/273/magic-wand_1fa84.png" >
 
-```
-createdb <YOUR APP NAME HERE FROM package.json>
-createdb <YOUR APP NAME HERE FROM package.json>-test
-```
+## Getting Started
 
-* By default, running `npm test` will use your test database, while
-  regular development uses development database
+1. Clone this repo
+2. `npm install`
+3. Read this `README.md` 
+4. `createdb VizWiz`
+5. Start the build process and your application with: `npm run start:dev`. 
+5. Seed database by executing `npm run seed`
 
-## Start
+<br><br>
 
-Running `npm run start:dev` will make great things happen!
+## Brought to you by:
+- [Isabelle Nelson](https://www.linkedin.com/in/isabellenoelnelson/)
+- [Jake Chen](https://www.linkedin.com/in/jaeke-c/)
+- [Kevin Kim](https://www.linkedin.com/in/kevin-k-/)
+- [Jeanette Abell](https://www.linkedin.com/in/jeanetteabell/)
+<br>
 
-- start:dev will both start your server and build your client side files using webpack
-- start:dev:logger is the same as start:dev, but you will see your SQL queries (can be helpful for debugging)
-- start:dev:seed will start your server and also seed your database
-
-
-### Heroku
-
-1.  Set up the [Heroku command line tools][heroku-cli]
-2.  `heroku login`
-3.  Add a git remote for heroku:
-
-[heroku-cli]: https://devcenter.heroku.com/articles/heroku-cli
-
-* **If you are creating a new app...**
-
-  1.  `heroku create` or `heroku create your-app-name` if you have a
-      name in mind.
-  2.  `heroku config:set JWT=<your secret here!>` to set a secret for JWT signing
-
-Database Setup
-
-  3.  `heroku addons:create heroku-postgresql:hobby-dev` to add
-      ("provision") a postgres database to your heroku dyno (This creates your production database)
-
-  4.  `heroku config:set SEED=true` to get heroku to sync and seed your database
-
-  5.   note everytime your app restarts, the database tables will be dropped and re-created. To avoid this you can config:unset SEED
+## Future improvement considerations for VizWiz
+1. ...
 
 
-* **If you already have a Heroku app...**
-
-  1.  `heroku git:remote your-app-name` You'll need to be a
-      collaborator on the app.
-
-
-Now, you should be deployed!
